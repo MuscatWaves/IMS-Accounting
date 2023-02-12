@@ -1,0 +1,2 @@
+/api/*  https://nice-lime-donkey-cuff.cyclic.app/api/:splat  200
+/files/*  https://cvparse.fra1.cdn.digitaloceanspaces.com/files/:splat  200
