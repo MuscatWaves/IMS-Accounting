@@ -7,13 +7,13 @@ import { container, item } from "../AccountingDashBoard/constants";
 import { Button, Input, message, Modal, Pagination, Table } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
-import RecruitmentClientsForm from "./recruitmentclientscreate";
+import CreateManageAccountant from "./manageAccountant";
 import dayjs from "dayjs";
-import "./recruitmentclients.css";
 import { FaFilter } from "react-icons/fa";
 import { checkFilterActive } from "../../../utilities";
 import { AiOutlineSearch } from "react-icons/ai";
-import RecruitmentClientsFilter from "./recruitmentClientsFilter";
+import ManageAccountantFilter from "./manageAccountantFilter";
+import "./manageaccountant.css";
 
 const ManageAccountant = () => {
   const cookies = new Cookies();
@@ -48,7 +48,7 @@ const ManageAccountant = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/recruitment/dashboard" },
+    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
     {
       id: 1,
       name: "Manage Accountant",
@@ -71,7 +71,7 @@ const ManageAccountant = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/client?page=${page}&search=${values.search}&name=${values.name}&email=${values.email}`,
+        `/api/accountant?page=${page}&search=${values.search}`,
         config
       );
       if (Data.status === 200) {
@@ -106,8 +106,17 @@ const ManageAccountant = () => {
       ),
     },
     {
-      title: "Email",
-      render: (record) => <div className="text-grey">{record.email}</div>,
+      title: "Username",
+      render: (record) => <div className="text-grey">{record.user}</div>,
+    },
+    {
+      title: "Head Admin",
+      render: (record) =>
+        record.isHead ? (
+          <div className="text-green">True</div>
+        ) : (
+          <div className="text-red">False</div>
+        ),
     },
     {
       title: "Status",
@@ -151,7 +160,7 @@ const ManageAccountant = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/client/${deletionData.id}`,
+      url: `/api/accountant/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -162,7 +171,7 @@ const ManageAccountant = () => {
         message.success("The data has been sucessfully deleted");
         toggleDeleteModal(false);
         setDeletionData("");
-        refetch();
+        refetch(filter);
         setDeleteLoading(false);
       })
       .catch(function (response) {
@@ -185,7 +194,7 @@ const ManageAccountant = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <RecruitmentClientsForm
+        <CreateManageAccountant
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -203,9 +212,9 @@ const ManageAccountant = () => {
         okType={"danger"}
         confirmLoading={deleteLoading}
       >
-        <p>{`Are you sure you want to delete "${deletionData?.name}" from client data?`}</p>
+        <p>{`Are you sure you want to delete "${deletionData?.name}" from accountant data?`}</p>
       </Modal>
-      <Header home={"/recruitment/dashboard"} logOut={"/recruitment"} />
+      <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div
         className="recruitment-contacts"
         variants={container}
@@ -213,7 +222,7 @@ const ManageAccountant = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Clients
+          Manage Accountant
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -222,6 +231,7 @@ const ManageAccountant = () => {
           <BreadCrumb items={navigation} />
           <div className="flex-small-gap">
             <form
+              className="hidden"
               onSubmit={(e) => {
                 e.preventDefault();
                 setFilter({
@@ -245,15 +255,17 @@ const ManageAccountant = () => {
                 Search
               </Button>
             </form>
-            <Button
-              type="primary"
-              onClick={() => {
-                toggleFilterModal(true);
-              }}
-              className={checkFilterActive(filter) && "filter-button--active"}
-            >
-              <FaFilter className="small-text" />
-            </Button>
+            <div className="hidden">
+              <Button
+                type="primary"
+                onClick={() => {
+                  toggleFilterModal(true);
+                }}
+                className={checkFilterActive(filter) && "filter-button--active"}
+              >
+                <FaFilter className="small-text" />
+              </Button>
+            </div>
             <Button
               type="primary"
               onClick={() => {
@@ -267,7 +279,7 @@ const ManageAccountant = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <RecruitmentClientsFilter
+            <ManageAccountantFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}

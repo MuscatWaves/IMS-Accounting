@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import Password from "antd/es/input/Password";
 
-const RecruitmentClientsForm = ({
+const AccountingClientsForm = ({
   isModalOpen,
   setModal,
   editData,
@@ -14,7 +14,6 @@ const RecruitmentClientsForm = ({
 }) => {
   const [form] = Form.useForm();
   const [isLoading, setLoading] = useState(false);
-  const [newPassword, setNewPassword] = useState(false);
   const cookies = new Cookies();
   const token = cookies.get("token");
 
@@ -26,16 +25,16 @@ const RecruitmentClientsForm = ({
   const handleUpdateUser = async (values, status = editData?.status) => {
     var data = JSON.stringify({
       ...(editData && { id: Number(editData?.id) }),
-      ...(newPassword && { password: values?.newPassword }),
+      isActive: values?.isActive,
+      isHead: values?.isHead,
       ...(!editData && { password: values?.password }),
       name: values?.name,
-      email: values?.email,
-      isActive: values?.isActive,
+      ...(!editData && { email: values?.email }),
     });
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
-      url: "/api/client",
+      url: editData ? "/api/client" : "/api/client/create",
       headers: {
         Authorization: token,
         "Content-Type": "application/json",
@@ -74,7 +73,7 @@ const RecruitmentClientsForm = ({
             name: editData?.name || "",
             email: editData?.email || "",
             password: editData?.password,
-            newPassword: "",
+            isHead: editData?.isHead || false,
             isActive: editData?.isActive || false,
           }}
         >
@@ -90,46 +89,18 @@ const RecruitmentClientsForm = ({
           >
             <Input placeholder={"Enter name of the user"} />
           </Form.Item>
-          <Form.Item
-            name="email"
-            label={"Email"}
-            rules={[
-              {
-                required: true,
-                message: "No Email provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter email of the user"} />
-          </Form.Item>
-          {editData && (
-            <div
-              className="flex-small-gap small-margin"
-              style={{ marginLeft: 0 }}
-            >
-              <Switch
-                checked={newPassword}
-                onChange={(checked) => {
-                  setNewPassword(checked);
-                  form.setFieldsValue("password", "");
-                }}
-                title={"Click to update pasword"}
-              />
-              <div className="bold text-grey">Click to update pasword</div>
-            </div>
-          )}
-          {newPassword && (
+          {!editData && (
             <Form.Item
-              name="newPassword"
-              label={"New Password"}
+              name="email"
+              label={"Email"}
               rules={[
                 {
                   required: true,
-                  message: "No New Password provided",
+                  message: "No Email provided",
                 },
               ]}
             >
-              <Password placeholder={"Enter new password of the user"} />
+              <Input placeholder={"Enter email of the user"} />
             </Form.Item>
           )}
           {!editData && (
@@ -149,6 +120,13 @@ const RecruitmentClientsForm = ({
           <Form.Item
             name={"isActive"}
             label={"Account Status"}
+            valuePropName={"checked"}
+          >
+            <Switch />
+          </Form.Item>
+          <Form.Item
+            name={"isHead"}
+            label={"Owner Account"}
             valuePropName={"checked"}
           >
             <Switch />
@@ -175,4 +153,4 @@ const RecruitmentClientsForm = ({
   );
 };
 
-export default RecruitmentClientsForm;
+export default AccountingClientsForm;

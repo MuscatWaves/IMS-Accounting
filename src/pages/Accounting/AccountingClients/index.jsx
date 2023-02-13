@@ -7,13 +7,13 @@ import { container, item } from "../AccountingDashBoard/constants";
 import { Button, Input, message, Modal, Pagination, Table } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
-import RecruitmentClientsForm from "./recruitmentclientscreate";
+import AccountingClientsForm from "./accountingclientscreate";
 import dayjs from "dayjs";
-import "./recruitmentclients.css";
 import { FaFilter } from "react-icons/fa";
 import { checkFilterActive } from "../../../utilities";
 import { AiOutlineSearch } from "react-icons/ai";
-import RecruitmentClientsFilter from "./recruitmentClientsFilter";
+import AccountingClientsFilter from "./accountingClientsFilter";
+import "./accountingclients.css";
 
 const AccountingClients = () => {
   const cookies = new Cookies();
@@ -48,7 +48,7 @@ const AccountingClients = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/recruitment/dashboard" },
+    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
     {
       id: 1,
       name: "Clients",
@@ -119,6 +119,15 @@ const AccountingClients = () => {
         ),
     },
     {
+      title: "Account Type",
+      render: (record) =>
+        record.isHead ? (
+          <div className="text-grey">Owner Account</div>
+        ) : (
+          <div className="text-grey">Sub User Account</div>
+        ),
+    },
+    {
       title: "Actions",
       render: (record) => (
         <div className="flex-small-gap">
@@ -162,7 +171,7 @@ const AccountingClients = () => {
         message.success("The data has been sucessfully deleted");
         toggleDeleteModal(false);
         setDeletionData("");
-        refetch();
+        refetch(filter);
         setDeleteLoading(false);
       })
       .catch(function (response) {
@@ -185,7 +194,7 @@ const AccountingClients = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <RecruitmentClientsForm
+        <AccountingClientsForm
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -267,7 +276,7 @@ const AccountingClients = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <RecruitmentClientsFilter
+            <AccountingClientsFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}

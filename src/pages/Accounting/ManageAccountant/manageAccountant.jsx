@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import Password from "antd/es/input/Password";
 
-const RecruitmentClientsForm = ({
+const CreateManageAccountant = ({
   isModalOpen,
   setModal,
   editData,
@@ -14,7 +14,6 @@ const RecruitmentClientsForm = ({
 }) => {
   const [form] = Form.useForm();
   const [isLoading, setLoading] = useState(false);
-  const [newPassword, setNewPassword] = useState(false);
   const cookies = new Cookies();
   const token = cookies.get("token");
 
@@ -26,16 +25,16 @@ const RecruitmentClientsForm = ({
   const handleUpdateUser = async (values, status = editData?.status) => {
     var data = JSON.stringify({
       ...(editData && { id: Number(editData?.id) }),
-      ...(newPassword && { password: values?.newPassword }),
+      ...(editData && { isActive: values?.isActive }),
+      ...(editData && { isHead: values?.isHead }),
       ...(!editData && { password: values?.password }),
-      name: values?.name,
-      email: values?.email,
-      isActive: values?.isActive,
+      ...(!editData && { name: values?.name }),
+      ...(!editData && { user: values?.user }),
     });
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
-      url: "/api/client",
+      url: editData ? "/api/accountant" : "/api/accountant/create",
       headers: {
         Authorization: token,
         "Content-Type": "application/json",
@@ -58,7 +57,7 @@ const RecruitmentClientsForm = ({
 
   return (
     <Drawer
-      title={editData ? "Update Client" : "Create Client"}
+      title={editData ? "Update Accountant" : "Create Accountant"}
       placement="right"
       onClose={onClose}
       open={isModalOpen}
@@ -72,64 +71,38 @@ const RecruitmentClientsForm = ({
           scrollToFirstError={true}
           initialValues={{
             name: editData?.name || "",
-            email: editData?.email || "",
+            user: editData?.user || "",
             password: editData?.password,
-            newPassword: "",
+            isHead: editData?.isHead || false,
             isActive: editData?.isActive || false,
           }}
         >
-          <Form.Item
-            name="name"
-            label={"Name"}
-            rules={[
-              {
-                required: true,
-                message: "No Username provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter name of the user"} />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label={"Email"}
-            rules={[
-              {
-                required: true,
-                message: "No Email provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter email of the user"} />
-          </Form.Item>
-          {editData && (
-            <div
-              className="flex-small-gap small-margin"
-              style={{ marginLeft: 0 }}
-            >
-              <Switch
-                checked={newPassword}
-                onChange={(checked) => {
-                  setNewPassword(checked);
-                  form.setFieldsValue("password", "");
-                }}
-                title={"Click to update pasword"}
-              />
-              <div className="bold text-grey">Click to update pasword</div>
-            </div>
-          )}
-          {newPassword && (
+          {!editData && (
             <Form.Item
-              name="newPassword"
-              label={"New Password"}
+              name="name"
+              label={"Name"}
               rules={[
                 {
                   required: true,
-                  message: "No New Password provided",
+                  message: "No Username provided",
                 },
               ]}
             >
-              <Password placeholder={"Enter new password of the user"} />
+              <Input placeholder={"Enter name of the user"} />
+            </Form.Item>
+          )}
+          {!editData && (
+            <Form.Item
+              name="user"
+              label={"Username"}
+              rules={[
+                {
+                  required: true,
+                  message: "No Email provided",
+                },
+              ]}
+            >
+              <Input placeholder={"Enter email of the user"} />
             </Form.Item>
           )}
           {!editData && (
@@ -146,13 +119,24 @@ const RecruitmentClientsForm = ({
               <Password placeholder={"Enter password for the user"} />
             </Form.Item>
           )}
-          <Form.Item
-            name={"isActive"}
-            label={"Account Status"}
-            valuePropName={"checked"}
-          >
-            <Switch />
-          </Form.Item>
+          {editData && (
+            <Form.Item
+              name={"isActive"}
+              label={"Account Status"}
+              valuePropName={"checked"}
+            >
+              <Switch />
+            </Form.Item>
+          )}
+          {editData && (
+            <Form.Item
+              name={"isHead"}
+              label={"Head Accounting Rights"}
+              valuePropName={"checked"}
+            >
+              <Switch />
+            </Form.Item>
+          )}
           <div
             className="flex-at-end medium-margin-top"
             style={{ gridColumn: "1/3", gap: "1rem" }}
@@ -166,7 +150,7 @@ const RecruitmentClientsForm = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update Client" : "Create Client"}
+              {editData ? "Update Accountant" : "Create Accountant"}
             </Button>
           </div>
         </Form>
@@ -175,4 +159,4 @@ const RecruitmentClientsForm = ({
   );
 };
 
-export default RecruitmentClientsForm;
+export default CreateManageAccountant;

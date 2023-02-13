@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import RecruitmentClientInformationForm from "./recruitmentclientinformationcreate";
-import RecruitmentClientInformationFilter from "./recruitmentClientInformationFilter";
-import "./recruitmentcontacts.css";
+import AccountingClientInformationForm from "./accountingclientinformationcreate";
+import AccountingClientInformationFilter from "./accountingClientInformationFilter";
 import { MdOutlineHomeWork } from "react-icons/md";
+import "./accountingclientinfo.css";
 
-const RecruitmentClientInformation = () => {
+const AccountingClientInformation = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -92,7 +92,7 @@ const RecruitmentClientInformation = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/cd?search=${values.search}&clientName=${values.clientName}&crNumber=${values.crNumber}&clientEmail=${values.clientEmail}&page=${page}`,
+        `/api/clientinfo?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -116,7 +116,7 @@ const RecruitmentClientInformation = () => {
 
   const columns = [
     {
-      title: "Company Name",
+      title: "Client",
       render: (record) => (
         <div>
           <div className="text-black bold">{record.clientName}</div>
@@ -234,7 +234,7 @@ const RecruitmentClientInformation = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <RecruitmentClientInformationForm
+        <AccountingClientInformationForm
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -373,7 +373,7 @@ const RecruitmentClientInformation = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <RecruitmentClientInformationFilter
+            <AccountingClientInformationFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -409,4 +409,4 @@ const RecruitmentClientInformation = () => {
   );
 };
 
-export default RecruitmentClientInformation;
+export default AccountingClientInformation;

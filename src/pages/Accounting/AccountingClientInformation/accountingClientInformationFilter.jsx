@@ -2,11 +2,12 @@ import React from "react";
 import { Button, Divider, Form, Input } from "antd";
 import { m } from "framer-motion";
 
-const RecruitmentClientsFilter = ({
+const AccountingClientInformationFilter = ({
   filterData,
   setFilterData,
   getData,
   isFilterModal,
+  clientsList,
   toggleFilterModal,
   loading,
 }) => {
@@ -32,13 +33,15 @@ const RecruitmentClientsFilter = ({
   const handleSearching = async (values) => {
     getData({
       search: filterData.search,
-      name: values?.name || "",
-      email: values?.email || "",
+      clientName: values?.clientName || "",
+      crNumber: values?.crNumber || "",
+      clientEmail: values?.clientEmail || "",
     });
     setFilterData({
       search: filterData.search,
-      name: values?.name || "",
-      email: values?.email || "",
+      clientName: values?.clientName || "",
+      crNumber: values?.crNumber || "",
+      clientEmail: values?.clientEmail || "",
     });
   };
 
@@ -59,16 +62,20 @@ const RecruitmentClientsFilter = ({
         form={form}
         scrollToFirstError={true}
         initialValues={{
-          name: filterData?.name || "",
-          email: filterData?.email || "",
+          clientName: filterData?.clientName || "",
+          crNumber: filterData?.crNumber || "",
+          clientEmail: filterData?.clientEmail || "",
         }}
       >
         <div className="filter-box-inner">
-          <Form.Item name="name" label={"Name"}>
-            <Input placeholder={"Name of the user"} />
+          <Form.Item name="clientName" label={"Client Name"}>
+            <Input placeholder={"Name of the Client"} />
           </Form.Item>
-          <Form.Item name="email" label={"Email"}>
-            <Input placeholder={"Email of the user"} />
+          <Form.Item name="crNumber" label={"CR Number"}>
+            <Input placeholder={"CR Number of company"} />
+          </Form.Item>
+          <Form.Item name="clientEmail" label={"Client Email"}>
+            <Input placeholder={"Email of the client"} />
           </Form.Item>
         </div>
         <Divider />
@@ -96,4 +103,4 @@ const RecruitmentClientsFilter = ({
   );
 };
 
-export default RecruitmentClientsFilter;
+export default AccountingClientInformationFilter;

@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import TextArea from "antd/es/input/TextArea";
 
-const RecruitmentClientInformationForm = ({
+const AccountingClientInformationForm = ({
   isModalOpen,
   setModal,
   editData,
@@ -183,4 +183,4 @@ const RecruitmentClientInformationForm = ({
   );
 };
 
-export default RecruitmentClientInformationForm;
+export default AccountingClientInformationForm;

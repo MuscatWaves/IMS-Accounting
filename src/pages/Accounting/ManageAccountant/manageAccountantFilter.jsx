@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Divider, Form, Input } from "antd";
 import { m } from "framer-motion";
 
-const RecruitmentClientsFilter = ({
+const ManageAccountantFilter = ({
   filterData,
   setFilterData,
   getData,
@@ -96,4 +96,4 @@ const RecruitmentClientsFilter = ({
   );
 };
 
-export default RecruitmentClientsFilter;
+export default ManageAccountantFilter;
