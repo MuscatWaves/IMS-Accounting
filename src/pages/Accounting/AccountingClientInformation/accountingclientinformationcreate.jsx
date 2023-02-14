@@ -26,20 +26,21 @@ const AccountingClientInformationForm = ({
   const handleUpdateUser = async (values, status = editData?.status) => {
     var data = JSON.stringify({
       ...(editData && { id: Number(editData?.id) }),
-      client: values?.client || null,
-      clientName: values?.clientName || "",
-      crNumber: values?.crNumber || "",
-      companyAddress: values?.companyAddress || "",
-      clientEmail: values?.clientEmail || "",
-      mobile: values?.mobile || "",
-      landline: values?.landline || "",
+      clientId: values?.clientId || null,
       address: values?.address || "",
-      website: values?.website || "",
+      postalCode: values?.postalCode || "",
+      poBox: values?.poBox || "",
+      landline: values?.landline || "",
+      mobile: values?.mobile || "",
+      CommercialRegistrationNumber: values?.CommercialRegistrationNumber || "",
+      VATIN: values?.VATIN || "",
+      Tax: values?.Tax || "",
+      OCCI: values?.OCCI || "",
     });
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
-      url: "/api/cd",
+      url: editData ? "/api/clientinfo" : "/api/clientinfo/create",
       headers: {
         Authorization: token,
         "Content-Type": "application/json",
@@ -55,7 +56,7 @@ const AccountingClientInformationForm = ({
         getData(filterValues);
       })
       .catch(function (error) {
-        message.error("Something Went Wrong!", "error");
+        message.error("Something Went Wrong!");
         setLoading(false);
       });
   };
@@ -76,19 +77,21 @@ const AccountingClientInformationForm = ({
           form={form}
           scrollToFirstError={true}
           initialValues={{
-            client: editData?.client || null,
-            clientName: editData?.clientName || "",
-            crNumber: editData?.crNumber || "",
-            companyAddress: editData?.companyAddress || "",
-            clientEmail: editData?.clientEmail || "",
-            mobile: editData?.mobile || "",
-            landline: editData?.landline || "",
+            clientId: editData?.clientId || null,
             address: editData?.address || "",
-            website: editData?.website || "",
+            postalCode: editData?.postalCode || "",
+            poBox: editData?.poBox || "",
+            landline: editData?.landline || "",
+            mobile: editData?.mobile || "",
+            CommercialRegistrationNumber:
+              editData?.CommercialRegistrationNumber || "",
+            VATIN: editData?.VATIN || "",
+            Tax: editData?.Tax || "",
+            OCCI: editData?.OCCI || "",
           }}
         >
           <Form.Item
-            name="client"
+            name="clientId"
             className="grid-2-column"
             label={"Client"}
             rules={[
@@ -110,19 +113,7 @@ const AccountingClientInformationForm = ({
             />
           </Form.Item>
           <Form.Item
-            name="clientName"
-            label={"Company Name"}
-            rules={[
-              {
-                required: true,
-                message: "No Company Name provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter company name"} />
-          </Form.Item>
-          <Form.Item
-            name="crNumber"
+            name="CommercialRegistrationNumber"
             label={"CR Number"}
             rules={[
               {
@@ -133,33 +124,29 @@ const AccountingClientInformationForm = ({
           >
             <Input placeholder={"Enter CR no"} />
           </Form.Item>
-          <Form.Item
-            name="clientEmail"
-            label={"Email"}
-            rules={[
-              {
-                required: true,
-                message: "No Email provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter email"} />
-          </Form.Item>
           <Form.Item name="mobile" label={"Mobile no"}>
+            <Input placeholder={"Enter mobile number"} />
+          </Form.Item>
+          <Form.Item name="postalCode" label={"Postal Code"}>
+            <Input placeholder={"Enter mobile number"} />
+          </Form.Item>
+          <Form.Item name="poBox" label={"PO Box no"}>
             <Input placeholder={"Enter mobile number"} />
           </Form.Item>
           <Form.Item name="landline" label={"Landline"}>
             <Input placeholder={"Enter landline number"} />
           </Form.Item>
-          <Form.Item name="website" label={"Website"}>
-            <Input placeholder={"Enter website address"} />
+          <Form.Item name="VATIN" label={"VATIN"}>
+            <Input placeholder={"Enter landline number"} />
           </Form.Item>
-          <Form.Item
-            className="grid-2-column"
-            name="companyAddress"
-            label={"Company Address"}
-          >
-            <TextArea placeholder={"Enter Company Address"} />
+          <Form.Item name="Tax" label={"Tax no"}>
+            <Input placeholder={"Enter landline number"} />
+          </Form.Item>
+          <Form.Item name="OCCI" label={"OCCI"}>
+            <Input placeholder={"Enter landline number"} />
+          </Form.Item>
+          <Form.Item className="grid-2-column" name="address" label={"Address"}>
+            <TextArea placeholder={"Enter Address"} />
           </Form.Item>
           <div
             className="flex-at-end medium-margin-top"

@@ -14,6 +14,7 @@ import AccountingClientInformationForm from "./accountingclientinformationcreate
 import AccountingClientInformationFilter from "./accountingClientInformationFilter";
 import { MdOutlineHomeWork } from "react-icons/md";
 import "./accountingclientinfo.css";
+import { formatInput, removeUnderScore } from "../../../utilities";
 
 const AccountingClientInformation = () => {
   const cookies = new Cookies();
@@ -49,7 +50,7 @@ const AccountingClientInformation = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/recruitment/dashboard" },
+    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
     {
       id: 1,
       name: "Client Information",
@@ -119,10 +120,8 @@ const AccountingClientInformation = () => {
       title: "Client",
       render: (record) => (
         <div>
-          <div className="text-black bold">{record.clientName}</div>
-          <div className="very-small-text text-grey bold">
-            {record.clientEmail}
-          </div>
+          <div className="text-black bold">{record.name}</div>
+          <div className="very-small-text text-grey bold">{record.email}</div>
         </div>
       ),
     },
@@ -132,29 +131,21 @@ const AccountingClientInformation = () => {
     },
     {
       title: "CR No",
-      render: (record) => <div className="text-grey">{record.crNumber}</div>,
-    },
-    {
-      title: "Website",
       render: (record) => (
-        <div
-          className="text-grey link pointer"
-          onClick={() => window.open(record.website)}
-        >
-          {record.website}
-        </div>
+        <div className="text-grey">{record.CommercialRegistrationNumber}</div>
       ),
     },
     {
-      title: "Client",
-      render: (record) => (
-        <div className="text-grey">
-          {
-            clientsList?.filter((item) => item.value === record.client)[0]
-              ?.label
-          }
-        </div>
-      ),
+      title: "VATIN",
+      render: (record) => <div className="text-grey">{record.VATIN}</div>,
+    },
+    {
+      title: "Tax No",
+      render: (record) => <div className="text-grey">{record.Tax}</div>,
+    },
+    {
+      title: "OCCI No",
+      render: (record) => <div className="text-grey">{record.OCCI}</div>,
     },
     {
       title: "Actions",
@@ -226,6 +217,17 @@ const AccountingClientInformation = () => {
     setDeletionData(null);
   };
 
+  const displayData = {
+    postal_code: showDetailsData.postalCode,
+    po_box: showDetailsData.poBox,
+    cr_no: showDetailsData.CommercialRegistrationNumber,
+    VATIN_no: showDetailsData.VATIN,
+    Tax_no: showDetailsData.Tax,
+    OCCI_no: showDetailsData.OCCI,
+    mobile: showDetailsData.mobile,
+    landline: showDetailsData.landline,
+  };
+
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -273,39 +275,30 @@ const AccountingClientInformation = () => {
               </div>
               <div>
                 <div className="large-text text-orange bolder">
-                  {showDetailsData?.clientName}
+                  {showDetailsData?.name}
                 </div>
                 <div className="medium-text text-grey bold">
-                  {showDetailsData?.clientEmail}
+                  {showDetailsData?.email}
                 </div>
               </div>
             </div>
             <div className="small-padding">
               <div className="text-black bolder very-small-text">Address:</div>
-              <div className="text-grey">{showDetailsData?.companyAddress}</div>
+              <div className="text-grey">{showDetailsData?.address}</div>
             </div>
-            <div className="flex-between">
-              <div className="small-padding">
-                <div className="text-black bolder very-small-text">Mobile:</div>
-                <div className="text-grey">{showDetailsData?.mobile}</div>
-              </div>
-              <div className="small-padding">
-                <div className="text-black bolder very-small-text">
-                  Landline:
+            <div className="small-padding client-contact-card">
+              {Object.keys(displayData).map((keyName, i) => (
+                <div key={keyName} className={"each-box-cv-profile"}>
+                  <div className="text-black bolder very-small-text">
+                    {removeUnderScore(keyName)}:
+                  </div>
+                  <div className="text-grey">
+                    {(displayData[keyName] &&
+                      formatInput(displayData[keyName])) ||
+                      "Not Provided"}
+                  </div>
                 </div>
-                <div className="text-grey">{showDetailsData?.landline}</div>
-              </div>
-              <div className="small-padding">
-                <div className="text-black bolder very-small-text">
-                  Website:
-                </div>
-                <div
-                  className="text-grey link pointer"
-                  onClick={() => window.open(showDetailsData?.website)}
-                >
-                  {showDetailsData?.website}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -327,6 +320,7 @@ const AccountingClientInformation = () => {
           <BreadCrumb items={navigation} />
           <div className="flex-small-gap">
             <form
+              className="hidden"
               onSubmit={(e) => {
                 e.preventDefault();
                 setFilter({
@@ -356,6 +350,7 @@ const AccountingClientInformation = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
+              className="hidden"
               // className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
