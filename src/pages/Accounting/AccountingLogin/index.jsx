@@ -14,7 +14,7 @@ const AccountingLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Login - Recruitment";
+    document.title = "Login - Accounting";
   }, []);
 
   const [isLoading, setLoading] = useState(false);

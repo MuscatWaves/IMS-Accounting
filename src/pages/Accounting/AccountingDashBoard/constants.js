@@ -1,6 +1,7 @@
 import { MdOutlineAssignmentInd } from "react-icons/md";
 // import { RiContactsBookLine } from "react-icons/ri";
 import { BsPersonBadge } from "react-icons/bs";
+import { ImAttachment } from "react-icons/im";
 
 export const cards = (user) => [
   {
@@ -21,6 +22,14 @@ export const cards = (user) => [
   },
   {
     id: 3,
+    icon: ImAttachment,
+    title: "Client Attachments",
+    path: "/accounting/clientAttachments",
+    description: "Manage attachments for the client information",
+    disabled: !user.isHead,
+  },
+  {
+    id: 4,
     icon: BsPersonBadge,
     title: "Manage Accountant",
     path: "/accounting/manageAccountant",

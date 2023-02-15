@@ -25,6 +25,9 @@ const AccountingClients = lazy(() =>
 const AccountingClientInformation = lazy(() =>
   import("../pages/Accounting/AccountingClientInformation")
 );
+const AccountingClientAttachments = lazy(() =>
+  import("../pages/Accounting/AccountingClientAttachments")
+);
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -70,6 +73,10 @@ const Routing = () => {
                 <Route
                   path="/accounting/clientInformation"
                   element={<AccountingClientInformation />}
+                ></Route>
+                <Route
+                  path="/accounting/clientAttachments"
+                  element={<AccountingClientAttachments />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>
