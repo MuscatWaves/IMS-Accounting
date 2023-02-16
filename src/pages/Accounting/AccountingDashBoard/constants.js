@@ -36,6 +36,13 @@ export const cards = (user) => [
     description: "Manage accountant accounts",
     disabled: !user.isHead,
   },
+  {
+    id: 4,
+    icon: BsPersonBadge,
+    title: "Entries",
+    path: "/accounting/entries",
+    description: "Manage daily entries of users",
+  },
 ];
 
 export const container = {

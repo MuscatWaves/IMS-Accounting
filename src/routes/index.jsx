@@ -28,6 +28,10 @@ const AccountingClientInformation = lazy(() =>
 const AccountingClientAttachments = lazy(() =>
   import("../pages/Accounting/AccountingClientAttachments")
 );
+const Entries = lazy(() => import("../pages/Accounting/DailyEntries"));
+const GRVReport = lazy(() =>
+  import("../pages/Accounting/DailyEntries/GRVReport")
+);
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -77,6 +81,12 @@ const Routing = () => {
                 <Route
                   path="/accounting/clientAttachments"
                   element={<AccountingClientAttachments />}
+                ></Route>
+                {/* Accounting Entries */}
+                <Route path="/accounting/entries" element={<Entries />}></Route>
+                <Route
+                  path="/accounting/entries/grvReport"
+                  element={<GRVReport />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>
