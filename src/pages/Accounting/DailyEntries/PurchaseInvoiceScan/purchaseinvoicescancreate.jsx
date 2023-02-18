@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const GrvReportFormCreate = ({
+const PurchaseInvoiceScanFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -63,7 +63,11 @@ const GrvReportFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update GRV Report" : "Create GRV Report"}
+      title={
+        editData
+          ? "Update Purchase Invoice Scan"
+          : "Create Purchase Invoice Scan"
+      }
       placement="right"
       size="large"
       onClose={onClose}
@@ -83,8 +87,8 @@ const GrvReportFormCreate = ({
                 dayjs(editData?.date).isValid() &&
                 dayjs(editData?.date)) ||
               "",
-            total_grv_value: editData?.total_grv_value || "",
-            total_vat_input: editData?.total_vat_input || "",
+            total_amount: editData?.total_amount || "",
+            total_vat_amount: editData?.total_vat_amount || "",
             location: editData?.location || "",
             file: editData?.file || null,
           }}
@@ -124,28 +128,28 @@ const GrvReportFormCreate = ({
             <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
           </Form.Item>
           <Form.Item
-            name="total_grv_value"
-            label={"Total GRV Value"}
+            name="total_amount"
+            label={"Total Amount of Purchase"}
             rules={[
               {
                 required: true,
-                message: "No GRV Value provided",
+                message: "No Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total GRV value"} />
+            <Input placeholder={"Enter Total Amount"} />
           </Form.Item>
           <Form.Item
-            name="total_vat_input"
-            label={"Total VAT Input"}
+            name="total_vat_amount"
+            label={"Total VAT Amount of Purchase"}
             rules={[
               {
                 required: true,
-                message: "No VAT Input provided",
+                message: "No VAT Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT input"} />
+            <Input placeholder={"Enter total VAT Amount"} />
           </Form.Item>
           <Form.Item
             name="location"
@@ -203,7 +207,9 @@ const GrvReportFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update GRV Report" : "Create GRV Report"}
+              {editData
+                ? "Update Purchase Invoice Scan"
+                : "Create Purchase Invoice Scan"}
             </Button>
           </div>
         </Form>
@@ -212,4 +218,4 @@ const GrvReportFormCreate = ({
   );
 };
 
-export default GrvReportFormCreate;
+export default PurchaseInvoiceScanFormCreate;

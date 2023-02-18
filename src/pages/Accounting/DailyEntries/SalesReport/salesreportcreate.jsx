@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const GrvReportFormCreate = ({
+const SalesReportFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -63,7 +63,7 @@ const GrvReportFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update GRV Report" : "Create GRV Report"}
+      title={editData ? "Update Sales Report" : "Create Sales Report"}
       placement="right"
       size="large"
       onClose={onClose}
@@ -83,9 +83,11 @@ const GrvReportFormCreate = ({
                 dayjs(editData?.date).isValid() &&
                 dayjs(editData?.date)) ||
               "",
-            total_grv_value: editData?.total_grv_value || "",
-            total_vat_input: editData?.total_vat_input || "",
-            location: editData?.location || "",
+            total_sales_amount: editData?.total_amount || "",
+            total_discount_amount: editData?.total_discount_amount || "",
+            total_vat_amount: editData?.total_vat_amount || "",
+            total_net_amount: editData?.total_net_amount || "",
+            total_amount_recieved: editData?.total_amount_recieved || "",
             file: editData?.file || null,
           }}
         >
@@ -124,40 +126,64 @@ const GrvReportFormCreate = ({
             <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
           </Form.Item>
           <Form.Item
-            name="total_grv_value"
-            label={"Total GRV Value"}
+            name="total_sales_amount"
+            label={"Total Sales Amount"}
             rules={[
               {
                 required: true,
-                message: "No GRV Value provided",
+                message: "No Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total GRV value"} />
+            <Input placeholder={"Enter Total Sales Amount"} />
           </Form.Item>
           <Form.Item
-            name="total_vat_input"
-            label={"Total VAT Input"}
+            name="total_discount_amount"
+            label={"Total Discount Amount"}
             rules={[
               {
                 required: true,
-                message: "No VAT Input provided",
+                message: "No Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT input"} />
+            <Input placeholder={"Enter Total Discount Amount"} />
           </Form.Item>
           <Form.Item
-            name="location"
-            label={"Location"}
+            name="total_vat_amount"
+            label={"Total VAT Amount"}
             rules={[
               {
                 required: true,
-                message: "No location provided",
+                message: "No VAT Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter total VAT Amount"} />
+          </Form.Item>
+          <Form.Item
+            name="total_net_amount"
+            label={"Total NET Amount"}
+            rules={[
+              {
+                required: true,
+                message: "No Net Amount provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter total NET Amount"} />
+          </Form.Item>
+          <Form.Item
+            name="total_amount_recieved"
+            label={"Total Amount Recieved From Client"}
+            rules={[
+              {
+                required: true,
+                message: "No Amount provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter total amount recieved from Client"} />
           </Form.Item>
           <Form.Item
             className="grid-2-column"
@@ -203,7 +229,7 @@ const GrvReportFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update GRV Report" : "Create GRV Report"}
+              {editData ? "Update Sales Report" : "Create Sales Report"}
             </Button>
           </div>
         </Form>
@@ -212,4 +238,4 @@ const GrvReportFormCreate = ({
   );
 };
 
-export default GrvReportFormCreate;
+export default SalesReportFormCreate;

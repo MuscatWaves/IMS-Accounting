@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const GrvReportFormCreate = ({
+const PurchaseFromOtherBranchesReportFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -63,7 +63,11 @@ const GrvReportFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update GRV Report" : "Create GRV Report"}
+      title={
+        editData
+          ? "Update Purchase from Other Branch Report"
+          : "Create Purchase from Other Branch Report"
+      }
       placement="right"
       size="large"
       onClose={onClose}
@@ -83,9 +87,9 @@ const GrvReportFormCreate = ({
                 dayjs(editData?.date).isValid() &&
                 dayjs(editData?.date)) ||
               "",
-            total_grv_value: editData?.total_grv_value || "",
-            total_vat_input: editData?.total_vat_input || "",
-            location: editData?.location || "",
+            total_amount: editData?.total_amount || "",
+            total_vat_amount: editData?.total_vat_amount || "",
+            recieved_from: editData?.recieved_from || "",
             file: editData?.file || null,
           }}
         >
@@ -124,40 +128,40 @@ const GrvReportFormCreate = ({
             <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
           </Form.Item>
           <Form.Item
-            name="total_grv_value"
-            label={"Total GRV Value"}
+            name="total_amount"
+            label={"Total Amount"}
             rules={[
               {
                 required: true,
-                message: "No GRV Value provided",
+                message: "No Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total GRV value"} />
+            <Input placeholder={"Enter Total Amount"} />
           </Form.Item>
           <Form.Item
-            name="total_vat_input"
-            label={"Total VAT Input"}
+            name="total_vat_amount"
+            label={"Total VAT Amount"}
             rules={[
               {
                 required: true,
-                message: "No VAT Input provided",
+                message: "No VAT Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT input"} />
+            <Input placeholder={"Enter total VAT Amount"} />
           </Form.Item>
           <Form.Item
-            name="location"
-            label={"Location"}
+            name="recieved_from"
+            label={"Recieved From"}
             rules={[
               {
                 required: true,
-                message: "No location provided",
+                message: "No information provided",
               },
             ]}
           >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter Recieved From"} />
           </Form.Item>
           <Form.Item
             className="grid-2-column"
@@ -203,7 +207,9 @@ const GrvReportFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update GRV Report" : "Create GRV Report"}
+              {editData
+                ? "Update Purchase from Other Branch Report"
+                : "Create Purchase from Other Branch Report"}
             </Button>
           </div>
         </Form>
@@ -212,4 +218,4 @@ const GrvReportFormCreate = ({
   );
 };
 
-export default GrvReportFormCreate;
+export default PurchaseFromOtherBranchesReportFormCreate;

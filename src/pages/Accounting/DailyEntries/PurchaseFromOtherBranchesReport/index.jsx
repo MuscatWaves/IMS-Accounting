@@ -11,12 +11,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import GrvReportFormCreate from "./grvreportcreate";
-import GrvReportFilter from "./grvReportFilter";
-import "./grvreport.css";
+import PurchaseFromOtherBranchesReportFormCreate from "./purchasefromotherbranchreportcreate";
+import PurchaseFromOtherBranchesReportFilter from "./purchaseFromOtherReportFilter";
 import dayjs from "dayjs";
+import "./purchasefromotherbranchreport.css";
 
-const GRVReport = () => {
+const PurchaseFromOtherBranchesReport = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -40,7 +40,7 @@ const GRVReport = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - GRV Report";
+    document.title = "Recruitment - Purchase From Other Branch Report";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -54,7 +54,7 @@ const GRVReport = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "GRV Report",
+      name: "Purchase From Other Branch Report",
       active: true,
     },
   ];
@@ -120,9 +120,9 @@ const GRVReport = () => {
     {
       id: 1,
       date: "2023-02-15T12:27:35.000Z",
-      total_grv_value: "120.8",
-      total_vat_input: "244.9",
-      location: "Fasah - Rustaq",
+      total_amount: "140.8",
+      total_vat_amount: "260.9",
+      recieved_from: "Fasah Cold Center",
       name: "Client one",
       email: "test@gmail.com",
       attachment: "1676464054802.pdf",
@@ -135,20 +135,22 @@ const GRVReport = () => {
       render: (record) => <div>{dayjs(record.createdAt).format("llll")}</div>,
     },
     {
-      title: "Total GRV Value",
+      title: "Total Amount",
       render: (record) => (
-        <div className="text-grey">{record.total_grv_value}</div>
+        <div className="text-grey">{record.total_amount}</div>
       ),
     },
     {
-      title: "Total VAT Input",
+      title: "Total VAT Amount",
       render: (record) => (
-        <div className="text-grey">{record.total_vat_input}</div>
+        <div className="text-grey">{record.total_vat_amount}</div>
       ),
     },
     {
-      title: "Location",
-      render: (record) => <div className="text-grey">{record.location}</div>,
+      title: "Recieved From",
+      render: (record) => (
+        <div className="text-grey">{record.recieved_from}</div>
+      ),
     },
     {
       title: "Client",
@@ -238,7 +240,7 @@ const GRVReport = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <GrvReportFormCreate
+        <PurchaseFromOtherBranchesReportFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -267,7 +269,7 @@ const GRVReport = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          GRV Report
+          Purchase From Other Branch Report
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -324,7 +326,7 @@ const GRVReport = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <GrvReportFilter
+            <PurchaseFromOtherBranchesReportFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -361,4 +363,4 @@ const GRVReport = () => {
   );
 };
 
-export default GRVReport;
+export default PurchaseFromOtherBranchesReport;

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Button, Form, Drawer, message, Select, Input, DatePicker } from "antd";
+import { Button, Form, Drawer, message, Select, DatePicker } from "antd";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const GrvReportFormCreate = ({
+const AttendanceReportFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -63,9 +63,8 @@ const GrvReportFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update GRV Report" : "Create GRV Report"}
+      title={editData ? "Update Attendance Report" : "Create Attendance Report"}
       placement="right"
-      size="large"
       onClose={onClose}
       open={isModalOpen}
     >
@@ -83,9 +82,6 @@ const GrvReportFormCreate = ({
                 dayjs(editData?.date).isValid() &&
                 dayjs(editData?.date)) ||
               "",
-            total_grv_value: editData?.total_grv_value || "",
-            total_vat_input: editData?.total_vat_input || "",
-            location: editData?.location || "",
             file: editData?.file || null,
           }}
         >
@@ -112,6 +108,7 @@ const GrvReportFormCreate = ({
             />
           </Form.Item>
           <Form.Item
+            className="grid-2-column"
             name="date"
             label={"Date"}
             rules={[
@@ -122,42 +119,6 @@ const GrvReportFormCreate = ({
             ]}
           >
             <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
-          </Form.Item>
-          <Form.Item
-            name="total_grv_value"
-            label={"Total GRV Value"}
-            rules={[
-              {
-                required: true,
-                message: "No GRV Value provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter total GRV value"} />
-          </Form.Item>
-          <Form.Item
-            name="total_vat_input"
-            label={"Total VAT Input"}
-            rules={[
-              {
-                required: true,
-                message: "No VAT Input provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter total VAT input"} />
-          </Form.Item>
-          <Form.Item
-            name="location"
-            label={"Location"}
-            rules={[
-              {
-                required: true,
-                message: "No location provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter the location name"} />
           </Form.Item>
           <Form.Item
             className="grid-2-column"
@@ -203,7 +164,9 @@ const GrvReportFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update GRV Report" : "Create GRV Report"}
+              {editData
+                ? "Update Attendance Report"
+                : "Create Attendance Report"}
             </Button>
           </div>
         </Form>
@@ -212,4 +175,4 @@ const GrvReportFormCreate = ({
   );
 };
 
-export default GrvReportFormCreate;
+export default AttendanceReportFormCreate;

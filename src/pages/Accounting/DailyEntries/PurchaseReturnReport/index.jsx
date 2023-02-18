@@ -11,12 +11,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import GrvReportFormCreate from "./grvreportcreate";
-import GrvReportFilter from "./grvReportFilter";
-import "./grvreport.css";
+import PurchaseReturnReportFormCreate from "./purchasereturnreportcreate";
+import PurchaseReturnReportFilter from "./purchaseReturnReportFilter";
 import dayjs from "dayjs";
+import "./purchasereturnreport.css";
 
-const GRVReport = () => {
+const PurchaseReturnReport = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -40,7 +40,7 @@ const GRVReport = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - GRV Report";
+    document.title = "Recruitment - Purchase Return Report";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -54,7 +54,7 @@ const GRVReport = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "GRV Report",
+      name: "Purchase Return Report",
       active: true,
     },
   ];
@@ -120,8 +120,8 @@ const GRVReport = () => {
     {
       id: 1,
       date: "2023-02-15T12:27:35.000Z",
-      total_grv_value: "120.8",
-      total_vat_input: "244.9",
+      total_amount: "140.8",
+      total_vat_amount: "260.9",
       location: "Fasah - Rustaq",
       name: "Client one",
       email: "test@gmail.com",
@@ -135,15 +135,15 @@ const GRVReport = () => {
       render: (record) => <div>{dayjs(record.createdAt).format("llll")}</div>,
     },
     {
-      title: "Total GRV Value",
+      title: "Total Amount",
       render: (record) => (
-        <div className="text-grey">{record.total_grv_value}</div>
+        <div className="text-grey">{record.total_amount}</div>
       ),
     },
     {
-      title: "Total VAT Input",
+      title: "Total VAT Amount",
       render: (record) => (
-        <div className="text-grey">{record.total_vat_input}</div>
+        <div className="text-grey">{record.total_vat_amount}</div>
       ),
     },
     {
@@ -238,7 +238,7 @@ const GRVReport = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <GrvReportFormCreate
+        <PurchaseReturnReportFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -267,7 +267,7 @@ const GRVReport = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          GRV Report
+          Purchase Return Report
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -324,7 +324,7 @@ const GRVReport = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <GrvReportFilter
+            <PurchaseReturnReportFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -361,4 +361,4 @@ const GRVReport = () => {
   );
 };
 
-export default GRVReport;
+export default PurchaseReturnReport;

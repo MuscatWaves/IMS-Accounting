@@ -28,9 +28,28 @@ const AccountingClientInformation = lazy(() =>
 const AccountingClientAttachments = lazy(() =>
   import("../pages/Accounting/AccountingClientAttachments")
 );
+// Accounting Entries - Accountant
 const Entries = lazy(() => import("../pages/Accounting/DailyEntries"));
 const GRVReport = lazy(() =>
   import("../pages/Accounting/DailyEntries/GRVReport")
+);
+const PurchaseReport = lazy(() =>
+  import("../pages/Accounting/DailyEntries/PurchaseReport")
+);
+const PurchaseReturnReport = lazy(() =>
+  import("../pages/Accounting/DailyEntries/PurchaseReturnReport")
+);
+const PurchaseFromOtherBranches = lazy(() =>
+  import("../pages/Accounting/DailyEntries/PurchaseFromOtherBranchesReport")
+);
+const PurchaseInvoiceScan = lazy(() =>
+  import("../pages/Accounting/DailyEntries/PurchaseInvoiceScan")
+);
+const AttendanceReport = lazy(() =>
+  import("../pages/Accounting/DailyEntries/AttendanceReport")
+);
+const SalesReport = lazy(() =>
+  import("../pages/Accounting/DailyEntries/SalesReport")
 );
 
 // Misc
@@ -87,6 +106,30 @@ const Routing = () => {
                 <Route
                   path="/accounting/entries/grvReport"
                   element={<GRVReport />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/purchaseReport"
+                  element={<PurchaseReport />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/purchaseReturnReport"
+                  element={<PurchaseReturnReport />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/purchaseFromOtherBranchesReport"
+                  element={<PurchaseFromOtherBranches />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/purchaseInvoiceScan"
+                  element={<PurchaseInvoiceScan />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/attendanceReport"
+                  element={<AttendanceReport />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/salesReport"
+                  element={<SalesReport />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>

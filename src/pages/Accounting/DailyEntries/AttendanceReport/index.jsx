@@ -11,12 +11,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import GrvReportFormCreate from "./grvreportcreate";
-import GrvReportFilter from "./grvReportFilter";
-import "./grvreport.css";
+import AttendanceReportFormCreate from "./attendancereportcreate";
+import AttendanceReportFilter from "./attendanceReportFilter";
 import dayjs from "dayjs";
+import "./attendancereport.css";
 
-const GRVReport = () => {
+const AttendanceReport = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -40,7 +40,7 @@ const GRVReport = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - GRV Report";
+    document.title = "Recruitment - Attendance Report";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -54,7 +54,7 @@ const GRVReport = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "GRV Report",
+      name: "Attendance Report",
       active: true,
     },
   ];
@@ -120,9 +120,6 @@ const GRVReport = () => {
     {
       id: 1,
       date: "2023-02-15T12:27:35.000Z",
-      total_grv_value: "120.8",
-      total_vat_input: "244.9",
-      location: "Fasah - Rustaq",
       name: "Client one",
       email: "test@gmail.com",
       attachment: "1676464054802.pdf",
@@ -133,22 +130,6 @@ const GRVReport = () => {
     {
       title: "Date",
       render: (record) => <div>{dayjs(record.createdAt).format("llll")}</div>,
-    },
-    {
-      title: "Total GRV Value",
-      render: (record) => (
-        <div className="text-grey">{record.total_grv_value}</div>
-      ),
-    },
-    {
-      title: "Total VAT Input",
-      render: (record) => (
-        <div className="text-grey">{record.total_vat_input}</div>
-      ),
-    },
-    {
-      title: "Location",
-      render: (record) => <div className="text-grey">{record.location}</div>,
     },
     {
       title: "Client",
@@ -238,7 +219,7 @@ const GRVReport = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <GrvReportFormCreate
+        <AttendanceReportFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -267,7 +248,7 @@ const GRVReport = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          GRV Report
+          Attendance Report
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -324,7 +305,7 @@ const GRVReport = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <GrvReportFilter
+            <AttendanceReportFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -361,4 +342,4 @@ const GRVReport = () => {
   );
 };
 
-export default GRVReport;
+export default AttendanceReport;
