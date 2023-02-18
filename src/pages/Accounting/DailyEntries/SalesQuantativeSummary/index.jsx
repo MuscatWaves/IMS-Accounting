@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import PurchaseInvoiceScanFormCreate from "./purchaseinvoicescancreate";
-import PurchaseInvoiceScanFilter from "./purchaseInvoiceScanFilter";
+import SalesQSummaryFormCreate from "./salesqsummaryformcreate";
+import SalesQSummaryFilter from "./salesQSummaryFilter";
 import dayjs from "dayjs";
-import "./purchaseinvoicescan.css";
+import "./salesqsummary.css";
 
-const PurchaseInvoiceScan = () => {
+const SalesQuantativeSummary = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const PurchaseInvoiceScan = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Purchase Invoice Scan";
+    document.title = "Recruitment - Sales Quantative Summary";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const PurchaseInvoiceScan = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Purchase Invoice Scan",
+      name: "Sales Quantitative Summary",
       active: true,
     },
   ];
@@ -93,7 +93,7 @@ const PurchaseInvoiceScan = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pis?search=${values.search}&page=${page}`,
+        `/api/pr?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -121,12 +121,28 @@ const PurchaseInvoiceScan = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Amount of Purchase",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      title: "Total Out Quantity",
+      render: (record) => (
+        <div className="text-grey">{record.total_out_quantity}</div>
+      ),
     },
     {
-      title: "Total VAT Amount of Purchase",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      title: "Total Sales Amount",
+      render: (record) => (
+        <div className="text-grey">{record.total_sales_amount}</div>
+      ),
+    },
+    {
+      title: "Total Cost Amount",
+      render: (record) => (
+        <div className="text-grey">{record.total_cost_amount}</div>
+      ),
+    },
+    {
+      title: "Total Difference",
+      render: (record) => (
+        <div className="text-grey">{record.total_difference}</div>
+      ),
     },
     {
       title: "Location",
@@ -185,7 +201,7 @@ const PurchaseInvoiceScan = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/pis/${deletionData.id}`,
+      url: `/api/pr/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -220,7 +236,7 @@ const PurchaseInvoiceScan = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <PurchaseInvoiceScanFormCreate
+        <SalesQSummaryFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -249,7 +265,7 @@ const PurchaseInvoiceScan = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Purchase Invoice Scan
+          Sales Quantitative Summary
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -306,7 +322,7 @@ const PurchaseInvoiceScan = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <PurchaseInvoiceScanFilter
+            <SalesQSummaryFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -342,4 +358,4 @@ const PurchaseInvoiceScan = () => {
   );
 };
 
-export default PurchaseInvoiceScan;
+export default SalesQuantativeSummary;

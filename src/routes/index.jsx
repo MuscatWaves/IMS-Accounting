@@ -51,6 +51,12 @@ const AttendanceReport = lazy(() =>
 const SalesReport = lazy(() =>
   import("../pages/Accounting/DailyEntries/SalesReport")
 );
+const SalesQuantativeSummary = lazy(() =>
+  import("../pages/Accounting/DailyEntries/SalesQuantativeSummary")
+);
+const InventoryStockLedger = lazy(() =>
+  import("../pages/Accounting/DailyEntries/InventoryStockLedger")
+);
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -130,6 +136,14 @@ const Routing = () => {
                 <Route
                   path="/accounting/entries/salesReport"
                   element={<SalesReport />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/salesQSummary"
+                  element={<SalesQuantativeSummary />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/inventoryStockLedger"
+                  element={<InventoryStockLedger />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>

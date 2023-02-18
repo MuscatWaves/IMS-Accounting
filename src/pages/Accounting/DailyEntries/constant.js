@@ -30,8 +30,18 @@ export const predashoptions = [
     path: "/accounting/entries/attendanceReport",
   },
   {
-    id: 6,
+    id: 7,
     title: "Sales Report",
     path: "/accounting/entries/salesReport",
+  },
+  {
+    id: 8,
+    title: "Sales Quantitative Summary",
+    path: "/accounting/entries/salesQSummary",
+  },
+  {
+    id: 8,
+    title: "Inventory Stock In Out Ledger",
+    path: "/accounting/entries/inventoryStockLedger",
   },
 ];

@@ -28,20 +28,18 @@ const GrvReportFormCreate = ({
   const handleUpdateUser = async (values, status = editData?.status) => {
     var FormData = require("form-data");
     var data = new FormData();
+    editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
-    data.append("type", values.type);
-    data.append("file", values.file.file);
-    // var data = JSON.stringify({
-    //   ...(editData && { id: Number(editData?.id) }),
-    //   clientId: values?.clientId || null,
-    //   type: values?.type || "",
-    //   file: values.file.file || null,
-    // });
+    editData && data.append("entryDate", values?.entryDate);
+    data.append("grv", values.grv);
+    data.append("vat", values.vat);
+    data.append("location", values.location);
+    !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
-      method: "post",
+      method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/clientattachment" : "/api/clientattachment/create",
+      url: editData ? "/api/grv" : "/api/grv/create",
       headers: {
         Authorization: token,
       },
@@ -78,19 +76,19 @@ const GrvReportFormCreate = ({
           scrollToFirstError={true}
           initialValues={{
             clientId: editData?.clientId || null,
-            date:
-              (editData?.date &&
-                dayjs(editData?.date).isValid() &&
-                dayjs(editData?.date)) ||
+            entryDate:
+              (editData?.entryDate &&
+                dayjs(editData?.entryDate).isValid() &&
+                dayjs(editData?.entryDate)) ||
               "",
-            total_grv_value: editData?.total_grv_value || "",
-            total_vat_input: editData?.total_vat_input || "",
+            grv: editData?.grv || "",
+            vat: editData?.vat || "",
             location: editData?.location || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className="grid-2-column"
+            className={editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -111,20 +109,22 @@ const GrvReportFormCreate = ({
               showSearch
             />
           </Form.Item>
+          {editData && (
+            <Form.Item
+              name="entryDate"
+              label={"Entry Date"}
+              rules={[
+                {
+                  required: true,
+                  message: "No Date provided",
+                },
+              ]}
+            >
+              <DatePicker format="YYYY-MM-DD" />
+            </Form.Item>
+          )}
           <Form.Item
-            name="date"
-            label={"Date"}
-            rules={[
-              {
-                required: true,
-                message: "No Date provided",
-              },
-            ]}
-          >
-            <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
-          </Form.Item>
-          <Form.Item
-            name="total_grv_value"
+            name="grv"
             label={"Total GRV Value"}
             rules={[
               {
@@ -136,7 +136,7 @@ const GrvReportFormCreate = ({
             <Input placeholder={"Enter total GRV value"} />
           </Form.Item>
           <Form.Item
-            name="total_vat_input"
+            name="vat"
             label={"Total VAT Input"}
             rules={[
               {
@@ -159,37 +159,39 @@ const GrvReportFormCreate = ({
           >
             <Input placeholder={"Enter the location name"} />
           </Form.Item>
-          <Form.Item
-            className="grid-2-column"
-            name="file"
-            label={"Attachment"}
-            rules={[
-              {
-                required: true,
-                message: "No File Type provided",
-              },
-            ]}
-          >
-            <Dragger
-              listType="picture"
-              accept={".jpeg,.png,.jpg,.pdf,.docx,.xslx"}
-              maxCount={1}
-              beforeUpload={(file) => {
-                return false;
-              }}
-              showUploadList={{ showRemoveIcon: false }}
+          {!editData && (
+            <Form.Item
+              className="grid-2-column"
+              name="file"
+              label={"Attachment"}
+              rules={[
+                {
+                  required: true,
+                  message: "No File Type provided",
+                },
+              ]}
             >
-              <div className="flex-small-gap1-column medium-padding flex-align-center">
-                <UploadOutlined style={{ fontSize: "45px" }} />
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Supports only single upload. Avoid dragging multiple files.
-                </p>
-              </div>
-            </Dragger>
-          </Form.Item>
+              <Dragger
+                listType="picture"
+                accept={".jpeg,.png,.jpg,.pdf,.docx,.xslx"}
+                maxCount={1}
+                beforeUpload={(file) => {
+                  return false;
+                }}
+                showUploadList={{ showRemoveIcon: false }}
+              >
+                <div className="flex-small-gap1-column medium-padding flex-align-center">
+                  <UploadOutlined style={{ fontSize: "45px" }} />
+                  <p className="ant-upload-text">
+                    Click or drag file to this area to upload
+                  </p>
+                  <p className="ant-upload-hint">
+                    Supports only single upload. Avoid dragging multiple files.
+                  </p>
+                </div>
+              </Dragger>
+            </Form.Item>
+          )}
           <div
             className="flex-at-end medium-margin-top"
             style={{ gridColumn: "1/3", gap: "1rem" }}

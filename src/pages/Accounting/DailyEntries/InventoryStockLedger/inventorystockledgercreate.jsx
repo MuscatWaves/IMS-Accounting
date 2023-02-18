@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const PurchaseInvoiceScanFormCreate = ({
+const InventoryStockLedgerFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -39,7 +39,7 @@ const PurchaseInvoiceScanFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pis" : "/api/pis/create",
+      url: editData ? "/api/purchase" : "/api/purchase/create",
       headers: {
         Authorization: token,
       },
@@ -63,8 +63,8 @@ const PurchaseInvoiceScanFormCreate = ({
     <Drawer
       title={
         editData
-          ? "Update Purchase Invoice Scan"
-          : "Create Purchase Invoice Scan"
+          ? "Update Inventory Stock Ledger"
+          : "Create Inventory Stock Ledger"
       }
       placement="right"
       size="large"
@@ -129,7 +129,7 @@ const PurchaseInvoiceScanFormCreate = ({
           )}
           <Form.Item
             name="amount"
-            label={"Total Amount of Purchase"}
+            label={"Total Amount"}
             rules={[
               {
                 required: true,
@@ -141,7 +141,7 @@ const PurchaseInvoiceScanFormCreate = ({
           </Form.Item>
           <Form.Item
             name="vat"
-            label={"Total VAT Amount of Purchase"}
+            label={"Total VAT Amount"}
             rules={[
               {
                 required: true,
@@ -210,8 +210,8 @@ const PurchaseInvoiceScanFormCreate = ({
               loading={isLoading}
             >
               {editData
-                ? "Update Purchase Invoice Scan"
-                : "Create Purchase Invoice Scan"}
+                ? "Update Inventory Stock Ledger"
+                : "Create Inventory Stock Ledger"}
             </Button>
           </div>
         </Form>
@@ -220,4 +220,4 @@ const PurchaseInvoiceScanFormCreate = ({
   );
 };
 
-export default PurchaseInvoiceScanFormCreate;
+export default InventoryStockLedgerFormCreate;

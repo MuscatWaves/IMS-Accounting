@@ -5,8 +5,7 @@ import Cookies from "universal-cookie";
 import BreadCrumb from "../../../../components/BreadCrumb";
 import { container, item } from "../../AccountingDashBoard/constants";
 import { Button, Input, message, Modal, Pagination, Table } from "antd";
-// import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -20,7 +19,7 @@ const PurchaseFromOtherBranchesReport = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -86,7 +85,7 @@ const PurchaseFromOtherBranchesReport = () => {
 
   const getData = async (values, page) => {
     setLoading(true);
-    // setData([]);
+    setData([]);
     let config = {
       headers: {
         Authorization: token,
@@ -94,12 +93,12 @@ const PurchaseFromOtherBranchesReport = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/clientattachment?search=${values.search}&page=${page}`,
+        `/api/pfob?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
         setLoading(false);
-        // setData(Data.data.data);
+        setData(Data.data.data);
         setTotal(Data.data.TotalDisplay);
       } else {
         if (Data.status === 201) {
@@ -116,41 +115,28 @@ const PurchaseFromOtherBranchesReport = () => {
     }
   };
 
-  const testData = [
-    {
-      id: 1,
-      date: "2023-02-15T12:27:35.000Z",
-      total_amount: "140.8",
-      total_vat_amount: "260.9",
-      recieved_from: "Fasah Cold Center",
-      name: "Client one",
-      email: "test@gmail.com",
-      attachment: "1676464054802.pdf",
-    },
-  ];
-
   const columns = [
     {
       title: "Date",
-      render: (record) => <div>{dayjs(record.createdAt).format("llll")}</div>,
+      render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
       title: "Total Amount",
-      render: (record) => (
-        <div className="text-grey">{record.total_amount}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.amount}</div>,
     },
     {
       title: "Total VAT Amount",
-      render: (record) => (
-        <div className="text-grey">{record.total_vat_amount}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.vat}</div>,
     },
     {
       title: "Recieved From",
       render: (record) => (
-        <div className="text-grey">{record.recieved_from}</div>
+        <div className="text-grey">{record.receivedFrom}</div>
       ),
+    },
+    {
+      title: "Location",
+      render: (record) => <div className="text-grey">{record.location}</div>,
     },
     {
       title: "Client",
@@ -176,7 +162,7 @@ const PurchaseFromOtherBranchesReport = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          {/* <Button
+          <Button
             type="primary"
             shape="round"
             icon={<EditOutlined />}
@@ -184,7 +170,7 @@ const PurchaseFromOtherBranchesReport = () => {
               setEditData(record);
               toggleModal(true);
             }}
-          /> */}
+          />
           <Button
             type="primary"
             shape="round"
@@ -205,7 +191,7 @@ const PurchaseFromOtherBranchesReport = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/clientattachment/${deletionData.id}`,
+      url: `/api/pfob/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -222,7 +208,7 @@ const PurchaseFromOtherBranchesReport = () => {
       .catch(function (response) {
         message.error("Something Went Wrong!", "error");
         setDeleteLoading(false);
-        // setData([]);
+        setData([]);
       });
   };
 
@@ -339,8 +325,7 @@ const PurchaseFromOtherBranchesReport = () => {
         </AnimatePresence>
         <m.div variants={item}>
           <Table
-            // dataSource={data}
-            dataSource={testData}
+            dataSource={data}
             columns={columns}
             loading={isLoading}
             pagination={false}

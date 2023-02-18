@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import PurchaseInvoiceScanFormCreate from "./purchaseinvoicescancreate";
-import PurchaseInvoiceScanFilter from "./purchaseInvoiceScanFilter";
+import InventoryStockLedgerFormCreate from "./inventorystockledgercreate";
+import InventoryStockLedgerFilter from "./inventoryStockLedgerFilter";
 import dayjs from "dayjs";
-import "./purchaseinvoicescan.css";
+import "./inventorystockledger.css";
 
-const PurchaseInvoiceScan = () => {
+const InventoryStockLedger = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const PurchaseInvoiceScan = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Purchase Invoice Scan";
+    document.title = "Recruitment - Inventory Stock Ledger";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const PurchaseInvoiceScan = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Purchase Invoice Scan",
+      name: "Inventory Stock Ledger",
       active: true,
     },
   ];
@@ -93,7 +93,7 @@ const PurchaseInvoiceScan = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pis?search=${values.search}&page=${page}`,
+        `/api/purchase?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -121,11 +121,11 @@ const PurchaseInvoiceScan = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Amount of Purchase",
+      title: "Total Amount",
       render: (record) => <div className="text-grey">{record.amount}</div>,
     },
     {
-      title: "Total VAT Amount of Purchase",
+      title: "Total VAT Amount",
       render: (record) => <div className="text-grey">{record.vat}</div>,
     },
     {
@@ -185,7 +185,7 @@ const PurchaseInvoiceScan = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/pis/${deletionData.id}`,
+      url: `/api/purchase/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -220,7 +220,7 @@ const PurchaseInvoiceScan = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <PurchaseInvoiceScanFormCreate
+        <InventoryStockLedgerFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -249,7 +249,7 @@ const PurchaseInvoiceScan = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Purchase Invoice Scan
+          Inventory Stock Ledger
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -306,7 +306,7 @@ const PurchaseInvoiceScan = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <PurchaseInvoiceScanFilter
+            <InventoryStockLedgerFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -342,4 +342,4 @@ const PurchaseInvoiceScan = () => {
   );
 };
 
-export default PurchaseInvoiceScan;
+export default InventoryStockLedger;
