@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import InventoryStockLedgerFormCreate from "./inventorystockledgercreate";
-import InventoryStockLedgerFilter from "./inventoryStockLedgerFilter";
+import ClosingStockFormCreate from "./closingstockcreate";
+import ClosingStockFilter from "./closingStockFilter";
 import dayjs from "dayjs";
-import "./inventorystockledger.css";
+import "./closingstock.css";
 
-const InventoryStockLedger = () => {
+const ClosingStock = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const InventoryStockLedger = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Inventory Stock Ledger";
+    document.title = "Recruitment - Closing Stock";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const InventoryStockLedger = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Inventory Stock Ledger",
+      name: "Closing Stock with values",
       active: true,
     },
   ];
@@ -121,20 +121,12 @@ const InventoryStockLedger = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Opening Balance",
+      title: "Total Quantity of Closing Stock",
       render: (record) => <div className="text-grey">{record.amount}</div>,
     },
     {
-      title: "Total In Quantity",
+      title: "Total Value of Closing Stock",
       render: (record) => <div className="text-grey">{record.vat}</div>,
-    },
-    {
-      title: "Total Out Sales",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
-    },
-    {
-      title: "Total Out to Other",
-      render: (record) => <div className="text-grey">{record.location}</div>,
     },
     {
       title: "Client",
@@ -224,7 +216,7 @@ const InventoryStockLedger = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <InventoryStockLedgerFormCreate
+        <ClosingStockFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -253,7 +245,7 @@ const InventoryStockLedger = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Inventory Stock Ledger
+          Closing Stock with values
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -310,7 +302,7 @@ const InventoryStockLedger = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <InventoryStockLedgerFilter
+            <ClosingStockFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -346,4 +338,4 @@ const InventoryStockLedger = () => {
   );
 };
 
-export default InventoryStockLedger;
+export default ClosingStock;

@@ -57,6 +57,21 @@ const SalesQuantativeSummary = lazy(() =>
 const InventoryStockLedger = lazy(() =>
   import("../pages/Accounting/DailyEntries/InventoryStockLedger")
 );
+const ItemExpiry = lazy(() =>
+  import("../pages/Accounting/DailyEntries/ItemExpiry")
+);
+const ClosingStock = lazy(() =>
+  import("../pages/Accounting/DailyEntries/ClosingStock")
+);
+const CashBankStatement = lazy(() =>
+  import("../pages/Accounting/DailyEntries/CashBankStatement")
+);
+const MerchantSummary = lazy(() =>
+  import("../pages/Accounting/DailyEntries/MerchantSummary")
+);
+const OutstandingStatement = lazy(() =>
+  import("../pages/Accounting/DailyEntries/OutstandingStatement")
+);
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -144,6 +159,26 @@ const Routing = () => {
                 <Route
                   path="/accounting/entries/inventoryStockLedger"
                   element={<InventoryStockLedger />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/itemExpiry"
+                  element={<ItemExpiry />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/closingStock"
+                  element={<ClosingStock />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/cashBankStatement"
+                  element={<CashBankStatement />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/merchantSummary"
+                  element={<MerchantSummary />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/outstandingStatement"
+                  element={<OutstandingStatement />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>

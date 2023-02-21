@@ -40,8 +40,33 @@ export const predashoptions = [
     path: "/accounting/entries/salesQSummary",
   },
   {
-    id: 8,
+    id: 9,
     title: "Inventory Stock In Out Ledger",
     path: "/accounting/entries/inventoryStockLedger",
+  },
+  {
+    id: 10,
+    title: "Item Expiry",
+    path: "/accounting/entries/itemExpiry",
+  },
+  {
+    id: 11,
+    title: "Closing Stock with Values",
+    path: "/accounting/entries/closingStock",
+  },
+  {
+    id: 12,
+    title: "Excel Cash & Bank Statements",
+    path: "/accounting/entries/cashBankStatement",
+  },
+  {
+    id: 13,
+    title: "Merchant Summary",
+    path: "/accounting/entries/merchantSummary",
+  },
+  {
+    id: 14,
+    title: "Outstanding Statement Supplier",
+    path: "/accounting/entries/outstandingStatement",
   },
 ];

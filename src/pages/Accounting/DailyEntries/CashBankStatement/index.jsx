@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import InventoryStockLedgerFormCreate from "./inventorystockledgercreate";
-import InventoryStockLedgerFilter from "./inventoryStockLedgerFilter";
+import CashBankStatementFormCreate from "./cashbankstatementcreate";
+import CashBankStatementFilter from "./cashBankStatementFilter";
 import dayjs from "dayjs";
-import "./inventorystockledger.css";
+import "./cashbankstatement.css";
 
-const InventoryStockLedger = () => {
+const CashBankStatement = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const InventoryStockLedger = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Inventory Stock Ledger";
+    document.title = "Recruitment - Excel Cash & Bank Statements ";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const InventoryStockLedger = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Inventory Stock Ledger",
+      name: "Excel Cash & Bank Statements",
       active: true,
     },
   ];
@@ -121,19 +121,19 @@ const InventoryStockLedger = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Opening Balance",
+      title: "Opening balance",
       render: (record) => <div className="text-grey">{record.amount}</div>,
     },
     {
-      title: "Total In Quantity",
+      title: "Total sales (Cash and Bank)",
       render: (record) => <div className="text-grey">{record.vat}</div>,
     },
     {
-      title: "Total Out Sales",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      title: "Total Expense",
+      render: (record) => <div className="text-grey">{record.location}</div>,
     },
     {
-      title: "Total Out to Other",
+      title: "Closing Balance end of the Day",
       render: (record) => <div className="text-grey">{record.location}</div>,
     },
     {
@@ -224,7 +224,7 @@ const InventoryStockLedger = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <InventoryStockLedgerFormCreate
+        <CashBankStatementFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -253,7 +253,7 @@ const InventoryStockLedger = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Inventory Stock Ledger
+          Excel Cash & Bank Statements
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -310,7 +310,7 @@ const InventoryStockLedger = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <InventoryStockLedgerFilter
+            <CashBankStatementFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -346,4 +346,4 @@ const InventoryStockLedger = () => {
   );
 };
 
-export default InventoryStockLedger;
+export default CashBankStatement;
