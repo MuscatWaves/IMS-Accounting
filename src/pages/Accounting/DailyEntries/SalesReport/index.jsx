@@ -5,8 +5,7 @@ import Cookies from "universal-cookie";
 import BreadCrumb from "../../../../components/BreadCrumb";
 import { container, item } from "../../AccountingDashBoard/constants";
 import { Button, Input, message, Modal, Pagination, Table } from "antd";
-// import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -20,7 +19,7 @@ const SalesReport = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -86,7 +85,7 @@ const SalesReport = () => {
 
   const getData = async (values, page) => {
     setLoading(true);
-    // setData([]);
+    setData([]);
     let config = {
       headers: {
         Authorization: token,
@@ -94,12 +93,12 @@ const SalesReport = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/clientattachment?search=${values.search}&page=${page}`,
+        `/api/sr?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
         setLoading(false);
-        // setData(Data.data.data);
+        setData(Data.data.data);
         setTotal(Data.data.TotalDisplay);
       } else {
         if (Data.status === 201) {
@@ -116,54 +115,31 @@ const SalesReport = () => {
     }
   };
 
-  const testData = [
-    {
-      id: 1,
-      date: "2023-02-15T12:27:35.000Z",
-      total_sales_amount: "320",
-      total_discount_amount: "20.9",
-      total_vat_amount: "390",
-      total_net_amount: "360",
-      total_amount_recieved: "80",
-      name: "Client one",
-      email: "test@gmail.com",
-      attachment: "1676464054802.pdf",
-    },
-  ];
-
   const columns = [
     {
       title: "Date",
-      render: (record) => <div>{dayjs(record.createdAt).format("llll")}</div>,
+      render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
       title: "Total Sales Amount",
-      render: (record) => (
-        <div className="text-grey">{record.total_sales_amount}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.sales}</div>,
     },
     {
       title: "Total Discount Amount",
-      render: (record) => (
-        <div className="text-grey">{record.total_discount_amount}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.discount}</div>,
     },
     {
       title: "Total VAT Amount",
-      render: (record) => (
-        <div className="text-grey">{record.total_vat_amount}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.vat}</div>,
     },
     {
       title: "Total NET Amount",
-      render: (record) => (
-        <div className="text-grey">{record.total_net_amount}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.net}</div>,
     },
     {
       title: "Total Amount Recieved from Client",
       render: (record) => (
-        <div className="text-grey">{record.total_amount_recieved}</div>
+        <div className="text-grey">{record.amountReceivedFromClient}</div>
       ),
     },
     {
@@ -190,7 +166,7 @@ const SalesReport = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          {/* <Button
+          <Button
             type="primary"
             shape="round"
             icon={<EditOutlined />}
@@ -198,7 +174,7 @@ const SalesReport = () => {
               setEditData(record);
               toggleModal(true);
             }}
-          /> */}
+          />
           <Button
             type="primary"
             shape="round"
@@ -219,7 +195,7 @@ const SalesReport = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/clientattachment/${deletionData.id}`,
+      url: `/api/sr/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -236,7 +212,7 @@ const SalesReport = () => {
       .catch(function (response) {
         message.error("Something Went Wrong!", "error");
         setDeleteLoading(false);
-        // setData([]);
+        setData([]);
       });
   };
 
@@ -353,8 +329,7 @@ const SalesReport = () => {
         </AnimatePresence>
         <m.div variants={item}>
           <Table
-            // dataSource={data}
-            dataSource={testData}
+            dataSource={data}
             columns={columns}
             loading={isLoading}
             pagination={false}

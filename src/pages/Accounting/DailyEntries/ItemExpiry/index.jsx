@@ -93,7 +93,7 @@ const ItemExpiry = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/iexp?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -122,11 +122,11 @@ const ItemExpiry = () => {
     },
     {
       title: "Total Purchase Amount",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      render: (record) => <div className="text-grey">{record.purchase}</div>,
     },
     {
       title: "Total Sales Amount",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      render: (record) => <div className="text-grey">{record.sales}</div>,
     },
     {
       title: "Client",
@@ -181,7 +181,7 @@ const ItemExpiry = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/iexp/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

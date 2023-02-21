@@ -93,7 +93,7 @@ const SalesQuantativeSummary = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pr?search=${values.search}&page=${page}`,
+        `/api/sqs?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -122,31 +122,19 @@ const SalesQuantativeSummary = () => {
     },
     {
       title: "Total Out Quantity",
-      render: (record) => (
-        <div className="text-grey">{record.total_out_quantity}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.quantity}</div>,
     },
     {
       title: "Total Sales Amount",
-      render: (record) => (
-        <div className="text-grey">{record.total_sales_amount}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.sales}</div>,
     },
     {
       title: "Total Cost Amount",
-      render: (record) => (
-        <div className="text-grey">{record.total_cost_amount}</div>
-      ),
+      render: (record) => <div className="text-grey">{record.cost}</div>,
     },
     {
       title: "Total Difference",
-      render: (record) => (
-        <div className="text-grey">{record.total_difference}</div>
-      ),
-    },
-    {
-      title: "Location",
-      render: (record) => <div className="text-grey">{record.location}</div>,
+      render: (record) => <div className="text-grey">{record.difference}</div>,
     },
     {
       title: "Client",
@@ -201,7 +189,7 @@ const SalesQuantativeSummary = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/pr/${deletionData.id}`,
+      url: `/api/sqs/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

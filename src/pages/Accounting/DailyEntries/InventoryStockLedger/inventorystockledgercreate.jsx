@@ -31,15 +31,16 @@ const InventoryStockLedgerFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("vat", values.vat);
-    data.append("location", values.location);
+    data.append("opp", values.opp);
+    data.append("quantity", values.quantity);
+    data.append("sales", values.sales);
+    data.append("outToOther", values.outToOther);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/isiol" : "/api/isiol/create",
       headers: {
         Authorization: token,
       },
@@ -85,14 +86,15 @@ const InventoryStockLedgerFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            vat: editData?.vat || "",
-            location: editData?.location || "",
+            opp: editData?.opp || "",
+            quantity: editData?.quantity || "",
+            sales: editData?.sales || "",
+            outToOther: editData?.outToOther || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={editData && "grid-2-column"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -128,40 +130,52 @@ const InventoryStockLedgerFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount"}
+            name="opp"
+            label={"Total Opening Balance"}
             rules={[
               {
                 required: true,
-                message: "No Amount provided",
+                message: "No Total Opening Balance provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount"} />
+            <Input placeholder={"Enter Total Opening Balance"} />
           </Form.Item>
           <Form.Item
-            name="vat"
-            label={"Total VAT Amount"}
+            name="quantity"
+            label={"Total in Quantity"}
             rules={[
               {
                 required: true,
-                message: "No VAT Amount provided",
+                message: "No Total in Quantity provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT Amount"} />
+            <Input placeholder={"Enter Total in Quantity"} />
           </Form.Item>
           <Form.Item
-            name="location"
-            label={"Location"}
+            name="sales"
+            label={"Total Out sales"}
             rules={[
               {
                 required: true,
-                message: "No location provided",
+                message: "No Total Out sales provided",
               },
             ]}
           >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter Total Out sales"} />
+          </Form.Item>
+          <Form.Item
+            name="outToOther"
+            label={"Total Out to other"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Out to other provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Out to other"} />
           </Form.Item>
           {!editData && (
             <Form.Item

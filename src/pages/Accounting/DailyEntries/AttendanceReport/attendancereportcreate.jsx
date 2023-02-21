@@ -28,20 +28,15 @@ const AttendanceReportFormCreate = ({
   const handleUpdateUser = async (values, status = editData?.status) => {
     var FormData = require("form-data");
     var data = new FormData();
+    editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
-    data.append("type", values.type);
-    data.append("file", values.file.file);
-    // var data = JSON.stringify({
-    //   ...(editData && { id: Number(editData?.id) }),
-    //   clientId: values?.clientId || null,
-    //   type: values?.type || "",
-    //   file: values.file.file || null,
-    // });
+    editData && data.append("entryDate", values.entryDate);
+    !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
-      method: "post",
+      method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/clientattachment" : "/api/clientattachment/create",
+      url: editData ? "/api/att" : "/api/att/create",
       headers: {
         Authorization: token,
       },
@@ -77,10 +72,10 @@ const AttendanceReportFormCreate = ({
           scrollToFirstError={true}
           initialValues={{
             clientId: editData?.clientId || null,
-            date:
-              (editData?.date &&
-                dayjs(editData?.date).isValid() &&
-                dayjs(editData?.date)) ||
+            entryDate:
+              (editData?.entryDate &&
+                dayjs(editData?.entryDate).isValid() &&
+                dayjs(editData?.entryDate)) ||
               "",
             file: editData?.file || null,
           }}
@@ -107,50 +102,54 @@ const AttendanceReportFormCreate = ({
               showSearch
             />
           </Form.Item>
-          <Form.Item
-            className="grid-2-column"
-            name="date"
-            label={"Date"}
-            rules={[
-              {
-                required: true,
-                message: "No Date provided",
-              },
-            ]}
-          >
-            <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime />
-          </Form.Item>
-          <Form.Item
-            className="grid-2-column"
-            name="file"
-            label={"Attachment"}
-            rules={[
-              {
-                required: true,
-                message: "No File Type provided",
-              },
-            ]}
-          >
-            <Dragger
-              listType="picture"
-              accept={".jpeg,.png,.jpg,.pdf,.docx,.xslx"}
-              maxCount={1}
-              beforeUpload={(file) => {
-                return false;
-              }}
-              showUploadList={{ showRemoveIcon: false }}
+          {editData && (
+            <Form.Item
+              className="grid-2-column"
+              name="entryDate"
+              label={"Date"}
+              rules={[
+                {
+                  required: true,
+                  message: "No Date provided",
+                },
+              ]}
             >
-              <div className="flex-small-gap1-column medium-padding flex-align-center">
-                <UploadOutlined style={{ fontSize: "45px" }} />
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Supports only single upload. Avoid dragging multiple files.
-                </p>
-              </div>
-            </Dragger>
-          </Form.Item>
+              <DatePicker format="YYYY-MM-DD" />
+            </Form.Item>
+          )}
+          {!editData && (
+            <Form.Item
+              className="grid-2-column"
+              name="file"
+              label={"Attachment"}
+              rules={[
+                {
+                  required: true,
+                  message: "No File Type provided",
+                },
+              ]}
+            >
+              <Dragger
+                listType="picture"
+                accept={".jpeg,.png,.jpg,.pdf,.docx,.xslx"}
+                maxCount={1}
+                beforeUpload={(file) => {
+                  return false;
+                }}
+                showUploadList={{ showRemoveIcon: false }}
+              >
+                <div className="flex-small-gap1-column medium-padding flex-align-center">
+                  <UploadOutlined style={{ fontSize: "45px" }} />
+                  <p className="ant-upload-text">
+                    Click or drag file to this area to upload
+                  </p>
+                  <p className="ant-upload-hint">
+                    Supports only single upload. Avoid dragging multiple files.
+                  </p>
+                </div>
+              </Dragger>
+            </Form.Item>
+          )}
           <div
             className="flex-at-end medium-margin-top"
             style={{ gridColumn: "1/3", gap: "1rem" }}

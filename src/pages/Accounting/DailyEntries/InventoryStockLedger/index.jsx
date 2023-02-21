@@ -93,7 +93,7 @@ const InventoryStockLedger = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/isiol?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -122,19 +122,19 @@ const InventoryStockLedger = () => {
     },
     {
       title: "Total Opening Balance",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      render: (record) => <div className="text-grey">{record.opp}</div>,
     },
     {
       title: "Total In Quantity",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      render: (record) => <div className="text-grey">{record.quantity}</div>,
     },
     {
       title: "Total Out Sales",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      render: (record) => <div className="text-grey">{record.sales}</div>,
     },
     {
       title: "Total Out to Other",
-      render: (record) => <div className="text-grey">{record.location}</div>,
+      render: (record) => <div className="text-grey">{record.outToOther}</div>,
     },
     {
       title: "Client",
@@ -189,7 +189,7 @@ const InventoryStockLedger = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/isiol/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

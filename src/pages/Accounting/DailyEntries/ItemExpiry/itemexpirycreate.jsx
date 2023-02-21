@@ -31,15 +31,14 @@ const ItemExpiryFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("vat", values.vat);
-    data.append("location", values.location);
+    data.append("purchase", values.purchase);
+    data.append("sales", values.sales);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/iexp" : "/api/iexp/create",
       headers: {
         Authorization: token,
       },
@@ -61,7 +60,7 @@ const ItemExpiryFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update Purchase Report" : "Create Purchase Report"}
+      title={editData ? "Update Item Expiry" : "Create Item Expiry"}
       placement="right"
       size="large"
       onClose={onClose}
@@ -81,14 +80,13 @@ const ItemExpiryFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            vat: editData?.vat || "",
-            location: editData?.location || "",
+            purchase: editData?.purchase || "",
+            sales: editData?.sales || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={editData && "grid-2-column"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -124,40 +122,28 @@ const ItemExpiryFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount"}
+            name="purchase"
+            label={"Total Purchase amount"}
             rules={[
               {
                 required: true,
-                message: "No Amount provided",
+                message: "No Total Purchase amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount"} />
+            <Input placeholder={"Enter Total Purchase amount"} />
           </Form.Item>
           <Form.Item
-            name="vat"
-            label={"Total VAT Amount"}
+            name="sales"
+            label={"Total Sales Amount"}
             rules={[
               {
                 required: true,
-                message: "No VAT Amount provided",
+                message: "No Total Sales Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT Amount"} />
-          </Form.Item>
-          <Form.Item
-            name="location"
-            label={"Location"}
-            rules={[
-              {
-                required: true,
-                message: "No location provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter Total Sales Amount"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -205,7 +191,7 @@ const ItemExpiryFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update Purchase Report" : "Create Purchase Report"}
+              {editData ? "Update Item Expiry" : "Create Item Expiry"}
             </Button>
           </div>
         </Form>

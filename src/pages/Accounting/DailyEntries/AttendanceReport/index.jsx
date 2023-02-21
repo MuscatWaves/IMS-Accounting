@@ -5,8 +5,7 @@ import Cookies from "universal-cookie";
 import BreadCrumb from "../../../../components/BreadCrumb";
 import { container, item } from "../../AccountingDashBoard/constants";
 import { Button, Input, message, Modal, Pagination, Table } from "antd";
-// import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -20,7 +19,7 @@ const AttendanceReport = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
@@ -94,12 +93,12 @@ const AttendanceReport = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/clientattachment?search=${values.search}&page=${page}`,
+        `/api/att?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
         setLoading(false);
-        // setData(Data.data.data);
+        setData(Data.data.data);
         setTotal(Data.data.TotalDisplay);
       } else {
         if (Data.status === 201) {
@@ -116,20 +115,10 @@ const AttendanceReport = () => {
     }
   };
 
-  const testData = [
-    {
-      id: 1,
-      date: "2023-02-15T12:27:35.000Z",
-      name: "Client one",
-      email: "test@gmail.com",
-      attachment: "1676464054802.pdf",
-    },
-  ];
-
   const columns = [
     {
       title: "Date",
-      render: (record) => <div>{dayjs(record.createdAt).format("llll")}</div>,
+      render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
       title: "Client",
@@ -155,7 +144,7 @@ const AttendanceReport = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          {/* <Button
+          <Button
             type="primary"
             shape="round"
             icon={<EditOutlined />}
@@ -163,7 +152,7 @@ const AttendanceReport = () => {
               setEditData(record);
               toggleModal(true);
             }}
-          /> */}
+          />
           <Button
             type="primary"
             shape="round"
@@ -184,7 +173,7 @@ const AttendanceReport = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/clientattachment/${deletionData.id}`,
+      url: `/api/att/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -201,7 +190,7 @@ const AttendanceReport = () => {
       .catch(function (response) {
         message.error("Something Went Wrong!", "error");
         setDeleteLoading(false);
-        // setData([]);
+        setData([]);
       });
   };
 
@@ -318,8 +307,7 @@ const AttendanceReport = () => {
         </AnimatePresence>
         <m.div variants={item}>
           <Table
-            // dataSource={data}
-            dataSource={testData}
+            dataSource={data}
             columns={columns}
             loading={isLoading}
             pagination={false}

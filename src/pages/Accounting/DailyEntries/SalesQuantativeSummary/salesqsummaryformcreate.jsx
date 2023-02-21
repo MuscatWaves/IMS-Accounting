@@ -31,15 +31,16 @@ const SalesQSummaryFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("vat", values.vat);
-    data.append("location", values.location);
+    data.append("quantity", values.quantity);
+    data.append("sales", values.sales);
+    data.append("cost", values.cost);
+    data.append("difference", values.difference);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pr" : "/api/pr/create",
+      url: editData ? "/api/sqs" : "/api/sqs/create",
       headers: {
         Authorization: token,
       },
@@ -85,14 +86,15 @@ const SalesQSummaryFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            vat: editData?.vat || "",
-            location: editData?.location || "",
+            quantity: editData?.quantity || "",
+            sales: editData?.sales || "",
+            cost: editData?.cost || "",
+            difference: editData?.difference || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={editData && "grid-2-column"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -128,40 +130,52 @@ const SalesQSummaryFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount"}
+            name="quantity"
+            label={"Total out Quantity"}
             rules={[
               {
                 required: true,
-                message: "No Amount provided",
+                message: "No Total out Quantity provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount"} />
+            <Input placeholder={"Enter Total out Quantity"} />
           </Form.Item>
           <Form.Item
-            name="vat"
-            label={"Total VAT Amount"}
+            name="sales"
+            label={"Total Sales amount"}
             rules={[
               {
                 required: true,
-                message: "No VAT Amount provided",
+                message: "No Total Sales amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT Amount"} />
+            <Input placeholder={"Enter Total Sales amount"} />
           </Form.Item>
           <Form.Item
-            name="location"
-            label={"Location"}
+            name="cost"
+            label={"Total Cost amount"}
             rules={[
               {
                 required: true,
-                message: "No location provided",
+                message: "No Total Cost amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter Total Cost amount"} />
+          </Form.Item>
+          <Form.Item
+            name="difference"
+            label={"Total Difference"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Difference provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Difference"} />
           </Form.Item>
           {!editData && (
             <Form.Item
