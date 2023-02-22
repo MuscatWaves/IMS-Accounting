@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import OutstandingStatementFormCreate from "./outstandingstatementcreate";
-import OutstandingStatementFilter from "./outstandingStatementFilter";
+import STOBFormCreate from "./stobcreate";
+import STOBFilter from "./stobFilter";
 import dayjs from "dayjs";
-import "./outstandingstatement.css";
+import "./stob.css";
 
-const OutstandingStatement = () => {
+const SalesToOtherBranch = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const OutstandingStatement = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Outstanding Statement Supplier";
+    document.title = "Recruitment - Sales to Other Branch";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const OutstandingStatement = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Outstanding Statement Supplier",
+      name: "Sales to Other Branch",
       active: true,
     },
   ];
@@ -121,19 +121,19 @@ const OutstandingStatement = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Invoice Amount",
+      title: "Total Amount of sale",
       render: (record) => <div className="text-grey">{record.invoice}</div>,
     },
     {
-      title: "Total Discount Amount",
+      title: "Total VAT Amount of sale",
       render: (record) => <div className="text-grey">{record.discount}</div>,
     },
     {
-      title: "Total Payments of Net Amount",
+      title: "Total Net Amount of sale",
       render: (record) => <div className="text-grey">{record.net}</div>,
     },
     {
-      title: "Total Closing Balance",
+      title: "Total Amount received from other store",
       render: (record) => <div className="text-grey">{record.balance}</div>,
     },
     {
@@ -224,7 +224,7 @@ const OutstandingStatement = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <OutstandingStatementFormCreate
+        <STOBFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -253,7 +253,7 @@ const OutstandingStatement = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Outstanding Statement Supplier
+          Sales to Other Branch
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -310,7 +310,7 @@ const OutstandingStatement = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <OutstandingStatementFilter
+            <STOBFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -346,4 +346,4 @@ const OutstandingStatement = () => {
   );
 };
 
-export default OutstandingStatement;
+export default SalesToOtherBranch;

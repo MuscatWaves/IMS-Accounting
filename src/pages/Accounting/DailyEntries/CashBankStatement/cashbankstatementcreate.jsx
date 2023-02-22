@@ -31,9 +31,10 @@ const CashBankStatementFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("vat", values.vat);
-    data.append("location", values.location);
+    data.append("balance", values.balance);
+    data.append("sales", values.sales);
+    data.append("expense", values.expense);
+    data.append("endBalance", values.endBalance);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
@@ -61,7 +62,11 @@ const CashBankStatementFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update Purchase Report" : "Create Purchase Report"}
+      title={
+        editData
+          ? "Update Cash & bank Statements"
+          : "Create Cash & bank Statements"
+      }
       placement="right"
       size="large"
       onClose={onClose}
@@ -81,14 +86,15 @@ const CashBankStatementFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            vat: editData?.vat || "",
-            location: editData?.location || "",
+            balance: editData?.balance || "",
+            sales: editData?.sales || "",
+            expense: editData?.expense || "",
+            endBalance: editData?.endBalance || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={editData && "grid-2-column"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -124,40 +130,52 @@ const CashBankStatementFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount"}
+            name="balance"
+            label={"Total Opening Balance"}
             rules={[
               {
                 required: true,
-                message: "No Amount provided",
+                message: "No Opening Balance provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount"} />
+            <Input placeholder={"Enter Opening Balance"} />
           </Form.Item>
           <Form.Item
-            name="vat"
-            label={"Total VAT Amount"}
+            name="sales"
+            label={"Total Sales"}
             rules={[
               {
                 required: true,
-                message: "No VAT Amount provided",
+                message: "No Sales provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT Amount"} />
+            <Input placeholder={"Enter Total Sales"} />
           </Form.Item>
           <Form.Item
-            name="location"
-            label={"Location"}
+            name="expense"
+            label={"Total Expense"}
             rules={[
               {
                 required: true,
-                message: "No location provided",
+                message: "No expense provided",
               },
             ]}
           >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter Total Expense"} />
+          </Form.Item>
+          <Form.Item
+            name="endBalance"
+            label={"Closing Balance end of the Day"}
+            rules={[
+              {
+                required: true,
+                message: "No Closing Balance end of the Day provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Closing Balance end of the Day"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -205,7 +223,9 @@ const CashBankStatementFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update Purchase Report" : "Create Purchase Report"}
+              {editData
+                ? "Update Cash & bank Statements"
+                : "Create Cash & bank Statements"}
             </Button>
           </div>
         </Form>

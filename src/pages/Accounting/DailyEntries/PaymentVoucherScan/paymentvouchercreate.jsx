@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const ClosingStockFormCreate = ({
+const PaymentVoucherFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -31,14 +31,14 @@ const ClosingStockFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("quantity", values.quantity);
-    data.append("value", values.value);
+    data.append("amount", values.amount);
+    data.append("number", values.number);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/iexp" : "/api/iexp/create",
       headers: {
         Authorization: token,
       },
@@ -61,7 +61,7 @@ const ClosingStockFormCreate = ({
   return (
     <Drawer
       title={
-        editData ? "Update Closing Stock Report" : "Create Closing Stock Report"
+        editData ? "Update Payment Voucher Scan" : "Create Payment Voucher Scan"
       }
       placement="right"
       size="large"
@@ -82,8 +82,8 @@ const ClosingStockFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            quantity: editData?.quantity || "",
-            value: editData?.value || "",
+            purchase: editData?.purchase || "",
+            sales: editData?.sales || "",
             file: editData?.file || null,
           }}
         >
@@ -124,28 +124,28 @@ const ClosingStockFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="quantity"
-            label={"Total Quantity of Closing Stock"}
+            name="amount"
+            label={"Total Amount of Voucher"}
             rules={[
               {
                 required: true,
-                message: "No Total Quantity of Closing Stock provided",
+                message: "No Total Amount of Voucher provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Quantity of Closing Stock"} />
+            <Input placeholder={"Enter Total Amount of Voucher"} />
           </Form.Item>
           <Form.Item
-            name="value"
-            label={"Total Value of Closing Stock"}
+            name="number"
+            label={"Total Number of Voucher"}
             rules={[
               {
                 required: true,
-                message: "No Total Value of Closing Stock provided",
+                message: "No Total Number of Voucher provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Value of Closing Stock"} />
+            <Input placeholder={"Enter Total Number of Voucher"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -194,8 +194,8 @@ const ClosingStockFormCreate = ({
               loading={isLoading}
             >
               {editData
-                ? "Update Closing Stock Report"
-                : "Create Closing Stock Report"}
+                ? "Update Payment Voucher Scan"
+                : "Create Payment Voucher Scan"}
             </Button>
           </div>
         </Form>
@@ -204,4 +204,4 @@ const ClosingStockFormCreate = ({
   );
 };
 
-export default ClosingStockFormCreate;
+export default PaymentVoucherFormCreate;

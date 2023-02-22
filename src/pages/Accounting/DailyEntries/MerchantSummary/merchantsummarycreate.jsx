@@ -31,9 +31,10 @@ const MerchantSummaryFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
+    data.append("gross", values.gross);
+    data.append("discount", values.discount);
     data.append("vat", values.vat);
-    data.append("location", values.location);
+    data.append("net", values.net);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
@@ -81,14 +82,15 @@ const MerchantSummaryFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
+            gross: editData?.gross || "",
+            discount: editData?.discount || "",
             vat: editData?.vat || "",
-            location: editData?.location || "",
+            net: editData?.net || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={editData && "grid-2-column"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -124,16 +126,28 @@ const MerchantSummaryFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount"}
+            name="gross"
+            label={"Total Gross Sales Amount"}
             rules={[
               {
                 required: true,
-                message: "No Amount provided",
+                message: "No Total Gross Sales Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount"} />
+            <Input placeholder={"Enter Total Gross Sales Amount"} />
+          </Form.Item>
+          <Form.Item
+            name="discount"
+            label={"Total Discount Amount"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Discount Amount provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Discount Amount"} />
           </Form.Item>
           <Form.Item
             name="vat"
@@ -148,16 +162,16 @@ const MerchantSummaryFormCreate = ({
             <Input placeholder={"Enter total VAT Amount"} />
           </Form.Item>
           <Form.Item
-            name="location"
-            label={"Location"}
+            name="net"
+            label={"Total Sales Net Amount"}
             rules={[
               {
                 required: true,
-                message: "No location provided",
+                message: "No Total Sales Net Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter Total Sales Net Amount"} />
           </Form.Item>
           {!editData && (
             <Form.Item

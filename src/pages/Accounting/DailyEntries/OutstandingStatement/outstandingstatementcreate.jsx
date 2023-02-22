@@ -31,9 +31,10 @@ const OutstandingStatementFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("vat", values.vat);
-    data.append("location", values.location);
+    data.append("invoice", values.invoice);
+    data.append("discount", values.discount);
+    data.append("net", values.net);
+    data.append("balance", values.balance);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
@@ -61,7 +62,11 @@ const OutstandingStatementFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update Purchase Report" : "Create Purchase Report"}
+      title={
+        editData
+          ? "Update Outstanding Statement"
+          : "Create Outstanding Statement"
+      }
       placement="right"
       size="large"
       onClose={onClose}
@@ -81,14 +86,15 @@ const OutstandingStatementFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            vat: editData?.vat || "",
-            location: editData?.location || "",
+            invoice: editData?.invoice || "",
+            discount: editData?.discount || "",
+            net: editData?.net || "",
+            balance: editData?.balance || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={editData && "grid-2-column"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -124,40 +130,52 @@ const OutstandingStatementFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount"}
+            name="invoice"
+            label={"Total Invoice Amount"}
             rules={[
               {
                 required: true,
-                message: "No Amount provided",
+                message: "No Total Invoice Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount"} />
+            <Input placeholder={"Enter Total Invoice Amount"} />
           </Form.Item>
           <Form.Item
-            name="vat"
-            label={"Total VAT Amount"}
+            name="discount"
+            label={"Total Discount Amount"}
             rules={[
               {
                 required: true,
-                message: "No VAT Amount provided",
+                message: "No Total Discount Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT Amount"} />
+            <Input placeholder={"Enter Total Discount Amount"} />
           </Form.Item>
           <Form.Item
-            name="location"
-            label={"Location"}
+            name="net"
+            label={"Total Payments of Net Amount"}
             rules={[
               {
                 required: true,
-                message: "No location provided",
+                message: "No Total Payments of Net Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter Total Payments of Net Amount"} />
+          </Form.Item>
+          <Form.Item
+            name="balance"
+            label={"Total Closing Balance"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Closing Balance provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Closing Balance"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -205,7 +223,9 @@ const OutstandingStatementFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update Purchase Report" : "Create Purchase Report"}
+              {editData
+                ? "Update Outstanding Statement"
+                : "Create Outstanding Statement"}
             </Button>
           </div>
         </Form>

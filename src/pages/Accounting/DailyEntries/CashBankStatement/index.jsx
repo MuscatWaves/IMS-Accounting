@@ -122,19 +122,19 @@ const CashBankStatement = () => {
     },
     {
       title: "Opening balance",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      render: (record) => <div className="text-grey">{record.balance}</div>,
     },
     {
       title: "Total sales (Cash and Bank)",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      render: (record) => <div className="text-grey">{record.sales}</div>,
     },
     {
       title: "Total Expense",
-      render: (record) => <div className="text-grey">{record.location}</div>,
+      render: (record) => <div className="text-grey">{record.expense}</div>,
     },
     {
       title: "Closing Balance end of the Day",
-      render: (record) => <div className="text-grey">{record.location}</div>,
+      render: (record) => <div className="text-grey">{record.endBalance}</div>,
     },
     {
       title: "Client",

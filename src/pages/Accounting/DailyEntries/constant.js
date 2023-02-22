@@ -69,4 +69,14 @@ export const predashoptions = [
     title: "Outstanding Statement Supplier",
     path: "/accounting/entries/outstandingStatement",
   },
+  {
+    id: 15,
+    title: "Sales to Other Branch",
+    path: "/accounting/entries/salesToOtherBranch",
+  },
+  {
+    id: 16,
+    title: "Payment Voucher Scan",
+    path: "/accounting/entries/paymentVoucherScan",
+  },
 ];

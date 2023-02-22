@@ -122,11 +122,11 @@ const ClosingStock = () => {
     },
     {
       title: "Total Quantity of Closing Stock",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      render: (record) => <div className="text-grey">{record.quantity}</div>,
     },
     {
       title: "Total Value of Closing Stock",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      render: (record) => <div className="text-grey">{record.value}</div>,
     },
     {
       title: "Client",

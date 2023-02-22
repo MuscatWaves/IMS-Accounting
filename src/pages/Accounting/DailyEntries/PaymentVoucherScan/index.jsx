@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import OutstandingStatementFormCreate from "./outstandingstatementcreate";
-import OutstandingStatementFilter from "./outstandingStatementFilter";
+import PaymentVoucherFormCreate from "./paymentvouchercreate";
+import PaymentVoucherFilter from "./paymentVoucherFilter";
 import dayjs from "dayjs";
-import "./outstandingstatement.css";
+import "./paymentvoucher.css";
 
-const OutstandingStatement = () => {
+const PaymentVoucherScan = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const OutstandingStatement = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Outstanding Statement Supplier";
+    document.title = "Recruitment - Payment Voucher Scan";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const OutstandingStatement = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Outstanding Statement Supplier",
+      name: "Payment Voucher Scan",
       active: true,
     },
   ];
@@ -93,7 +93,7 @@ const OutstandingStatement = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/iexp?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -121,20 +121,12 @@ const OutstandingStatement = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Invoice Amount",
-      render: (record) => <div className="text-grey">{record.invoice}</div>,
+      title: "Total Amount of Voucher",
+      render: (record) => <div className="text-grey">{record.amount}</div>,
     },
     {
-      title: "Total Discount Amount",
-      render: (record) => <div className="text-grey">{record.discount}</div>,
-    },
-    {
-      title: "Total Payments of Net Amount",
-      render: (record) => <div className="text-grey">{record.net}</div>,
-    },
-    {
-      title: "Total Closing Balance",
-      render: (record) => <div className="text-grey">{record.balance}</div>,
+      title: "Total Number of Voucher",
+      render: (record) => <div className="text-grey">{record.number}</div>,
     },
     {
       title: "Client",
@@ -189,7 +181,7 @@ const OutstandingStatement = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/iexp/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -224,7 +216,7 @@ const OutstandingStatement = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <OutstandingStatementFormCreate
+        <PaymentVoucherFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -253,7 +245,7 @@ const OutstandingStatement = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Outstanding Statement Supplier
+          Payment Voucher Scan
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -310,7 +302,7 @@ const OutstandingStatement = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <OutstandingStatementFilter
+            <PaymentVoucherFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -346,4 +338,4 @@ const OutstandingStatement = () => {
   );
 };
 
-export default OutstandingStatement;
+export default PaymentVoucherScan;

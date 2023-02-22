@@ -122,11 +122,11 @@ const MerchantSummary = () => {
     },
     {
       title: "Total Gross Sales Amount",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      render: (record) => <div className="text-grey">{record.gross}</div>,
     },
     {
       title: "Total Discount Amount",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      render: (record) => <div className="text-grey">{record.discount}</div>,
     },
     {
       title: "Total VAT Amount",
@@ -134,7 +134,7 @@ const MerchantSummary = () => {
     },
     {
       title: "Total Sales Net Amount",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      render: (record) => <div className="text-grey">{record.net}</div>,
     },
     {
       title: "Client",

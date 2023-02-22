@@ -72,6 +72,12 @@ const MerchantSummary = lazy(() =>
 const OutstandingStatement = lazy(() =>
   import("../pages/Accounting/DailyEntries/OutstandingStatement")
 );
+const SalesToOtherBranch = lazy(() =>
+  import("../pages/Accounting/DailyEntries/SalesToOtherBranch")
+);
+const PaymentVoucherScan = lazy(() =>
+  import("../pages/Accounting/DailyEntries/PaymentVoucherScan")
+);
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -179,6 +185,14 @@ const Routing = () => {
                 <Route
                   path="/accounting/entries/outstandingStatement"
                   element={<OutstandingStatement />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/salesToOtherBranch"
+                  element={<SalesToOtherBranch />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/paymentVoucherScan"
+                  element={<PaymentVoucherScan />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>
