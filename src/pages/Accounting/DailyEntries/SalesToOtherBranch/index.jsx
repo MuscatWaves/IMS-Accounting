@@ -93,7 +93,7 @@ const SalesToOtherBranch = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/stosia?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -122,11 +122,11 @@ const SalesToOtherBranch = () => {
     },
     {
       title: "Total Amount of sale",
-      render: (record) => <div className="text-grey">{record.invoice}</div>,
+      render: (record) => <div className="text-grey">{record.sale}</div>,
     },
     {
       title: "Total VAT Amount of sale",
-      render: (record) => <div className="text-grey">{record.discount}</div>,
+      render: (record) => <div className="text-grey">{record.vat}</div>,
     },
     {
       title: "Total Net Amount of sale",
@@ -134,7 +134,9 @@ const SalesToOtherBranch = () => {
     },
     {
       title: "Total Amount received from other store",
-      render: (record) => <div className="text-grey">{record.balance}</div>,
+      render: (record) => (
+        <div className="text-grey">{record.amountReceivedFromOtherStore}</div>
+      ),
     },
     {
       title: "Client",
@@ -189,7 +191,7 @@ const SalesToOtherBranch = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/stosia/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

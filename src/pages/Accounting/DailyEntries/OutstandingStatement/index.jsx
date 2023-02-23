@@ -93,7 +93,7 @@ const OutstandingStatement = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/oss?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -130,11 +130,13 @@ const OutstandingStatement = () => {
     },
     {
       title: "Total Payments of Net Amount",
-      render: (record) => <div className="text-grey">{record.net}</div>,
+      render: (record) => <div className="text-grey">{record.payments}</div>,
     },
     {
       title: "Total Closing Balance",
-      render: (record) => <div className="text-grey">{record.balance}</div>,
+      render: (record) => (
+        <div className="text-grey">{record.closingBalance}</div>
+      ),
     },
     {
       title: "Client",
@@ -189,7 +191,7 @@ const OutstandingStatement = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/oss/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

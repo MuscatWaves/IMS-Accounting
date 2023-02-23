@@ -33,14 +33,14 @@ const OutstandingStatementFormCreate = ({
     editData && data.append("entryDate", values?.entryDate);
     data.append("invoice", values.invoice);
     data.append("discount", values.discount);
-    data.append("net", values.net);
-    data.append("balance", values.balance);
+    data.append("payments", values.payments);
+    data.append("closingBalance", values.closingBalance);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/oss" : "/api/oss/create",
       headers: {
         Authorization: token,
       },
@@ -88,8 +88,8 @@ const OutstandingStatementFormCreate = ({
               "",
             invoice: editData?.invoice || "",
             discount: editData?.discount || "",
-            net: editData?.net || "",
-            balance: editData?.balance || "",
+            payments: editData?.payments || "",
+            closingBalance: editData?.closingBalance || "",
             file: editData?.file || null,
           }}
         >
@@ -154,7 +154,7 @@ const OutstandingStatementFormCreate = ({
             <Input placeholder={"Enter Total Discount Amount"} />
           </Form.Item>
           <Form.Item
-            name="net"
+            name="payments"
             label={"Total Payments of Net Amount"}
             rules={[
               {
@@ -166,7 +166,7 @@ const OutstandingStatementFormCreate = ({
             <Input placeholder={"Enter Total Payments of Net Amount"} />
           </Form.Item>
           <Form.Item
-            name="balance"
+            name="closingBalance"
             label={"Total Closing Balance"}
             rules={[
               {

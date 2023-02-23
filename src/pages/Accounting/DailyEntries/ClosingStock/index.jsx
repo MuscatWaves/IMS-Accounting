@@ -93,7 +93,7 @@ const ClosingStock = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/cswv?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -181,7 +181,7 @@ const ClosingStock = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/cswv/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

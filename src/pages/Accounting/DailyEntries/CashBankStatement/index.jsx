@@ -93,7 +93,7 @@ const CashBankStatement = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/ecbp?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -134,7 +134,9 @@ const CashBankStatement = () => {
     },
     {
       title: "Closing Balance end of the Day",
-      render: (record) => <div className="text-grey">{record.endBalance}</div>,
+      render: (record) => (
+        <div className="text-grey">{record.closingBalance}</div>
+      ),
     },
     {
       title: "Client",
@@ -189,7 +191,7 @@ const CashBankStatement = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/ecbp/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

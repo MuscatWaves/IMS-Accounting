@@ -31,16 +31,19 @@ const STOBFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
+    data.append("sale", values.sale);
     data.append("vat", values.vat);
     data.append("net", values.net);
-    data.append("amountRec", values.balance);
+    data.append(
+      "amountReceivedFromOtherStore",
+      values.amountReceivedFromOtherStore
+    );
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/stosia" : "/api/stosia/create",
       headers: {
         Authorization: token,
       },
@@ -86,10 +89,11 @@ const STOBFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
+            sale: editData?.sale || "",
             vat: editData?.vat || "",
             net: editData?.net || "",
-            amountRec: editData?.amountRec || "",
+            amountReceivedFromOtherStore:
+              editData?.amountReceivedFromOtherStore || "",
             file: editData?.file || null,
           }}
         >
@@ -130,7 +134,7 @@ const STOBFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
+            name="sale"
             label={"Total Amount of sale"}
             rules={[
               {
@@ -166,7 +170,7 @@ const STOBFormCreate = ({
             <Input placeholder={"Enter Total Net Amount of sale"} />
           </Form.Item>
           <Form.Item
-            name="amountRec"
+            name="amountReceivedFromOtherStore"
             label={"Total Amount received from other store"}
             rules={[
               {

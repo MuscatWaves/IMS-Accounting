@@ -38,7 +38,7 @@ const ClosingStockFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/cswv" : "/api/cswv/create",
       headers: {
         Authorization: token,
       },

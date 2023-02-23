@@ -93,7 +93,7 @@ const MerchantSummary = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/msum?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -122,7 +122,7 @@ const MerchantSummary = () => {
     },
     {
       title: "Total Gross Sales Amount",
-      render: (record) => <div className="text-grey">{record.gross}</div>,
+      render: (record) => <div className="text-grey">{record.grossSales}</div>,
     },
     {
       title: "Total Discount Amount",
@@ -189,7 +189,7 @@ const MerchantSummary = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/msum/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

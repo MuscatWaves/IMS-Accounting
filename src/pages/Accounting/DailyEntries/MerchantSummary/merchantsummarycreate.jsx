@@ -31,7 +31,7 @@ const MerchantSummaryFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("gross", values.gross);
+    data.append("grossSales", values.grossSales);
     data.append("discount", values.discount);
     data.append("vat", values.vat);
     data.append("net", values.net);
@@ -40,7 +40,7 @@ const MerchantSummaryFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/msum" : "/api/msum/create",
       headers: {
         Authorization: token,
       },
@@ -82,7 +82,7 @@ const MerchantSummaryFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            gross: editData?.gross || "",
+            grossSales: editData?.grossSales || "",
             discount: editData?.discount || "",
             vat: editData?.vat || "",
             net: editData?.net || "",
@@ -126,7 +126,7 @@ const MerchantSummaryFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="gross"
+            name="grossSales"
             label={"Total Gross Sales Amount"}
             rules={[
               {

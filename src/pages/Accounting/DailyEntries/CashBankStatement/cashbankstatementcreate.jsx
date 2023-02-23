@@ -34,13 +34,13 @@ const CashBankStatementFormCreate = ({
     data.append("balance", values.balance);
     data.append("sales", values.sales);
     data.append("expense", values.expense);
-    data.append("endBalance", values.endBalance);
+    data.append("closingBalance", values.closingBalance);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/ecbp" : "/api/ecbp/create",
       headers: {
         Authorization: token,
       },
@@ -89,7 +89,7 @@ const CashBankStatementFormCreate = ({
             balance: editData?.balance || "",
             sales: editData?.sales || "",
             expense: editData?.expense || "",
-            endBalance: editData?.endBalance || "",
+            closingBalance: editData?.closingBalance || "",
             file: editData?.file || null,
           }}
         >
@@ -166,7 +166,7 @@ const CashBankStatementFormCreate = ({
             <Input placeholder={"Enter Total Expense"} />
           </Form.Item>
           <Form.Item
-            name="endBalance"
+            name="closingBalance"
             label={"Closing Balance end of the Day"}
             rules={[
               {
