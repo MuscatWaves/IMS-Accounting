@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import PaymentVoucherFormCreate from "./paymentvouchercreate";
-import PaymentVoucherFilter from "./paymentVoucherFilter";
+import BankStatementFormCreate from "./bscreate";
+import BankStatementFilter from "./bsFilter";
 import dayjs from "dayjs";
-import "./paymentvoucher.css";
+import "./bs.css";
 
-const PaymentVoucherScan = () => {
+const BankStatement = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const PaymentVoucherScan = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Payment Voucher Scan";
+    document.title = "Recruitment - Bank Statement";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const PaymentVoucherScan = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Payment Voucher Scan",
+      name: "Bank Statement",
       active: true,
     },
   ];
@@ -93,7 +93,7 @@ const PaymentVoucherScan = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pvs?search=${values.search}&page=${page}`,
+        `/api/bsm?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -121,12 +121,28 @@ const PaymentVoucherScan = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Amount of Voucher",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      title: "Opening balance of bank",
+      render: (record) => (
+        <div className="text-grey">{record.openingBalance}</div>
+      ),
     },
     {
-      title: "Total Number of Voucher",
-      render: (record) => <div className="text-grey">{record.number}</div>,
+      title: "Total Amount of Debited",
+      render: (record) => <div className="text-grey">{record.debited}</div>,
+    },
+    {
+      title: "Total Amount of Credited",
+      render: (record) => <div className="text-grey">{record.credited}</div>,
+    },
+    {
+      title: "Total Amount of Net balance",
+      render: (record) => <div className="text-grey">{record.net}</div>,
+    },
+    {
+      title: "Closing balance of bank",
+      render: (record) => (
+        <div className="text-grey">{record.closingBalance}</div>
+      ),
     },
     {
       title: "Client",
@@ -181,7 +197,7 @@ const PaymentVoucherScan = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/pvs/${deletionData.id}`,
+      url: `/api/bsm/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -216,7 +232,7 @@ const PaymentVoucherScan = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <PaymentVoucherFormCreate
+        <BankStatementFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -245,7 +261,7 @@ const PaymentVoucherScan = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Payment Voucher Scan
+          Bank Statement
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -302,7 +318,7 @@ const PaymentVoucherScan = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <PaymentVoucherFilter
+            <BankStatementFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -338,4 +354,4 @@ const PaymentVoucherScan = () => {
   );
 };
 
-export default PaymentVoucherScan;
+export default BankStatement;

@@ -79,4 +79,24 @@ export const predashoptions = [
     title: "Payment Voucher Scan",
     path: "/accounting/entries/paymentVoucherScan",
   },
+  {
+    id: 17,
+    title: "Ooredoo & Omantel Sales & Payment Balance",
+    path: "/accounting/entries/ooPayment",
+  },
+  {
+    id: 18,
+    title: "Bank Statement",
+    path: "/accounting/entries/bs",
+  },
+  {
+    id: 19,
+    title: "Credit Sales",
+    path: "/accounting/entries/creditSales",
+  },
+  {
+    id: 20,
+    title: "Product Costing for Manufacturing",
+    path: "/accounting/entries/pcm",
+  },
 ];

@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import PaymentVoucherFormCreate from "./paymentvouchercreate";
-import PaymentVoucherFilter from "./paymentVoucherFilter";
+import OredooOmantelFormCreate from "./oocreate";
+import OredooOmantelFilter from "./ooFilter";
 import dayjs from "dayjs";
-import "./paymentvoucher.css";
+import "./oo.css";
 
-const PaymentVoucherScan = () => {
+const OredooOmantel = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const PaymentVoucherScan = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Payment Voucher Scan";
+    document.title = "Recruitment - Ooredoo & Omantel Sales & Payment Balance";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const PaymentVoucherScan = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Payment Voucher Scan",
+      name: "Ooredoo & Omantel Sales & Payment Balance",
       active: true,
     },
   ];
@@ -93,7 +93,7 @@ const PaymentVoucherScan = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pvs?search=${values.search}&page=${page}`,
+        `/api/oospb?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -121,12 +121,16 @@ const PaymentVoucherScan = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Amount of Voucher",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      title: "Total amount of cash",
+      render: (record) => <div className="text-grey">{record.cash}</div>,
     },
     {
-      title: "Total Number of Voucher",
-      render: (record) => <div className="text-grey">{record.number}</div>,
+      title: "Total amount of bank(visa)",
+      render: (record) => <div className="text-grey">{record.bank}</div>,
+    },
+    {
+      title: "Total Net Amount",
+      render: (record) => <div className="text-grey">{record.net}</div>,
     },
     {
       title: "Client",
@@ -181,7 +185,7 @@ const PaymentVoucherScan = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/pvs/${deletionData.id}`,
+      url: `/api/oospb/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -216,7 +220,7 @@ const PaymentVoucherScan = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <PaymentVoucherFormCreate
+        <OredooOmantelFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -245,7 +249,7 @@ const PaymentVoucherScan = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Payment Voucher Scan
+          Ooredoo & Omantel Sales & Payment Balance
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -302,7 +306,7 @@ const PaymentVoucherScan = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <PaymentVoucherFilter
+            <OredooOmantelFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -338,4 +342,4 @@ const PaymentVoucherScan = () => {
   );
 };
 
-export default PaymentVoucherScan;
+export default OredooOmantel;

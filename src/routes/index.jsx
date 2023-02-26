@@ -78,6 +78,18 @@ const SalesToOtherBranch = lazy(() =>
 const PaymentVoucherScan = lazy(() =>
   import("../pages/Accounting/DailyEntries/PaymentVoucherScan")
 );
+const OredooOmantel = lazy(() =>
+  import("../pages/Accounting/DailyEntries/OredooOmantel")
+);
+const BankStatement = lazy(() =>
+  import("../pages/Accounting/DailyEntries/BankStatement")
+);
+const CreditSales = lazy(() =>
+  import("../pages/Accounting/DailyEntries/CreditSales")
+);
+const ProductCostingMan = lazy(() =>
+  import("../pages/Accounting/DailyEntries/ProductCostingMan")
+);
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -193,6 +205,22 @@ const Routing = () => {
                 <Route
                   path="/accounting/entries/paymentVoucherScan"
                   element={<PaymentVoucherScan />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/ooPayment"
+                  element={<OredooOmantel />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/bs"
+                  element={<BankStatement />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/creditSales"
+                  element={<CreditSales />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/pcm"
+                  element={<ProductCostingMan />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>

@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const PaymentVoucherFormCreate = ({
+const OredooOmantelFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -31,14 +31,15 @@ const PaymentVoucherFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("number", values.number);
+    data.append("cash", values.cash);
+    data.append("bank", values.bank);
+    data.append("net", values.net);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pvs" : "/api/pvs/create",
+      url: editData ? "/api/oospb" : "/api/oospb/create",
       headers: {
         Authorization: token,
       },
@@ -82,13 +83,14 @@ const PaymentVoucherFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            number: editData?.number || "",
+            cash: editData?.cash || "",
+            bank: editData?.bank || "",
+            net: editData?.net || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={!editData && "grid-2-column"}
+            className={editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -124,28 +126,40 @@ const PaymentVoucherFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount of Voucher"}
+            name="cash"
+            label={"Total amount of cash"}
             rules={[
               {
                 required: true,
-                message: "No Total Amount of Voucher provided",
+                message: "No Total amount of cash provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount of Voucher"} />
+            <Input placeholder={"Enter Total amount of cash"} />
           </Form.Item>
           <Form.Item
-            name="number"
-            label={"Total Number of Voucher"}
+            name="bank"
+            label={"Total amount of bank(visa)"}
             rules={[
               {
                 required: true,
-                message: "No Total Number of Voucher provided",
+                message: "No Total amount of bank(visa) provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Number of Voucher"} />
+            <Input placeholder={"Enter Total amount of bank(visa)"} />
+          </Form.Item>
+          <Form.Item
+            name="net"
+            label={"Total Net Amount"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Net Amount provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Net Amount"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -204,4 +218,4 @@ const PaymentVoucherFormCreate = ({
   );
 };
 
-export default PaymentVoucherFormCreate;
+export default OredooOmantelFormCreate;

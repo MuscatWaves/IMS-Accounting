@@ -10,12 +10,12 @@ import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import PaymentVoucherFormCreate from "./paymentvouchercreate";
-import PaymentVoucherFilter from "./paymentVoucherFilter";
+import CreditSalesFormCreate from "./cscreate";
+import CreditSalesFilter from "./csFilter";
 import dayjs from "dayjs";
-import "./paymentvoucher.css";
+import "./cs.css";
 
-const PaymentVoucherScan = () => {
+const CreditSales = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +39,7 @@ const PaymentVoucherScan = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Payment Voucher Scan";
+    document.title = "Recruitment - Credit Sales";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,7 +53,7 @@ const PaymentVoucherScan = () => {
     { id: 1, name: "Entries", url: "/accounting/entries" },
     {
       id: 2,
-      name: "Payment Voucher Scan",
+      name: "Credit Sales",
       active: true,
     },
   ];
@@ -93,7 +93,7 @@ const PaymentVoucherScan = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pvs?search=${values.search}&page=${page}`,
+        `/api/csls?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -121,12 +121,20 @@ const PaymentVoucherScan = () => {
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Amount of Voucher",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      title: "Total Sales Amount",
+      render: (record) => <div className="text-grey">{record.sales}</div>,
     },
     {
-      title: "Total Number of Voucher",
-      render: (record) => <div className="text-grey">{record.number}</div>,
+      title: "Total Discount Amount",
+      render: (record) => <div className="text-grey">{record.discount}</div>,
+    },
+    {
+      title: "Total VAT Amount",
+      render: (record) => <div className="text-grey">{record.vat}</div>,
+    },
+    {
+      title: "Total Net Amount",
+      render: (record) => <div className="text-grey">{record.net}</div>,
     },
     {
       title: "Client",
@@ -181,7 +189,7 @@ const PaymentVoucherScan = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/pvs/${deletionData.id}`,
+      url: `/api/csls/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -216,7 +224,7 @@ const PaymentVoucherScan = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <PaymentVoucherFormCreate
+        <CreditSalesFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -245,7 +253,7 @@ const PaymentVoucherScan = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Payment Voucher Scan
+          Credit Sales
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -302,7 +310,7 @@ const PaymentVoucherScan = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <PaymentVoucherFilter
+            <CreditSalesFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -338,4 +346,4 @@ const PaymentVoucherScan = () => {
   );
 };
 
-export default PaymentVoucherScan;
+export default CreditSales;

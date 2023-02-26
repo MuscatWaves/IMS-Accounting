@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const PaymentVoucherFormCreate = ({
+const CreditSalesFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -31,14 +31,16 @@ const PaymentVoucherFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("number", values.number);
+    data.append("sales", values.sales);
+    data.append("discount", values.discount);
+    data.append("vat", values.vat);
+    data.append("net", values.net);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pvs" : "/api/pvs/create",
+      url: editData ? "/api/csls" : "/api/csls/create",
       headers: {
         Authorization: token,
       },
@@ -60,9 +62,7 @@ const PaymentVoucherFormCreate = ({
 
   return (
     <Drawer
-      title={
-        editData ? "Update Payment Voucher Scan" : "Create Payment Voucher Scan"
-      }
+      title={editData ? "Update Credit Sales" : "Create Credit Sales"}
       placement="right"
       size="large"
       onClose={onClose}
@@ -82,8 +82,10 @@ const PaymentVoucherFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            number: editData?.number || "",
+            sales: editData?.sales || "",
+            discount: editData?.discount || "",
+            vat: editData?.vat || "",
+            net: editData?.net || "",
             file: editData?.file || null,
           }}
         >
@@ -124,28 +126,52 @@ const PaymentVoucherFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount of Voucher"}
+            name="sales"
+            label={"Total Sales Amount"}
             rules={[
               {
                 required: true,
-                message: "No Total Amount of Voucher provided",
+                message: "No Total Sales Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount of Voucher"} />
+            <Input placeholder={"Enter Total Sales Amount"} />
           </Form.Item>
           <Form.Item
-            name="number"
-            label={"Total Number of Voucher"}
+            name="discount"
+            label={"Total Discount Amount"}
             rules={[
               {
                 required: true,
-                message: "No Total Number of Voucher provided",
+                message: "No Total Discount Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Number of Voucher"} />
+            <Input placeholder={"Enter Total Discount Amount"} />
+          </Form.Item>
+          <Form.Item
+            name="vat"
+            label={"Total VAT Amount"}
+            rules={[
+              {
+                required: true,
+                message: "No Total VAT Amount provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total VAT Amount"} />
+          </Form.Item>
+          <Form.Item
+            name="net"
+            label={"Total Net Amount"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Net Amount provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Net Amount"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -193,9 +219,7 @@ const PaymentVoucherFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData
-                ? "Update Payment Voucher Scan"
-                : "Create Payment Voucher Scan"}
+              {editData ? "Update Credit Sales" : "Create Credit Sales"}
             </Button>
           </div>
         </Form>
@@ -204,4 +228,4 @@ const PaymentVoucherFormCreate = ({
   );
 };
 
-export default PaymentVoucherFormCreate;
+export default CreditSalesFormCreate;

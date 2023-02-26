@@ -6,7 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 
-const PaymentVoucherFormCreate = ({
+const BankStatementFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -31,14 +31,17 @@ const PaymentVoucherFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("number", values.number);
+    data.append("openingBalance", values.openingBalance);
+    data.append("debited", values.debited);
+    data.append("credited", values.credited);
+    data.append("net", values.net);
+    data.append("closingBalance", values.closingBalance);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pvs" : "/api/pvs/create",
+      url: editData ? "/api/bsm" : "/api/bsm/create",
       headers: {
         Authorization: token,
       },
@@ -60,9 +63,7 @@ const PaymentVoucherFormCreate = ({
 
   return (
     <Drawer
-      title={
-        editData ? "Update Payment Voucher Scan" : "Create Payment Voucher Scan"
-      }
+      title={editData ? "Update Bank Statement" : "Create Bank Statement"}
       placement="right"
       size="large"
       onClose={onClose}
@@ -82,13 +83,16 @@ const PaymentVoucherFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            number: editData?.number || "",
+            openingBalance: editData?.openingBalance || "",
+            debited: editData?.debited || "",
+            credited: editData?.credited || "",
+            net: editData?.net || "",
+            closingBalance: editData?.closingBalance || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={!editData && "grid-2-column"}
+            className={editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -124,28 +128,64 @@ const PaymentVoucherFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount of Voucher"}
+            name="openingBalance"
+            label={"Opening balance of bank"}
             rules={[
               {
                 required: true,
-                message: "No Total Amount of Voucher provided",
+                message: "No Opening balance of bank provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount of Voucher"} />
+            <Input placeholder={"Enter Opening balance of bank"} />
           </Form.Item>
           <Form.Item
-            name="number"
-            label={"Total Number of Voucher"}
+            name="debited"
+            label={"Total Amount of Debited"}
             rules={[
               {
                 required: true,
-                message: "No Total Number of Voucher provided",
+                message: "No Total Amount of Debited provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Number of Voucher"} />
+            <Input placeholder={"Enter Total Amount of Debited"} />
+          </Form.Item>
+          <Form.Item
+            name="credited"
+            label={"Total Amount of Credited"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Amount of Credited provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Amount of Credited"} />
+          </Form.Item>
+          <Form.Item
+            name="net"
+            label={"Total Amount of Net balance"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Amount of Net balance provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Amount of Net balance"} />
+          </Form.Item>
+          <Form.Item
+            name="closingBalance"
+            label={"Closing balance of bank"}
+            rules={[
+              {
+                required: true,
+                message: "No Closing balance of bank provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Closing balance of bank"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -193,9 +233,7 @@ const PaymentVoucherFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData
-                ? "Update Payment Voucher Scan"
-                : "Create Payment Voucher Scan"}
+              {editData ? "Update Bank Statement" : "Create Bank Statement"}
             </Button>
           </div>
         </Form>
@@ -204,4 +242,4 @@ const PaymentVoucherFormCreate = ({
   );
 };
 
-export default PaymentVoucherFormCreate;
+export default BankStatementFormCreate;
