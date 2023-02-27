@@ -4,7 +4,15 @@ import Header from "../../../../components/Header";
 import Cookies from "universal-cookie";
 import BreadCrumb from "../../../../components/BreadCrumb";
 import { container, item } from "../../AccountingDashBoard/constants";
-import { Button, Input, message, Modal, Pagination, Table } from "antd";
+import {
+  Button,
+  Divider,
+  Input,
+  message,
+  Modal,
+  Pagination,
+  Table,
+} from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
@@ -14,6 +22,7 @@ import ProductCostingManFormCreate from "./ProductCostingManCreate";
 import ProductCostingManFilter from "./ProductCostingManFilter";
 import dayjs from "dayjs";
 import "./productcostingman.css";
+import { string } from "../../../../utilities";
 
 const ProductCostingMan = () => {
   const cookies = new Cookies();
@@ -22,6 +31,7 @@ const ProductCostingMan = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
+  const [moreInfoModal, toggleMoreInfoModal] = useState(false);
   const [total, setTotal] = useState(0);
   const [isModalOpen, toggleModal] = useState(false);
   const [editData, setEditData] = useState(null);
@@ -168,6 +178,16 @@ const ProductCostingMan = () => {
           <Button
             type="primary"
             onClick={() => {
+              setEditData(record);
+              toggleMoreInfoModal(true);
+            }}
+            ghost
+          >
+            <div className="bold">View More Information</div>
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => {
               window.open(
                 `https://cvparse.fra1.cdn.digitaloceanspaces.com/accounts/${record.attachment}`
               );
@@ -232,6 +252,105 @@ const ProductCostingMan = () => {
     setDeletionData(null);
   };
 
+  const showDetailData1 = [
+    {
+      id: 1,
+      label: "Opening Stock",
+      value: editData?.openingStock,
+    },
+    {
+      id: 2,
+      label: "Closing Stock",
+      value: editData?.closingStock,
+    },
+    {
+      id: 3,
+      label: "Total Revenue",
+      value: editData?.revenue,
+    },
+    {
+      id: 4,
+      label: "Total VAT",
+      value: editData?.vat,
+    },
+  ];
+
+  const showDetailData2 = [
+    {
+      id: 1,
+      label: "Direct Expenses",
+      value: editData?.directExpenses,
+    },
+    {
+      id: 2,
+      label: "Total Material Cost",
+      value: editData?.materialCost,
+    },
+    {
+      id: 3,
+      label: "Total Labor Cost",
+      value: editData?.laborCost,
+    },
+    {
+      id: 4,
+      label: "Total Fixed Expenses",
+      value: editData?.fixedExpenses,
+    },
+    {
+      id: 5,
+      label: "Total Variable Expenses",
+      value: editData?.variableExpenses,
+    },
+    {
+      id: 6,
+      label: "Administration Cost",
+      value: editData?.administrationCost,
+    },
+    {
+      id: 7,
+      label: "Total Selling cost",
+      value: editData?.sellingCost,
+    },
+    {
+      id: 8,
+      label: "Depreciation",
+      value: editData?.depreciation,
+    },
+  ];
+
+  const showDetailData3 = [
+    {
+      id: 1,
+      label: "Total Number of units produce",
+      value: editData?.numberOfUnitsProduce,
+    },
+    {
+      id: 2,
+      label: "Rate per units",
+      value: editData?.ratePerUnits,
+    },
+    {
+      id: 3,
+      label: "Total Cost of Product",
+      value: editData?.CostOfProduct,
+    },
+    {
+      id: 4,
+      label: "Total sales of Product",
+      value: editData?.SalesOfProduct,
+    },
+    {
+      id: 5,
+      label: "Gross Profit",
+      value: editData?.grossProfit,
+    },
+    {
+      id: 6,
+      label: "Net Profit",
+      value: editData?.netProfit,
+    },
+  ];
+
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -260,6 +379,61 @@ const ProductCostingMan = () => {
         confirmLoading={deleteLoading}
       >
         <p>{`Are you sure you want to delete ${deletionData?.type} of "${deletionData?.name}" from file data?`}</p>
+      </Modal>
+      <Modal
+        title={
+          <div className="large-text bold text-light-grey">
+            More information
+          </div>
+        }
+        open={moreInfoModal}
+        onCancel={() => {
+          setEditData(null);
+          toggleMoreInfoModal(false);
+        }}
+        footer={false}
+        centered
+      >
+        <div className="very-small-padding">
+          <div className="title-text">{editData?.productName}</div>
+          <div className="medium-text bold">{editData?.timeDatePeriod}</div>
+          <Divider />
+          <div className="flex-between">
+            {showDetailData1.map((data) => (
+              <div key={data.id}>
+                <div className="bolder text-black">{data.label}</div>
+                <div className="bold text-grey">{data.value}</div>
+              </div>
+            ))}
+          </div>
+          <div>
+            {showDetailData2.map((data) => (
+              <div key={data.id}>
+                <Divider orientation="left" orientationMargin="0">
+                  <div className="bolder text-black small-text">
+                    {data.label}
+                  </div>
+                </Divider>
+                <div
+                  className="bold text-grey text-padding-left"
+                  style={{ textAlign: "justify" }}
+                >
+                  {data.value && string(data.value, "loaded")}
+                </div>
+              </div>
+            ))}
+          </div>
+          <Divider />
+          <div className="cards-main">
+            {showDetailData3.map((data) => (
+              <div key={data.id}>
+                <div className="bolder text-black">{data.label}</div>
+                <div className="bold text-grey">{data.value}</div>
+              </div>
+            ))}
+          </div>
+          <div></div>
+        </div>
       </Modal>
       <Header home={"/recruitment/dashboard"} logOut={"/recruitment"} />
       <m.div
