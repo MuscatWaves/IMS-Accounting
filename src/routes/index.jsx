@@ -28,6 +28,8 @@ const AccountingClientInformation = lazy(() =>
 const AccountingClientAttachments = lazy(() =>
   import("../pages/Accounting/AccountingClientAttachments")
 );
+const PreAccountData = lazy(() => import("../pages/Accounting/PreAccountData"));
+const AccountingData = lazy(() => import("../pages/Accounting/AccountingData"));
 // Accounting Entries - Accountant
 const Entries = lazy(() => import("../pages/Accounting/DailyEntries"));
 const GRVReport = lazy(() =>
@@ -90,6 +92,15 @@ const CreditSales = lazy(() =>
 const ProductCostingMan = lazy(() =>
   import("../pages/Accounting/DailyEntries/ProductCostingMan")
 );
+const ProductCostingServices = lazy(() =>
+  import("../pages/Accounting/DailyEntries/ProductCostingServices")
+);
+const MonthlyDiscount = lazy(() =>
+  import("../pages/Accounting/DailyEntries/MonthlyDiscount")
+);
+const MonthlyOffers = lazy(() =>
+  import("../pages/Accounting/DailyEntries/MonthlyOffers")
+);
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -140,87 +151,110 @@ const Routing = () => {
                   path="/accounting/clientAttachments"
                   element={<AccountingClientAttachments />}
                 ></Route>
-                {/* Accounting Entries */}
-                <Route path="/accounting/entries" element={<Entries />}></Route>
                 <Route
-                  path="/accounting/entries/grvReport"
+                  path="/accounting/preselectiondata"
+                  element={<PreAccountData />}
+                ></Route>
+                <Route
+                  path="/accounting/data/:id/:name"
+                  element={<AccountingData />}
+                ></Route>
+                {/* Accounting Entries */}
+                <Route
+                  path="/accounting/entries/:id/:name"
+                  element={<Entries />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/grvReport/:id/:name"
                   element={<GRVReport />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/purchaseReport"
+                  path="/accounting/entries/purchaseReport/:id/:name"
                   element={<PurchaseReport />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/purchaseReturnReport"
+                  path="/accounting/entries/purchaseReturnReport/:id/:name"
                   element={<PurchaseReturnReport />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/purchaseFromOtherBranchesReport"
+                  path="/accounting/entries/purchaseFromOtherBranchesReport/:id/:name"
                   element={<PurchaseFromOtherBranches />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/purchaseInvoiceScan"
+                  path="/accounting/entries/purchaseInvoiceScan/:id/:name"
                   element={<PurchaseInvoiceScan />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/attendanceReport"
+                  path="/accounting/entries/attendanceReport/:id/:name"
                   element={<AttendanceReport />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/salesReport"
+                  path="/accounting/entries/salesReport/:id/:name"
                   element={<SalesReport />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/salesQSummary"
+                  path="/accounting/entries/salesQSummary/:id/:name"
                   element={<SalesQuantativeSummary />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/inventoryStockLedger"
+                  path="/accounting/entries/inventoryStockLedger/:id/:name"
                   element={<InventoryStockLedger />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/itemExpiry"
+                  path="/accounting/entries/itemExpiry/:id/:name"
                   element={<ItemExpiry />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/closingStock"
+                  path="/accounting/entries/closingStock/:id/:name"
                   element={<ClosingStock />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/cashBankStatement"
+                  path="/accounting/entries/cashBankStatement/:id/:name"
                   element={<CashBankStatement />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/merchantSummary"
+                  path="/accounting/entries/merchantSummary/:id/:name"
                   element={<MerchantSummary />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/outstandingStatement"
+                  path="/accounting/entries/outstandingStatement/:id/:name"
                   element={<OutstandingStatement />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/salesToOtherBranch"
+                  path="/accounting/entries/salesToOtherBranch/:id/:name"
                   element={<SalesToOtherBranch />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/paymentVoucherScan"
+                  path="/accounting/entries/paymentVoucherScan/:id/:name"
                   element={<PaymentVoucherScan />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/ooPayment"
+                  path="/accounting/entries/ooPayment/:id/:name"
                   element={<OredooOmantel />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/bs"
+                  path="/accounting/entries/bs/:id/:name"
                   element={<BankStatement />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/creditSales"
+                  path="/accounting/entries/creditSales/:id/:name"
                   element={<CreditSales />}
                 ></Route>
                 <Route
-                  path="/accounting/entries/pcm"
+                  path="/accounting/entries/pcm/:id/:name"
                   element={<ProductCostingMan />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/pcs/:id/:name"
+                  element={<ProductCostingServices />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/monthlyDiscount/:id/:name"
+                  element={<MonthlyDiscount />}
+                ></Route>
+                <Route
+                  path="/accounting/entries/monthlyOffers/:id/:name"
+                  element={<MonthlyOffers />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>

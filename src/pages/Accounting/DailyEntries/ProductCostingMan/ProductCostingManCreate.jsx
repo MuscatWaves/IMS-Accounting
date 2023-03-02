@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
+import { removeUnderScore } from "../../../../utilities";
 
 const ProductCostingManFormCreate = ({
   isModalOpen,
@@ -13,9 +14,10 @@ const ProductCostingManFormCreate = ({
   setEditData,
   getData,
   filterValues,
-  clientsList,
+  params,
 }) => {
   const [form] = Form.useForm();
+  const { TextArea } = Input;
   const [isLoading, setLoading] = useState(false);
   const cookies = new Cookies();
   const token = cookies.get("token");
@@ -92,7 +94,7 @@ const ProductCostingManFormCreate = ({
           form={form}
           scrollToFirstError={true}
           initialValues={{
-            clientId: editData?.clientId || null,
+            clientId: params?.id || null,
             entryDate:
               (editData?.entryDate &&
                 dayjs(editData?.entryDate).isValid() &&
@@ -122,7 +124,7 @@ const ProductCostingManFormCreate = ({
           }}
         >
           <Form.Item
-            className={editData && "grid-2-column"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -133,7 +135,9 @@ const ProductCostingManFormCreate = ({
             ]}
           >
             <Select
-              options={clientsList}
+              options={[
+                { label: removeUnderScore(params.name), value: params.id },
+              ]}
               placeholder={"Select the client"}
               filterOption={(input, option) =>
                 (option?.label ?? "")
@@ -141,6 +145,7 @@ const ProductCostingManFormCreate = ({
                   .includes(input.toLowerCase())
               }
               showSearch
+              disabled
             />
           </Form.Item>
           {editData && (
@@ -230,6 +235,7 @@ const ProductCostingManFormCreate = ({
             <Input placeholder={"Enter Total VAT"} />
           </Form.Item>
           <Form.Item
+            className="grid-2-column"
             name="directExpenses"
             label={"Direct Expenses"}
             rules={[
@@ -239,9 +245,13 @@ const ProductCostingManFormCreate = ({
               },
             ]}
           >
-            <Input placeholder={"Enter Direct Expenses"} />
+            <TextArea
+              placeholder={"Enter Direct Expenses"}
+              autoSize={{ minRows: 3 }}
+            />
           </Form.Item>
           <Form.Item
+            className="grid-2-column"
             name="materialCost"
             label={"Total Material Cost"}
             rules={[
@@ -251,9 +261,13 @@ const ProductCostingManFormCreate = ({
               },
             ]}
           >
-            <Input placeholder={"Enter Total Material Cost"} />
+            <TextArea
+              placeholder={"Enter Total Material Cost"}
+              autoSize={{ minRows: 3 }}
+            />
           </Form.Item>
           <Form.Item
+            className="grid-2-column"
             name="laborCost"
             label={"Total Labor Cost"}
             rules={[
@@ -263,9 +277,13 @@ const ProductCostingManFormCreate = ({
               },
             ]}
           >
-            <Input placeholder={"Enter Total Labpr Cost"} />
+            <TextArea
+              placeholder={"Enter Total Labor Cost"}
+              autoSize={{ minRows: 3 }}
+            />
           </Form.Item>
           <Form.Item
+            className="grid-2-column"
             name="fixedExpenses"
             label={"Total Fixed Expenses"}
             rules={[
@@ -275,9 +293,13 @@ const ProductCostingManFormCreate = ({
               },
             ]}
           >
-            <Input placeholder={"Enter Total Fixed Expenses Cost"} />
+            <TextArea
+              placeholder={"Enter Total Fixed Expenses Cost"}
+              autoSize={{ minRows: 3 }}
+            />
           </Form.Item>
           <Form.Item
+            className="grid-2-column"
             name="variableExpenses"
             label={"Total Variable Expenses"}
             rules={[
@@ -287,9 +309,13 @@ const ProductCostingManFormCreate = ({
               },
             ]}
           >
-            <Input placeholder={"Enter Total Variable Expenses Cost"} />
+            <TextArea
+              placeholder={"Enter Total Variable Expenses Cost"}
+              autoSize={{ minRows: 3 }}
+            />
           </Form.Item>
           <Form.Item
+            className="grid-2-column"
             name="administrationCost"
             label={"Total Administration Cost"}
             rules={[
@@ -299,7 +325,10 @@ const ProductCostingManFormCreate = ({
               },
             ]}
           >
-            <Input placeholder={"Enter Total Administration Cost"} />
+            <TextArea
+              placeholder={"Enter Total Administration Cost"}
+              autoSize={{ minRows: 3 }}
+            />
           </Form.Item>
           <Form.Item
             name="sellingCost"
@@ -310,8 +339,12 @@ const ProductCostingManFormCreate = ({
                 message: "No Total Selling cost provided",
               },
             ]}
+            className="grid-2-column"
           >
-            <Input placeholder={"Enter Total Selling cost"} />
+            <TextArea
+              placeholder={"Enter Total Selling cost"}
+              autoSize={{ minRows: 3 }}
+            />
           </Form.Item>
           <Form.Item
             name="numberOfUnitsProduce"
@@ -346,8 +379,12 @@ const ProductCostingManFormCreate = ({
                 message: "No Depreciation provided",
               },
             ]}
+            className="grid-2-column"
           >
-            <Input placeholder={"Enter Depreciation"} />
+            <TextArea
+              placeholder={"Enter Depreciation"}
+              autoSize={{ minRows: 3 }}
+            />
           </Form.Item>
           <Form.Item
             name="CostOfProduct"

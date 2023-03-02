@@ -17,14 +17,15 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useQuery } from "react-query";
 import ProductCostingManFormCreate from "./ProductCostingManCreate";
 import ProductCostingManFilter from "./ProductCostingManFilter";
 import dayjs from "dayjs";
+import { removeUnderScore, string } from "../../../../utilities";
+import { useParams } from "react-router-dom";
 import "./productcostingman.css";
-import { string } from "../../../../utilities";
 
 const ProductCostingMan = () => {
+  const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -60,7 +61,21 @@ const ProductCostingMan = () => {
 
   const navigation = [
     { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
-    { id: 1, name: "Entries", url: "/accounting/entries" },
+    {
+      id: 1,
+      name: "Pre Selection",
+      url: "/accounting/preselectiondata",
+    },
+    {
+      id: 2,
+      name: `Accounting Data for ${removeUnderScore(params.name)}`,
+      url: `/accounting/data/${params.id}/${params.name}`,
+    },
+    {
+      id: 3,
+      name: `Entries`,
+      url: `/accounting/entries/${params.id}/${params.name}`,
+    },
     {
       id: 2,
       name: "Product cost sheet for Manufacturing",
@@ -72,26 +87,6 @@ const ProductCostingMan = () => {
     setPage(page);
     getData(filter, page);
   };
-
-  const { data: clientsList } = useQuery(
-    ["clients"],
-    () =>
-      axios.get("/api/client", {
-        headers: {
-          Authorization: token,
-        },
-      }),
-    {
-      refetchOnWindowFocus: false,
-      select: (data) => {
-        const newData = data.data.data.map((item) => ({
-          label: item.name,
-          value: item.id,
-        }));
-        return newData;
-      },
-    }
-  );
 
   const getData = async (values, page) => {
     setLoading(true);
@@ -366,7 +361,7 @@ const ProductCostingMan = () => {
           setEditData={setEditData}
           getData={refetch}
           filterValues={filter}
-          clientsList={clientsList}
+          params={params}
         />
       )}
       <Modal
@@ -507,7 +502,6 @@ const ProductCostingMan = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
-              clientsList={clientsList}
             />
           )}
         </AnimatePresence>

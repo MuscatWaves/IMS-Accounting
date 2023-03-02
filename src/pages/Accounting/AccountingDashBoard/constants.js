@@ -37,11 +37,11 @@ export const cards = (user) => [
     disabled: !user.isHead,
   },
   {
-    id: 4,
+    id: 5,
     icon: BsPersonBadge,
-    title: "Entries",
-    path: "/accounting/entries",
-    description: "Manage daily entries of users",
+    title: "Accounting Data",
+    path: "/accounting/preselectiondata",
+    description: "Manage accounting data of users",
   },
 ];
 

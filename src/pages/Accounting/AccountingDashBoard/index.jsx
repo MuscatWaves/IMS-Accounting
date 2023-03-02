@@ -41,7 +41,7 @@ const AccountingDashBoard = () => {
       </m.span>
       <AnimatePresence>
         <m.div
-          className="cards-main"
+          className="ds-cards-main"
           variants={container}
           initial="hidden"
           animate="show"

@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import { UploadOutlined } from "@ant-design/icons";
 import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
+import { removeUnderScore } from "../../../../utilities";
 
 const InventoryStockLedgerFormCreate = ({
   isModalOpen,
@@ -14,6 +15,7 @@ const InventoryStockLedgerFormCreate = ({
   getData,
   filterValues,
   clientsList,
+  params,
 }) => {
   const [form] = Form.useForm();
   const [isLoading, setLoading] = useState(false);
@@ -80,7 +82,7 @@ const InventoryStockLedgerFormCreate = ({
           form={form}
           scrollToFirstError={true}
           initialValues={{
-            clientId: editData?.clientId || null,
+            clientId: params?.id || null,
             entryDate:
               (editData?.entryDate &&
                 dayjs(editData?.entryDate).isValid() &&
@@ -105,7 +107,9 @@ const InventoryStockLedgerFormCreate = ({
             ]}
           >
             <Select
-              options={clientsList}
+              options={[
+                { label: removeUnderScore(params.name), value: params.id },
+              ]}
               placeholder={"Select the client"}
               filterOption={(input, option) =>
                 (option?.label ?? "")
@@ -113,6 +117,7 @@ const InventoryStockLedgerFormCreate = ({
                   .includes(input.toLowerCase())
               }
               showSearch
+              disabled
             />
           </Form.Item>
           {editData && (

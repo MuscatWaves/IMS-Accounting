@@ -9,13 +9,15 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useQuery } from "react-query";
 import PaymentVoucherFormCreate from "./paymentvouchercreate";
 import PaymentVoucherFilter from "./paymentVoucherFilter";
 import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
 import "./paymentvoucher.css";
+import { removeUnderScore } from "../../../../utilities";
 
 const PaymentVoucherScan = () => {
+  const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -50,9 +52,23 @@ const PaymentVoucherScan = () => {
 
   const navigation = [
     { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
-    { id: 1, name: "Entries", url: "/accounting/entries" },
+    {
+      id: 1,
+      name: "Pre Selection",
+      url: "/accounting/preselectiondata",
+    },
     {
       id: 2,
+      name: `Accounting Data for ${removeUnderScore(params.name)}`,
+      url: `/accounting/data/${params.id}/${params.name}`,
+    },
+    {
+      id: 3,
+      name: `Entries`,
+      url: `/accounting/entries/${params.id}/${params.name}`,
+    },
+    {
+      id: 4,
       name: "Payment Voucher Scan",
       active: true,
     },
@@ -62,26 +78,6 @@ const PaymentVoucherScan = () => {
     setPage(page);
     getData(filter, page);
   };
-
-  const { data: clientsList } = useQuery(
-    ["clients"],
-    () =>
-      axios.get("/api/client", {
-        headers: {
-          Authorization: token,
-        },
-      }),
-    {
-      refetchOnWindowFocus: false,
-      select: (data) => {
-        const newData = data.data.data.map((item) => ({
-          label: item.name,
-          value: item.id,
-        }));
-        return newData;
-      },
-    }
-  );
 
   const getData = async (values, page) => {
     setLoading(true);
@@ -223,7 +219,7 @@ const PaymentVoucherScan = () => {
           setEditData={setEditData}
           getData={refetch}
           filterValues={filter}
-          clientsList={clientsList}
+          params={params}
         />
       )}
       <Modal
@@ -309,7 +305,6 @@ const PaymentVoucherScan = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
-              clientsList={clientsList}
             />
           )}
         </AnimatePresence>

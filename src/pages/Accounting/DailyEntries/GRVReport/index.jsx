@@ -9,13 +9,16 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
 import GrvReportFormCreate from "./grvreportcreate";
 import GrvReportFilter from "./grvReportFilter";
-import "./grvreport.css";
+import { useParams } from "react-router-dom";
+import { removeUnderScore } from "../../../../utilities";
 import dayjs from "dayjs";
+import "./grvreport.css";
 
 const GRVReport = () => {
+  const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -39,7 +42,7 @@ const GRVReport = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - GRV Report";
+    document.title = "Accounting - GRV Report";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -50,9 +53,23 @@ const GRVReport = () => {
 
   const navigation = [
     { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
-    { id: 1, name: "Entries", url: "/accounting/entries" },
+    {
+      id: 1,
+      name: "Pre Selection",
+      url: "/accounting/preselectiondata",
+    },
     {
       id: 2,
+      name: `Accounting Data for ${removeUnderScore(params.name)}`,
+      url: `/accounting/data/${params.id}/${params.name}`,
+    },
+    {
+      id: 3,
+      name: `Entries`,
+      url: `/accounting/entries/${params.id}/${params.name}`,
+    },
+    {
+      id: 4,
       name: "GRV Report",
       active: true,
     },
@@ -63,25 +80,25 @@ const GRVReport = () => {
     getData(filter, page);
   };
 
-  const { data: clientsList } = useQuery(
-    ["clients"],
-    () =>
-      axios.get("/api/client", {
-        headers: {
-          Authorization: token,
-        },
-      }),
-    {
-      refetchOnWindowFocus: false,
-      select: (data) => {
-        const newData = data.data.data.map((item) => ({
-          label: item.name,
-          value: item.id,
-        }));
-        return newData;
-      },
-    }
-  );
+  // const { data: clientsList } = useQuery(
+  //   ["clients"],
+  //   () =>
+  //     axios.get("/api/client", {
+  //       headers: {
+  //         Authorization: token,
+  //       },
+  //     }),
+  //   {
+  //     refetchOnWindowFocus: false,
+  //     select: (data) => {
+  //       const newData = data.data.data.map((item) => ({
+  //         label: item.name,
+  //         value: item.id,
+  //       }));
+  //       return newData;
+  //     },
+  //   }
+  // );
 
   const getData = async (values, page) => {
     setLoading(true);
@@ -227,7 +244,7 @@ const GRVReport = () => {
           setEditData={setEditData}
           getData={refetch}
           filterValues={filter}
-          clientsList={clientsList}
+          params={params}
         />
       )}
       <Modal
@@ -313,7 +330,6 @@ const GRVReport = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
-              clientsList={clientsList}
             />
           )}
         </AnimatePresence>

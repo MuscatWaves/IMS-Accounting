@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { AnimatePresence, m } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { container, item } from "../../Clients/ClientsDashBoard/constants";
 import { Divider } from "antd";
 import { predashoptions } from "./constant";
@@ -8,8 +8,10 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import "./dailyentries.css";
 import Header from "../../../components/Header";
 import BreadCrumb from "../../../components/BreadCrumb";
+import { removeUnderScore } from "../../../utilities";
 
 const DailyEntries = () => {
+  const params = useParams();
   const navigateTo = useNavigate();
   useEffect(() => {
     document.title = "Accounting - Entries";
@@ -19,6 +21,16 @@ const DailyEntries = () => {
     { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
     {
       id: 1,
+      name: "Pre Selection",
+      url: "/accounting/preselectiondata",
+    },
+    {
+      id: 2,
+      name: `Accounting Data for ${removeUnderScore(params.name)}`,
+      url: `/accounting/data/${params.id}/${params.name}`,
+    },
+    {
+      id: 3,
       name: "Entries",
       active: true,
     },
@@ -33,6 +45,9 @@ const DailyEntries = () => {
     >
       <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <div className="main-body">
+        <m.div className="title-text primary-color" variants={item}>
+          Entries
+        </m.div>
         <BreadCrumb items={navigation} />
         <Divider orientation="center" orientationMargin="0">
           <div className="bolder text-black">Please select your report</div>
@@ -44,7 +59,7 @@ const DailyEntries = () => {
             initial="hidden"
             animate="show"
           >
-            {predashoptions.map(
+            {predashoptions(params).map(
               (card) =>
                 !card.disabled && (
                   <m.div
