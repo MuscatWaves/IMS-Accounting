@@ -32,15 +32,16 @@ const MonthlyOffersFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("vat", values.vat);
-    data.append("location", values.location);
+    data.append("monthYear", values.monthYear);
+    data.append("NumberOfOffersProducts", values.NumberOfOffersProducts);
+    data.append("typesOfProductsOnOffers", values.typesOfProductsOnOffers);
+    data.append("typesOfOffersProducts", values.typesOfOffersProducts);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/moff" : "/api/moff/create",
       headers: {
         Authorization: token,
       },
@@ -82,9 +83,10 @@ const MonthlyOffersFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            vat: editData?.vat || "",
-            location: editData?.location || "",
+            monthYear: editData?.monthYear || "",
+            NumberOfOffersProducts: editData?.NumberOfOffersProducts || "",
+            typesOfProductsOnOffers: editData?.typesOfProductsOnOffers || "",
+            typesOfOffersProducts: editData?.typesOfOffersProducts || "",
             file: editData?.file || null,
           }}
         >
@@ -128,7 +130,7 @@ const MonthlyOffersFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
+            name="monthYear"
             label={"Month/ Year"}
             rules={[
               {
@@ -140,7 +142,7 @@ const MonthlyOffersFormCreate = ({
             <Input placeholder={"Enter Month/ Year"} />
           </Form.Item>
           <Form.Item
-            name="vat"
+            name="NumberOfOffersProducts"
             label={"Total Number of Offers Products"}
             rules={[
               {
@@ -152,7 +154,7 @@ const MonthlyOffersFormCreate = ({
             <Input placeholder={"Enter Total Number of Offers Products"} />
           </Form.Item>
           <Form.Item
-            name="location"
+            name="typesOfProductsOnOffers"
             label={"Types of Products on Offers"}
             rules={[
               {
@@ -164,7 +166,7 @@ const MonthlyOffersFormCreate = ({
             <Input placeholder={"Enter Types of Products on Offers"} />
           </Form.Item>
           <Form.Item
-            name="location"
+            name="typesOfOffersProducts"
             label={"Types of Offers products (Weekly/Monthly)"}
             rules={[
               {

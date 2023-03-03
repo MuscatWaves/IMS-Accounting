@@ -89,7 +89,7 @@ const MonthlyOffers = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/moff?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -118,19 +118,25 @@ const MonthlyOffers = () => {
     },
     {
       title: "Month/Year",
-      render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
+      render: (record) => <div>{record.monthYear}</div>,
     },
     {
       title: "Total Number of Offers Products",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      render: (record) => (
+        <div className="text-grey">{record.NumberOfOffersProducts}</div>
+      ),
     },
     {
       title: "Types of Products on Offers",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      render: (record) => (
+        <div className="text-grey">{record.typesOfProductsOnOffers}</div>
+      ),
     },
     {
       title: "Types of Offers products (Weekly/Monthly)",
-      render: (record) => <div className="text-grey">{record.location}</div>,
+      render: (record) => (
+        <div className="text-grey">{record.typesOfOffersProducts}</div>
+      ),
     },
     {
       title: "Client",
@@ -185,7 +191,7 @@ const MonthlyOffers = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/moff/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",

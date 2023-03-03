@@ -311,7 +311,7 @@ const ProductCostingServices = () => {
         centered
       >
         <div className="very-small-padding">
-          <div className="title-text">{editData?.productName}</div>
+          <div className="title-text">{editData?.typeOfServices}</div>
           <div className="medium-text bold">{editData?.timeDatePeriod}</div>
           <div>
             {showDetailData2.map((data) => (
@@ -342,7 +342,7 @@ const ProductCostingServices = () => {
           <div></div>
         </div>
       </Modal>
-      <Header home={"/recruitment/dashboard"} logOut={"/recruitment"} />
+      <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div
         className="recruitment-contacts"
         variants={container}

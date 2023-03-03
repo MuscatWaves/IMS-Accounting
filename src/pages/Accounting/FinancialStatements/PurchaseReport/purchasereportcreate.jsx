@@ -7,7 +7,7 @@ import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 import { removeUnderScore } from "../../../../utilities";
 
-const MonthlyDiscountFormCreate = ({
+const PurchaseReportFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -32,20 +32,15 @@ const MonthlyDiscountFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("monthYear", values.monthYear);
-    data.append("totalNumberOfProducts", values.totalNumberOfProducts);
-    data.append("typesOfDiscounts", values.typesOfDiscounts);
-    data.append(
-      "monthlyDiscountInPercentage",
-      values.monthlyDiscountInPercentage
-    );
-    data.append("monthlyDiscountInAmount", values.monthlyDiscountInAmount);
+    data.append("amount", values.amount);
+    data.append("vat", values.vat);
+    data.append("location", values.location);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/mdsct" : "/api/mdsct/create",
+      url: editData ? "/api/purchase" : "/api/purchase/create",
       headers: {
         Authorization: token,
       },
@@ -67,7 +62,7 @@ const MonthlyDiscountFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update Monthly Discount" : "Create Monthly Discount"}
+      title={editData ? "Update Purchase Report" : "Create Purchase Report"}
       placement="right"
       size="large"
       onClose={onClose}
@@ -87,12 +82,9 @@ const MonthlyDiscountFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            monthYear: editData?.monthYear || "",
-            totalNumberOfProducts: editData?.totalNumberOfProducts || "",
-            typesOfDiscounts: editData?.typesOfDiscounts || "",
-            monthlyDiscountInPercentage:
-              editData?.monthlyDiscountInPercentage || "",
-            monthlyDiscountInAmount: editData?.monthlyDiscountInAmount || "",
+            amount: editData?.amount || "",
+            vat: editData?.vat || "",
+            location: editData?.location || "",
             file: editData?.file || null,
           }}
         >
@@ -136,64 +128,40 @@ const MonthlyDiscountFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="monthYear"
-            label={"Month/ Year"}
+            name="amount"
+            label={"Total Amount"}
             rules={[
               {
                 required: true,
-                message: "No Month/ Year provided",
+                message: "No Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Month/ Year"} />
+            <Input placeholder={"Enter Total Amount"} />
           </Form.Item>
           <Form.Item
-            name="totalNumberOfProducts"
-            label={"Total Number of Products"}
+            name="vat"
+            label={"Total VAT Amount"}
             rules={[
               {
                 required: true,
-                message: "No Total Number of Products provided",
+                message: "No VAT Amount provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Number of Products"} />
+            <Input placeholder={"Enter total VAT Amount"} />
           </Form.Item>
           <Form.Item
-            name="typesOfDiscounts"
-            label={"Types of Discounts"}
+            name="location"
+            label={"Location"}
             rules={[
               {
                 required: true,
-                message: "No Types of Discounts provided",
+                message: "No location provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Types of Discounts"} />
-          </Form.Item>
-          <Form.Item
-            name="monthlyDiscountInPercentage"
-            label={"Total Monthly Discount In percentage"}
-            rules={[
-              {
-                required: true,
-                message: "No Total Monthly Discount In percentage provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter Total Monthly Discount In percentage"} />
-          </Form.Item>
-          <Form.Item
-            name="monthlyDiscountInAmount"
-            label={"Total Monthly Discount in Amount"}
-            rules={[
-              {
-                required: true,
-                message: "No Total Monthly Discount in Amount provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter Total Monthly Discount in Amount"} />
+            <Input placeholder={"Enter the location name"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -241,7 +209,7 @@ const MonthlyDiscountFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update Monthly Discount" : "Create Monthly Discount"}
+              {editData ? "Update Purchase Report" : "Create Purchase Report"}
             </Button>
           </div>
         </Form>
@@ -250,4 +218,4 @@ const MonthlyDiscountFormCreate = ({
   );
 };
 
-export default MonthlyDiscountFormCreate;
+export default PurchaseReportFormCreate;

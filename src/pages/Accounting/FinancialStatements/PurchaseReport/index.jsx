@@ -9,14 +9,14 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import MonthlyDiscountFormCreate from "./monthlydiscountcreate";
-import MonthlyDiscountFilter from "./monthlyDiscountFilter";
+import PurchaseReportFormCreate from "./purchasereportcreate";
+import PurchaseReportFilter from "./purchaseReportFilter";
+import { removeUnderScore } from "../../../../utilities";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { removeUnderScore } from "../../../../utilities";
-import "./monthlydiscount.css";
+import "./purchasereport.css";
 
-const MonthlyDiscount = () => {
+const PurchaseReport = () => {
   const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
@@ -41,7 +41,7 @@ const MonthlyDiscount = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Monthly Discount";
+    document.title = "Accounting - Purchase Report";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -68,8 +68,8 @@ const MonthlyDiscount = () => {
       url: `/accounting/entries/${params.id}/${params.name}`,
     },
     {
-      id: 2,
-      name: "Monthly Discount",
+      id: 4,
+      name: "Purchase Report",
       active: true,
     },
   ];
@@ -89,7 +89,7 @@ const MonthlyDiscount = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/mdsct?search=${values.search}&page=${page}`,
+        `/api/purchase?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -113,36 +113,20 @@ const MonthlyDiscount = () => {
 
   const columns = [
     {
-      title: "Entry Date",
+      title: "Date",
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Month/Year",
-      render: (record) => <div>{record.monthYear}</div>,
+      title: "Total Amount",
+      render: (record) => <div className="text-grey">{record.amount}</div>,
     },
     {
-      title: "Total Number of Products",
-      render: (record) => (
-        <div className="text-grey">{record.totalNumberOfProducts}</div>
-      ),
+      title: "Total VAT Amount",
+      render: (record) => <div className="text-grey">{record.vat}</div>,
     },
     {
-      title: "Types of Discounts",
-      render: (record) => (
-        <div className="text-grey">{record.typesOfDiscounts}</div>
-      ),
-    },
-    {
-      title: "Total Monthly Discount In percentage",
-      render: (record) => (
-        <div className="text-grey">{record.monthlyDiscountInPercentage}</div>
-      ),
-    },
-    {
-      title: "Total Monthly Discount in Amount",
-      render: (record) => (
-        <div className="text-grey">{record.monthlyDiscountInAmount}</div>
-      ),
+      title: "Location",
+      render: (record) => <div className="text-grey">{record.location}</div>,
     },
     {
       title: "Client",
@@ -197,7 +181,7 @@ const MonthlyDiscount = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/mdsct/${deletionData.id}`,
+      url: `/api/purchase/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -232,7 +216,7 @@ const MonthlyDiscount = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <MonthlyDiscountFormCreate
+        <PurchaseReportFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -261,7 +245,7 @@ const MonthlyDiscount = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Monthly Discount
+          Purchase Report
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -318,7 +302,7 @@ const MonthlyDiscount = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <MonthlyDiscountFilter
+            <PurchaseReportFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -353,4 +337,4 @@ const MonthlyDiscount = () => {
   );
 };
 
-export default MonthlyDiscount;
+export default PurchaseReport;
