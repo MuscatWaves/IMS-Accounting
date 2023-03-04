@@ -6,8 +6,83 @@ import ScrollToTop from "./ScrollToTop";
 
 // Clients
 const ClientLogin = lazy(() => import("../pages/Clients/ClientLogin"));
+const ClientDashBoard = lazy(() => import("../pages/Clients/ClientDashboard"));
+// Client Daily Entries
+const ClientDailyEntries = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries")
+);
+const ClientGRVReport = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/GRVReport")
+);
+const ClientPurchaseReport = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/PurchaseReport")
+);
+const ClientPurchaseReturnReport = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/PurchaseReturnReport")
+);
+const ClientPurchaseFromOtherBranches = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/PurchaseFromOtherBranchesReport")
+);
+const ClientPurchaseInvoiceScan = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/PurchaseInvoiceScan")
+);
+const ClientAttendanceReport = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/AttendanceReport")
+);
+const ClientSalesReport = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/SalesReport")
+);
+const ClientSalesQuantativeSummary = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/SalesQuantativeSummary")
+);
+const ClientInventoryStockLedger = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/InventoryStockLedger")
+);
+const ClientItemExpiry = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/ItemExpiry")
+);
+const ClientClosingStock = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/ClosingStock")
+);
+const ClientCashBankStatement = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/CashBankStatement")
+);
+const ClientMerchantSummary = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/MerchantSummary")
+);
+const ClientOutstandingStatement = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/OutstandingStatement")
+);
+const ClientSalesToOtherBranch = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/SalesToOtherBranch")
+);
+const ClientPaymentVoucherScan = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/PaymentVoucherScan")
+);
+const ClientOredooOmantel = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/OredooOmantel")
+);
+const ClientBankStatement = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/BankStatement")
+);
+const ClientCreditSales = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/CreditSales")
+);
+const ClientProductCostingMan = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/ProductCostingMan")
+);
+const ClientProductCostingServices = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/ProductCostingServices")
+);
+const ClientMonthlyDiscount = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/MonthlyDiscount")
+);
+const ClientMonthlyOffers = lazy(() =>
+  import("../pages/Clients/ClientDailyEntries/MonthlyOffers")
+);
+const ClientPurchases = lazy(() => import("../pages/Clients/ClientPurchases"));
+const ClientSales = lazy(() => import("../pages/Clients/ClientSales"));
 // const ClientRegister = lazy(() => import("../pages/Clients/ClientRegister"));
-const ClientDashBoard = lazy(() => import("../pages/Clients/ClientsDashBoard"));
 
 // Recruitment
 const AccountingLogin = lazy(() =>
@@ -154,6 +229,111 @@ const Routing = () => {
                 <Route
                   path="/client/dashboard"
                   element={<ClientDashBoard />}
+                ></Route>
+                {/* Client Daily Entries */}
+                <Route
+                  path="/accounting/client/dailyentries/:id/:name"
+                  element={<ClientDailyEntries />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/grvReport/:id/:name"
+                  element={<ClientGRVReport />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/purchaseReport/:id/:name"
+                  element={<ClientPurchaseReport />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/purchaseReturnReport/:id/:name"
+                  element={<ClientPurchaseReturnReport />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/purchaseFromOtherBranchesReport/:id/:name"
+                  element={<ClientPurchaseFromOtherBranches />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/purchaseInvoiceScan/:id/:name"
+                  element={<ClientPurchaseInvoiceScan />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/attendanceReport/:id/:name"
+                  element={<ClientAttendanceReport />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/salesReport/:id/:name"
+                  element={<ClientSalesReport />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/salesQSummary/:id/:name"
+                  element={<ClientSalesQuantativeSummary />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/inventoryStockLedger/:id/:name"
+                  element={<ClientInventoryStockLedger />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/itemExpiry/:id/:name"
+                  element={<ClientItemExpiry />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/closingStock/:id/:name"
+                  element={<ClientClosingStock />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/cashBankStatement/:id/:name"
+                  element={<ClientCashBankStatement />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/merchantSummary/:id/:name"
+                  element={<ClientMerchantSummary />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/outstandingStatement/:id/:name"
+                  element={<ClientOutstandingStatement />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/salesToOtherBranch/:id/:name"
+                  element={<ClientSalesToOtherBranch />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/paymentVoucherScan/:id/:name"
+                  element={<ClientPaymentVoucherScan />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/ooPayment/:id/:name"
+                  element={<ClientOredooOmantel />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/bs/:id/:name"
+                  element={<ClientBankStatement />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/creditSales/:id/:name"
+                  element={<ClientCreditSales />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/pcm/:id/:name"
+                  element={<ClientProductCostingMan />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/pcs/:id/:name"
+                  element={<ClientProductCostingServices />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/monthlyDiscount/:id/:name"
+                  element={<ClientMonthlyDiscount />}
+                ></Route>
+                <Route
+                  path="/accounting/client/entries/monthlyOffers/:id/:name"
+                  element={<ClientMonthlyOffers />}
+                ></Route>
+                <Route
+                  path="/accounting/client/dailentries/purchases/:id/:name"
+                  element={<ClientPurchases />}
+                ></Route>
+                <Route
+                  path="/accounting/client/dailentries/sales/:id/:name"
+                  element={<ClientSales />}
                 ></Route>
                 {/* Accounting - Accountant & AH */}
                 <Route path="/accounting" element={<AccountingLogin />}></Route>

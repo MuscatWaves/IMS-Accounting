@@ -1,20 +1,19 @@
 import React, { useEffect } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
-import { container, item } from "../../../utilities";
 import { Divider } from "antd";
 import { predashoptions } from "./constant";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import "./dailyentries.css";
 import Header from "../../../components/Header";
 import BreadCrumb from "../../../components/BreadCrumb";
-import { removeUnderScore } from "../../../utilities";
+import { removeUnderScore, container, item } from "../../../utilities";
 
-const DailyEntries = () => {
+const ClientSales = () => {
   const params = useParams();
   const navigateTo = useNavigate();
   useEffect(() => {
-    document.title = "Accounting - Entries";
+    document.title = "Accounting - Sales";
   }, []);
 
   const navigation = [
@@ -32,6 +31,11 @@ const DailyEntries = () => {
     {
       id: 3,
       name: "Entries",
+      url: `/accounting/entries/${params.id}/${params.name}`,
+    },
+    {
+      id: 4,
+      name: "Sales",
       active: true,
     },
   ];
@@ -46,7 +50,7 @@ const DailyEntries = () => {
       <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <div className="main-body">
         <m.div className="title-text primary-color" variants={item}>
-          Entries
+          Entries - Sales
         </m.div>
         <BreadCrumb items={navigation} />
         <Divider orientation="center" orientationMargin="0">
@@ -87,4 +91,4 @@ const DailyEntries = () => {
   );
 };
 
-export default DailyEntries;
+export default ClientSales;

@@ -8,9 +8,8 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import "./dailyentries.css";
 import Header from "../../../components/Header";
 import BreadCrumb from "../../../components/BreadCrumb";
-import { removeUnderScore } from "../../../utilities";
 
-const DailyEntries = () => {
+const ClientDailyEntries = () => {
   const params = useParams();
   const navigateTo = useNavigate();
   useEffect(() => {
@@ -18,19 +17,9 @@ const DailyEntries = () => {
   }, []);
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
+    { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
       id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
-    },
-    {
-      id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
       name: "Entries",
       active: true,
     },
@@ -87,4 +76,4 @@ const DailyEntries = () => {
   );
 };
 
-export default DailyEntries;
+export default ClientDailyEntries;

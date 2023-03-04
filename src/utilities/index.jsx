@@ -234,3 +234,30 @@ export const formatInput = (str) =>
   (str && str?.replace(/ \\ r \\ n/g, `\n`)?.replace(/\\r\\n/g, `\n`))
     ?.replace(/\\n/g, `\n`)
     ?.replace(/\\/g, "") || "";
+
+export const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+export const item = {
+  hidden: {
+    opacity: 0,
+    y: "100px",
+  },
+  show: {
+    opacity: 1,
+    y: "0px",
+    delay: 1,
+    transition: {
+      type: "spring",
+      stiffness: 40,
+      damping: 9,
+    },
+  },
+};

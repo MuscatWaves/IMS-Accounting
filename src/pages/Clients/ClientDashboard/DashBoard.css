@@ -1,10 +1,10 @@
-.client-dashboard {
+.recruitment-dashboard {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.cards-main {
+.ds-cards-main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

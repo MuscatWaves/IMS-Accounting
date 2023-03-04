@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
-import { container, item } from "../../Clients/ClientsDashBoard/constants";
 import { Divider } from "antd";
 import { predashoptions } from "./constant";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import "./dailyentries.css";
 import Header from "../../../components/Header";
 import BreadCrumb from "../../../components/BreadCrumb";
-import { removeUnderScore } from "../../../utilities";
+import { removeUnderScore, container, item } from "../../../utilities";
 
 const Sales = () => {
   const params = useParams();
