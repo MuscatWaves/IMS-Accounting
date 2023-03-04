@@ -9,14 +9,14 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import PurchaseReportFormCreate from "./purchasereportcreate";
-import PurchaseReportFilter from "./purchaseReportFilter";
+import VatReturnTrackerFormCreate from "./vatreturntrackercreate";
+import VatReturnTrackerFilter from "./vatReturnTrackerFilter";
 import { removeUnderScore } from "../../../../utilities";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import "./purchasereport.css";
+import "./vatreturntracker.css";
 
-const PurchaseReport = () => {
+const VATReturnTracker = () => {
   const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
@@ -41,7 +41,7 @@ const PurchaseReport = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Accounting - Purchase Report";
+    document.title = "Accounting - VAT Return Tracker";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -64,12 +64,12 @@ const PurchaseReport = () => {
     },
     {
       id: 3,
-      name: `Entries`,
-      url: `/accounting/entries/${params.id}/${params.name}`,
+      name: `Financial Statements`,
+      url: `/accounting/fs/${params.id}/${params.name}`,
     },
     {
       id: 4,
-      name: "Purchase Report",
+      name: "VAT Return Tracker",
       active: true,
     },
   ];
@@ -89,7 +89,7 @@ const PurchaseReport = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/fsvrt?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -113,20 +113,63 @@ const PurchaseReport = () => {
 
   const columns = [
     {
-      title: "Date",
+      title: "Entry Date",
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Amount",
-      render: (record) => <div className="text-grey">{record.amount}</div>,
+      title: "Financial Year",
+      render: (record) => <div>{record.financialYear}</div>,
     },
     {
-      title: "Total VAT Amount",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      title: "Month/Quarter",
+      render: (record) => (
+        <div className="text-grey">{record.monthQuarter}</div>
+      ),
     },
     {
-      title: "Location",
-      render: (record) => <div className="text-grey">{record.location}</div>,
+      title: "Total VAT Liability",
+      render: (record) => (
+        <div className="text-grey">{record.vatLiability}</div>
+      ),
+    },
+    {
+      title: "Total Interest Amount",
+      render: (record) => (
+        <div className="text-grey">{record.interestAmount}</div>
+      ),
+    },
+    {
+      title: "Total VAT Net Payable",
+      render: (record) => (
+        <div className="text-grey">{record.vatNetPayable}</div>
+      ),
+    },
+    {
+      title: "Total Tax Paid",
+      render: (record) => <div className="text-grey">{record.taxPaid}</div>,
+    },
+    {
+      title: "Total Additional Interest",
+      render: (record) => (
+        <div className="text-grey">{record.additionalInterest}</div>
+      ),
+    },
+    {
+      title: "Total Penalty",
+      render: (record) => <div className="text-grey">{record.penalty}</div>,
+    },
+    {
+      title: "Total Net Balance",
+      render: (record) => <div className="text-grey">{record.netBalance}</div>,
+    },
+    {
+      title: "Status",
+      render: (record) =>
+        record.status === "filled" ? (
+          <div className="text-green">{"Filled"}</div>
+        ) : (
+          <div className="text-red">{"Not Filled"}</div>
+        ),
     },
     {
       title: "Client",
@@ -181,7 +224,7 @@ const PurchaseReport = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/purchase/${deletionData.id}`,
+      url: `/api/fsvrt/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -216,7 +259,7 @@ const PurchaseReport = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <PurchaseReportFormCreate
+        <VatReturnTrackerFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -237,7 +280,7 @@ const PurchaseReport = () => {
       >
         <p>{`Are you sure you want to delete ${deletionData?.type} of "${deletionData?.name}" from file data?`}</p>
       </Modal>
-      <Header home={"/recruitment/dashboard"} logOut={"/recruitment"} />
+      <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div
         className="recruitment-contacts"
         variants={container}
@@ -245,7 +288,7 @@ const PurchaseReport = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Purchase Report
+          VAT Return Tracker
         </m.div>
         <m.div
           className="recruitment-filter-nav-header-without"
@@ -302,7 +345,7 @@ const PurchaseReport = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <PurchaseReportFilter
+            <VatReturnTrackerFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -337,4 +380,4 @@ const PurchaseReport = () => {
   );
 };
 
-export default PurchaseReport;
+export default VATReturnTracker;

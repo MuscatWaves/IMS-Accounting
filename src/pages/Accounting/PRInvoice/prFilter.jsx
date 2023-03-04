@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Divider, Form, Input } from "antd";
 import { m } from "framer-motion";
 
-const PurchaseReportFilter = ({
+const PRFilter = ({
   filterData,
   setFilterData,
   getData,
@@ -103,4 +103,4 @@ const PurchaseReportFilter = ({
   );
 };
 
-export default PurchaseReportFilter;
+export default PRFilter;

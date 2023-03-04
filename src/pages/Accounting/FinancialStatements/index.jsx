@@ -5,16 +5,16 @@ import { container, item } from "../../Clients/ClientsDashBoard/constants";
 import { Divider } from "antd";
 import { predashoptions } from "./constant";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-import "./dailyentries.css";
 import Header from "../../../components/Header";
 import BreadCrumb from "../../../components/BreadCrumb";
 import { removeUnderScore } from "../../../utilities";
+import "./financialstatements.css";
 
-const DailyEntries = () => {
+const FinancialStatements = () => {
   const params = useParams();
   const navigateTo = useNavigate();
   useEffect(() => {
-    document.title = "Accounting - Entries";
+    document.title = "Accounting - Financial Statements";
   }, []);
 
   const navigation = [
@@ -31,7 +31,7 @@ const DailyEntries = () => {
     },
     {
       id: 3,
-      name: "Entries",
+      name: "Financial Statements",
       active: true,
     },
   ];
@@ -46,7 +46,7 @@ const DailyEntries = () => {
       <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <div className="main-body">
         <m.div className="title-text primary-color" variants={item}>
-          Entries
+          Financial Statements
         </m.div>
         <BreadCrumb items={navigation} />
         <Divider orientation="center" orientationMargin="0">
@@ -87,4 +87,4 @@ const DailyEntries = () => {
   );
 };
 
-export default DailyEntries;
+export default FinancialStatements;

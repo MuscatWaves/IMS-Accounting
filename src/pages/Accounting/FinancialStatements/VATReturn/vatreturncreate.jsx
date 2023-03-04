@@ -7,7 +7,7 @@ import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 import { removeUnderScore } from "../../../../utilities";
 
-const PurchaseReportFormCreate = ({
+const VatReturnFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -32,15 +32,20 @@ const PurchaseReportFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("amount", values.amount);
-    data.append("vat", values.vat);
-    data.append("location", values.location);
+    data.append("month", values.month);
+    data.append("salesOfGoods", values.salesOfGoods);
+    data.append("vatOnSales", values.vatOnSales);
+    data.append("nilRatedSales", values.nilRatedSales);
+    data.append("purchaseOfGoods", values.purchaseOfGoods);
+    data.append("vatOnPurchases", values.vatOnPurchases);
+    data.append("NilRatedPurchase", values.NilRatedPurchase);
+    data.append("NetPayable", values.NetPayable);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/fsvrtc" : "/api/fsvrtc/create",
       headers: {
         Authorization: token,
       },
@@ -62,7 +67,7 @@ const PurchaseReportFormCreate = ({
 
   return (
     <Drawer
-      title={editData ? "Update Purchase Report" : "Create Purchase Report"}
+      title={editData ? "Update VAT Return" : "Create VAT Return"}
       placement="right"
       size="large"
       onClose={onClose}
@@ -82,14 +87,19 @@ const PurchaseReportFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            amount: editData?.amount || "",
-            vat: editData?.vat || "",
-            location: editData?.location || "",
+            month: editData?.month || "",
+            salesOfGoods: editData?.salesOfGoods || "",
+            vatOnSales: editData?.vatOnSales || "",
+            nilRatedSales: editData?.nilRatedSales || "",
+            purchaseOfGoods: editData?.purchaseOfGoods || "",
+            vatOnPurchases: editData?.vatOnPurchases || "",
+            NilRatedPurchase: editData?.NilRatedPurchase || "",
+            NetPayable: editData?.NetPayable || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={editData && "grid-2-column"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -116,7 +126,7 @@ const PurchaseReportFormCreate = ({
           {editData && (
             <Form.Item
               name="entryDate"
-              label={"Date"}
+              label={"Entry Date"}
               rules={[
                 {
                   required: true,
@@ -128,40 +138,100 @@ const PurchaseReportFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="amount"
-            label={"Total Amount"}
+            name="month"
+            label={"Month"}
             rules={[
               {
                 required: true,
-                message: "No Amount provided",
+                message: "No Month provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount"} />
+            <Input placeholder={"Enter Month"} />
           </Form.Item>
           <Form.Item
-            name="vat"
-            label={"Total VAT Amount"}
+            name="salesOfGoods"
+            label={"Total Sales of Goods on 5%"}
             rules={[
               {
                 required: true,
-                message: "No VAT Amount provided",
+                message: "No Total Sales of Goods on 5% provided",
               },
             ]}
           >
-            <Input placeholder={"Enter total VAT Amount"} />
+            <Input placeholder={"Enter Total Sales of Goods on 5%"} />
           </Form.Item>
           <Form.Item
-            name="location"
-            label={"Location"}
+            name="vatOnSales"
+            label={"Total Total VAT on sales"}
             rules={[
               {
                 required: true,
-                message: "No location provided",
+                message: "No Total VAT on sales provided",
               },
             ]}
           >
-            <Input placeholder={"Enter the location name"} />
+            <Input placeholder={"Enter Total VAT on sales"} />
+          </Form.Item>
+          <Form.Item
+            name="nilRatedSales"
+            label={"Total Nil rated Sales"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Nil rated Sales provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Nil rated Sales"} />
+          </Form.Item>
+          <Form.Item
+            name="purchaseOfGoods"
+            label={"Total Purchase of Goods on 5%"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Purchase of Goods on 5% provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Purchase of Goods on 5%"} />
+          </Form.Item>
+          <Form.Item
+            name="vatOnPurchases"
+            label={"Total VAT on Purchases"}
+            rules={[
+              {
+                required: true,
+                message: "No Total VAT on Purchases provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total VAT on Purchases"} />
+          </Form.Item>
+          <Form.Item
+            name="NilRatedPurchase"
+            label={"Total Nil rated purchase"}
+            rules={[
+              {
+                required: true,
+                message: "No Total Nil rated purchase provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total Nil rated purchase"} />
+          </Form.Item>
+          <Form.Item
+            name="NetPayable"
+            label={"Total net Payable"}
+            rules={[
+              {
+                required: true,
+                message: "No Total net Payable provided",
+              },
+            ]}
+          >
+            <Input placeholder={"Enter Total net Payable"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -209,7 +279,7 @@ const PurchaseReportFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update Purchase Report" : "Create Purchase Report"}
+              {editData ? "Update VAT Return" : "Create VAT Return"}
             </Button>
           </div>
         </Form>
@@ -218,4 +288,4 @@ const PurchaseReportFormCreate = ({
   );
 };
 
-export default PurchaseReportFormCreate;
+export default VatReturnFormCreate;

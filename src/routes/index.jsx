@@ -101,6 +101,30 @@ const MonthlyDiscount = lazy(() =>
 const MonthlyOffers = lazy(() =>
   import("../pages/Accounting/DailyEntries/MonthlyOffers")
 );
+//  Accounting Financial Statements
+const FinancialStatements = lazy(() =>
+  import("../pages/Accounting/FinancialStatements")
+);
+const BalanceSheet = lazy(() =>
+  import("../pages/Accounting/FinancialStatements/BalanceSheet")
+);
+const IncomeStatement = lazy(() =>
+  import("../pages/Accounting/FinancialStatements/IncomeStatement")
+);
+const VATReport = lazy(() =>
+  import("../pages/Accounting/FinancialStatements/VATReport")
+);
+const VATReturn = lazy(() =>
+  import("../pages/Accounting/FinancialStatements/VATReturn")
+);
+const TaxReport = lazy(() =>
+  import("../pages/Accounting/FinancialStatements/TaxReport")
+);
+const VATReturnTracker = lazy(() =>
+  import("../pages/Accounting/FinancialStatements/VATReturnTracker")
+);
+const Invoices = lazy(() => import("../pages/Accounting/Invoice"));
+const PRInvoices = lazy(() => import("../pages/Accounting/PRInvoice"));
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -129,7 +153,7 @@ const Routing = () => {
                   path="/client/dashboard"
                   element={<ClientDashBoard />}
                 ></Route>
-                {/* Recruitment */}
+                {/* Accounting - Accountant & AH */}
                 <Route path="/accounting" element={<AccountingLogin />}></Route>
                 <Route
                   path="/accounting/dashboard"
@@ -255,6 +279,42 @@ const Routing = () => {
                 <Route
                   path="/accounting/entries/monthlyOffers/:id/:name"
                   element={<MonthlyOffers />}
+                ></Route>
+                <Route
+                  path="/accounting/fs/:id/:name"
+                  element={<FinancialStatements />}
+                ></Route>
+                <Route
+                  path="/accounting/fs/balancesheet/:id/:name"
+                  element={<BalanceSheet />}
+                ></Route>
+                <Route
+                  path="/accounting/fs/incomestatement/:id/:name"
+                  element={<IncomeStatement />}
+                ></Route>
+                <Route
+                  path="/accounting/fs/vatreport/:id/:name"
+                  element={<VATReport />}
+                ></Route>
+                <Route
+                  path="/accounting/fs/vatreturn/:id/:name"
+                  element={<VATReturn />}
+                ></Route>
+                <Route
+                  path="/accounting/fs/taxreport/:id/:name"
+                  element={<TaxReport />}
+                ></Route>
+                <Route
+                  path="/accounting/fs/vatreturntracker/:id/:name"
+                  element={<VATReturnTracker />}
+                ></Route>
+                <Route
+                  path="/accounting/invoice/:id/:name"
+                  element={<Invoices />}
+                ></Route>
+                <Route
+                  path="/accounting/prinvoice/:id/:name"
+                  element={<PRInvoices />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>
