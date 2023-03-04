@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ojimage from "../../../images/oj-small.png";
+import ojimage from "../../../images/mw-small.png";
 import isEmail from "validator/lib/isEmail";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -14,7 +14,7 @@ const ClientLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Login";
+    document.title = "Client Login";
   }, []);
 
   const [isLoading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ const ClientLogin = () => {
 
     var config = {
       method: "post",
-      url: "/api/recruitment/client/login",
+      url: "/api/client/login",
       headers: {
         "Content-Type": "application/json",
       },

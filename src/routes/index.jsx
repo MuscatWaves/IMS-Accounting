@@ -101,6 +101,8 @@ const MonthlyDiscount = lazy(() =>
 const MonthlyOffers = lazy(() =>
   import("../pages/Accounting/DailyEntries/MonthlyOffers")
 );
+const Purchases = lazy(() => import("../pages/Accounting/Purchases"));
+const Sales = lazy(() => import("../pages/Accounting/Sales"));
 //  Accounting Financial Statements
 const FinancialStatements = lazy(() =>
   import("../pages/Accounting/FinancialStatements")
@@ -315,6 +317,14 @@ const Routing = () => {
                 <Route
                   path="/accounting/prinvoice/:id/:name"
                   element={<PRInvoices />}
+                ></Route>
+                <Route
+                  path="/accounting/dailentries/purchases/:id/:name"
+                  element={<Purchases />}
+                ></Route>
+                <Route
+                  path="/accounting/dailentries/sales/:id/:name"
+                  element={<Sales />}
                 ></Route>
                 {/* Misc */}
                 <Route path="/notAuthorized" element={<NotAuthorize />}></Route>

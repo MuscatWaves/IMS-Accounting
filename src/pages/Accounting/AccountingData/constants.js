@@ -23,7 +23,7 @@ export const cards = (user, params) => [
   {
     id: 3,
     icon: MdOutlineAssignmentInd,
-    title: "Invoice Details",
+    title: "Manage Invoices",
     path: `/accounting/invoice/${params.id}/${params.name}`,
     description: "Manage invoice details for client",
     // disabled: !user.isHead,
@@ -31,7 +31,7 @@ export const cards = (user, params) => [
   {
     id: 4,
     icon: MdOutlineAssignmentInd,
-    title: "Payment Recieved Invoice",
+    title: "Manage PR Invoices",
     path: `/accounting/prinvoice/${params.id}/${params.name}`,
     description: "Manage PR Invoices for client",
     // disabled: !user.isHead,
@@ -39,7 +39,7 @@ export const cards = (user, params) => [
   {
     id: 5,
     icon: ImAttachment,
-    title: "Report Generation",
+    title: "Report",
     path: "/accounting/clientAttachments",
     description: "Manage attachments for the client data",
     // disabled: !user.isHead,
