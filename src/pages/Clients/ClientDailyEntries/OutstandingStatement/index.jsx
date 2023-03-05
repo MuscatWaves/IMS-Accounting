@@ -14,7 +14,6 @@ import OutstandingStatementFilter from "./outstandingStatementFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import "./outstandingstatement.css";
-import { removeUnderScore } from "../../../../utilities";
 
 const OutstandingStatement = () => {
   const params = useParams();
@@ -23,6 +22,7 @@ const OutstandingStatement = () => {
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const user = JSON.parse(localStorage.getItem("user"));
   const [isLoading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const [isModalOpen, toggleModal] = useState(false);
@@ -51,24 +51,14 @@ const OutstandingStatement = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
+    { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
       id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
+      name: `Entries`,
+      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
     },
     {
       id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
-      name: `Entries`,
-      url: `/accounting/entries/${params.id}/${params.name}`,
-    },
-    {
-      id: 4,
       name: "Outstanding Statement Supplier",
       active: true,
     },
@@ -89,7 +79,7 @@ const OutstandingStatement = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/oss?search=${values.search}&page=${page}`,
+        `/api/clientoss?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -158,28 +148,30 @@ const OutstandingStatement = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<EditOutlined />}
-            onClick={() => {
-              setEditData(record);
-              toggleModal(true);
-            }}
-          />
-          <Button
-            type="primary"
-            shape="round"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              setDeletionData(record);
-              toggleDeleteModal(true);
-            }}
-          />
+          <div className="hidden">
+            <Button
+              type="primary"
+              shape="round"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setEditData(record);
+                toggleModal(true);
+              }}
+            />
+            <Button
+              type="primary"
+              shape="round"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                setDeletionData(record);
+                toggleDeleteModal(true);
+              }}
+            />
+          </div>
         </div>
       ),
-      width: "300px",
+      // width: "300px",
     },
   ];
 
@@ -296,6 +288,7 @@ const OutstandingStatement = () => {
               <FaFilter className="small-text" />
             </Button>
             <Button
+              className={user.isHead && "hidden"}
               type="primary"
               onClick={() => {
                 setEditData(null);

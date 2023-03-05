@@ -41,7 +41,7 @@ const OutstandingStatementFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/oss" : "/api/oss/create",
+      url: editData ? "/api/oss" : "/api/clientoss/create",
       headers: {
         Authorization: token,
       },

@@ -44,7 +44,7 @@ const STOBFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/stosia" : "/api/stosia/create",
+      url: editData ? "/api/stosia" : "/api/clientstosia/create",
       headers: {
         Authorization: token,
       },

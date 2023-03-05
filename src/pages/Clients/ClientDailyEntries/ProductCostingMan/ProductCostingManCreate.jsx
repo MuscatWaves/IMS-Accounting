@@ -58,7 +58,7 @@ const ProductCostingManFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pcsfm" : "/api/pcsfm/create",
+      url: editData ? "/api/pcsfm" : "/api/clientpcsfm/create",
       headers: {
         Authorization: token,
       },

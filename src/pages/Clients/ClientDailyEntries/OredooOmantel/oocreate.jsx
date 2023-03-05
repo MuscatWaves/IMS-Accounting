@@ -40,7 +40,7 @@ const OredooOmantelFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/oospb" : "/api/oospb/create",
+      url: editData ? "/api/oospb" : "/api/clientoospb/create",
       headers: {
         Authorization: token,
       },

@@ -45,7 +45,7 @@ const MonthlyDiscountFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/mdsct" : "/api/mdsct/create",
+      url: editData ? "/api/mdsct" : "/api/clientmdsct/create",
       headers: {
         Authorization: token,
       },

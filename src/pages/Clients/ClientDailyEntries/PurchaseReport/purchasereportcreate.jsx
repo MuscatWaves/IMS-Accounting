@@ -40,7 +40,7 @@ const PurchaseReportFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/purchase" : "/api/purchase/create",
+      url: editData ? "/api/purchase" : "/api/clientpurchase/create",
       headers: {
         Authorization: token,
       },

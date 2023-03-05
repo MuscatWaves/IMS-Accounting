@@ -42,7 +42,7 @@ const InventoryStockLedgerFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/isiol" : "/api/isiol/create",
+      url: editData ? "/api/isiol" : "/api/clientisiol/create",
       headers: {
         Authorization: token,
       },

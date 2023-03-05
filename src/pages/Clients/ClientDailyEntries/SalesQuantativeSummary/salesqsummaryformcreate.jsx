@@ -41,7 +41,7 @@ const SalesQSummaryFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/sqs" : "/api/sqs/create",
+      url: editData ? "/api/sqs" : "/api/clientsqs/create",
       headers: {
         Authorization: token,
       },

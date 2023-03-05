@@ -39,7 +39,7 @@ const ItemExpiryFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/iexp" : "/api/iexp/create",
+      url: editData ? "/api/iexp" : "/api/clientiexp/create",
       headers: {
         Authorization: token,
       },

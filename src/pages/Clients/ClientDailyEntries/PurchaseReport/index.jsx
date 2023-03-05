@@ -11,7 +11,6 @@ import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import PurchaseReportFormCreate from "./purchasereportcreate";
 import PurchaseReportFilter from "./purchaseReportFilter";
-import { removeUnderScore } from "../../../../utilities";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import "./purchasereport.css";
@@ -20,6 +19,7 @@ const PurchaseReport = () => {
   const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
+  const user = JSON.parse(localStorage.getItem("user"));
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -51,21 +51,16 @@ const PurchaseReport = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
+    { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
       id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
+      name: `Entries`,
+      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
     },
     {
       id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
-      name: `Entries`,
-      url: `/accounting/entries/${params.id}/${params.name}`,
+      name: `Purchases`,
+      url: `/accounting/client/dailentries/purchases/${params.id}/${params.name}`,
     },
     {
       id: 4,
@@ -89,7 +84,7 @@ const PurchaseReport = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/purchase?search=${values.search}&page=${page}`,
+        `/api/clientpurchase?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -152,28 +147,30 @@ const PurchaseReport = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<EditOutlined />}
-            onClick={() => {
-              setEditData(record);
-              toggleModal(true);
-            }}
-          />
-          <Button
-            type="primary"
-            shape="round"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              setDeletionData(record);
-              toggleDeleteModal(true);
-            }}
-          />
+          <div className="hidden">
+            <Button
+              type="primary"
+              shape="round"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setEditData(record);
+                toggleModal(true);
+              }}
+            />
+            <Button
+              type="primary"
+              shape="round"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                setDeletionData(record);
+                toggleDeleteModal(true);
+              }}
+            />
+          </div>
         </div>
       ),
-      width: "300px",
+      // width: "300px",
     },
   ];
 
@@ -290,6 +287,7 @@ const PurchaseReport = () => {
               <FaFilter className="small-text" />
             </Button>
             <Button
+              className={user.isHead && "hidden"}
               type="primary"
               onClick={() => {
                 setEditData(null);

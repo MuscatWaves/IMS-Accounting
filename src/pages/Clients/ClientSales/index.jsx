@@ -7,7 +7,7 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import "./dailyentries.css";
 import Header from "../../../components/Header";
 import BreadCrumb from "../../../components/BreadCrumb";
-import { removeUnderScore, container, item } from "../../../utilities";
+import { container, item } from "../../../utilities";
 
 const ClientSales = () => {
   const params = useParams();
@@ -17,24 +17,14 @@ const ClientSales = () => {
   }, []);
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
+    { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
       id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
+      name: `Entries`,
+      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
     },
     {
       id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
-      name: "Entries",
-      url: `/accounting/entries/${params.id}/${params.name}`,
-    },
-    {
-      id: 4,
       name: "Sales",
       active: true,
     },

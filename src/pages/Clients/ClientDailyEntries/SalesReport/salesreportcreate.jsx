@@ -41,7 +41,7 @@ const SalesReportFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/sr" : "/api/sr/create",
+      url: editData ? "/api/sr" : "/api/clientsr/create",
       headers: {
         Authorization: token,
       },

@@ -41,7 +41,7 @@ const MonthlyOffersFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/moff" : "/api/moff/create",
+      url: editData ? "/api/moff" : "/api/clientmoff/create",
       headers: {
         Authorization: token,
       },

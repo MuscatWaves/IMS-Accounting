@@ -37,7 +37,7 @@ const AttendanceReportFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/att" : "/api/att/create",
+      url: editData ? "/api/att" : "/api/clientatt/create",
       headers: {
         Authorization: token,
       },

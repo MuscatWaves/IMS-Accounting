@@ -12,7 +12,6 @@ import { AiOutlineSearch } from "react-icons/ai";
 import ItemExpiryFormCreate from "./itemexpirycreate";
 import ItemExpiryFilter from "./itemExpiryFilter";
 import dayjs from "dayjs";
-import { removeUnderScore } from "../../../../utilities";
 import { useParams } from "react-router-dom";
 import "./itemexpiry.css";
 
@@ -20,6 +19,7 @@ const ItemExpiry = () => {
   const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
+  const user = JSON.parse(localStorage.getItem("user"));
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -51,24 +51,14 @@ const ItemExpiry = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
+    { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
       id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
+      name: `Entries`,
+      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
     },
     {
       id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
-      name: `Entries`,
-      url: `/accounting/entries/${params.id}/${params.name}`,
-    },
-    {
-      id: 4,
       name: "Item Expiry",
       active: true,
     },
@@ -89,7 +79,7 @@ const ItemExpiry = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/iexp?search=${values.search}&page=${page}`,
+        `/api/clientiexp?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -148,28 +138,30 @@ const ItemExpiry = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<EditOutlined />}
-            onClick={() => {
-              setEditData(record);
-              toggleModal(true);
-            }}
-          />
-          <Button
-            type="primary"
-            shape="round"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              setDeletionData(record);
-              toggleDeleteModal(true);
-            }}
-          />
+          <div className="hidden">
+            <Button
+              type="primary"
+              shape="round"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setEditData(record);
+                toggleModal(true);
+              }}
+            />
+            <Button
+              type="primary"
+              shape="round"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                setDeletionData(record);
+                toggleDeleteModal(true);
+              }}
+            />
+          </div>
         </div>
       ),
-      width: "300px",
+      // width: "300px",
     },
   ];
 
@@ -286,6 +278,7 @@ const ItemExpiry = () => {
               <FaFilter className="small-text" />
             </Button>
             <Button
+              className={user.isHead && "hidden"}
               type="primary"
               onClick={() => {
                 setEditData(null);

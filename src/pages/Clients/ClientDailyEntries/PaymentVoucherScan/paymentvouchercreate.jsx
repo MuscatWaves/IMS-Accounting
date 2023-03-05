@@ -39,7 +39,7 @@ const PaymentVoucherFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pvs" : "/api/pvs/create",
+      url: editData ? "/api/pvs" : "/api/clientpvs/create",
       headers: {
         Authorization: token,
       },

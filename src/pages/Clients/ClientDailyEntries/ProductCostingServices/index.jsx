@@ -20,7 +20,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import ProductCostingManFormCreate from "./ProductCostingServicesCreate";
 import ProductCostingManFilter from "./ProductCostingServicesFilter";
 import dayjs from "dayjs";
-import { removeUnderScore, string } from "../../../../utilities";
+import { string } from "../../../../utilities";
 import "./productcostingservices.css";
 import { useParams } from "react-router-dom";
 
@@ -29,6 +29,7 @@ const ProductCostingServices = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
@@ -60,24 +61,14 @@ const ProductCostingServices = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
+    { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
       id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
+      name: `Entries`,
+      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
     },
     {
       id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
-      name: `Entries`,
-      url: `/accounting/entries/${params.id}/${params.name}`,
-    },
-    {
-      id: 4,
       name: "Product cost sheet for Services",
       active: true,
     },
@@ -98,7 +89,7 @@ const ProductCostingServices = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pcsfs?search=${values.search}&page=${page}`,
+        `/api/clientpcsfs?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -175,28 +166,30 @@ const ProductCostingServices = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<EditOutlined />}
-            onClick={() => {
-              setEditData(record);
-              toggleModal(true);
-            }}
-          />
-          <Button
-            type="primary"
-            shape="round"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              setDeletionData(record);
-              toggleDeleteModal(true);
-            }}
-          />
+          <div className="hidden">
+            <Button
+              type="primary"
+              shape="round"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setEditData(record);
+                toggleModal(true);
+              }}
+            />
+            <Button
+              type="primary"
+              shape="round"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                setDeletionData(record);
+                toggleDeleteModal(true);
+              }}
+            />
+          </div>
         </div>
       ),
-      width: "300px",
+      // width: "300px",
     },
   ];
 
@@ -395,6 +388,7 @@ const ProductCostingServices = () => {
               <FaFilter className="small-text" />
             </Button>
             <Button
+              className={user.isHead && "hidden"}
               type="primary"
               onClick={() => {
                 setEditData(null);

@@ -41,7 +41,7 @@ const MerchantSummaryFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/msum" : "/api/msum/create",
+      url: editData ? "/api/msum" : "/api/clientmsum/create",
       headers: {
         Authorization: token,
       },

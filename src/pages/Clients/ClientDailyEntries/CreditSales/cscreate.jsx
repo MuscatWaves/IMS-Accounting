@@ -41,7 +41,7 @@ const CreditSalesFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/csls" : "/api/csls/create",
+      url: editData ? "/api/csls" : "/api/clientcsls/create",
       headers: {
         Authorization: token,
       },

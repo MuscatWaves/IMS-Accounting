@@ -46,7 +46,7 @@ const ProductCostingServicesFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pcsfs" : "/api/pcsfs/create",
+      url: editData ? "/api/pcsfs" : "/api/clientpcsfs/create",
       headers: {
         Authorization: token,
       },

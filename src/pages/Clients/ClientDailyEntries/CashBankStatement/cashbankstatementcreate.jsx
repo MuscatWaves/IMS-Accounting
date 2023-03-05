@@ -41,7 +41,7 @@ const CashBankStatementFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/ecbp" : "/api/ecbp/create",
+      url: editData ? "/api/ecbp" : "/api/clientecbp/create",
       headers: {
         Authorization: token,
       },

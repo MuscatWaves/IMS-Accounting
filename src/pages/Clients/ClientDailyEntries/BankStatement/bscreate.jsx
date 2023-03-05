@@ -42,7 +42,7 @@ const BankStatementFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/bsm" : "/api/bsm/create",
+      url: editData ? "/api/bsm" : "/api/clientbsm/create",
       headers: {
         Authorization: token,
       },

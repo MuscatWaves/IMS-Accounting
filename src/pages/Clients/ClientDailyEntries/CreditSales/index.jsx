@@ -12,7 +12,6 @@ import { AiOutlineSearch } from "react-icons/ai";
 import CreditSalesFormCreate from "./cscreate";
 import CreditSalesFilter from "./csFilter";
 import dayjs from "dayjs";
-import { removeUnderScore } from "../../../../utilities";
 import { useParams } from "react-router-dom";
 import "./cs.css";
 
@@ -20,6 +19,7 @@ const CreditSales = () => {
   const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
+  const user = JSON.parse(localStorage.getItem("user"));
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -51,24 +51,14 @@ const CreditSales = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
+    { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
       id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
+      name: `Entries`,
+      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
     },
     {
       id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
-      name: `Entries`,
-      url: `/accounting/entries/${params.id}/${params.name}`,
-    },
-    {
-      id: 4,
       name: "Credit Sales",
       active: true,
     },
@@ -89,7 +79,7 @@ const CreditSales = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/csls?search=${values.search}&page=${page}`,
+        `/api/clientcsls?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -156,28 +146,30 @@ const CreditSales = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<EditOutlined />}
-            onClick={() => {
-              setEditData(record);
-              toggleModal(true);
-            }}
-          />
-          <Button
-            type="primary"
-            shape="round"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              setDeletionData(record);
-              toggleDeleteModal(true);
-            }}
-          />
+          <div className="hidden">
+            <Button
+              type="primary"
+              shape="round"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setEditData(record);
+                toggleModal(true);
+              }}
+            />
+            <Button
+              type="primary"
+              shape="round"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                setDeletionData(record);
+                toggleDeleteModal(true);
+              }}
+            />
+          </div>
         </div>
       ),
-      width: "300px",
+      // width: "300px",
     },
   ];
 
@@ -294,6 +286,7 @@ const CreditSales = () => {
               <FaFilter className="small-text" />
             </Button>
             <Button
+              className={user.isHead && "hidden"}
               type="primary"
               onClick={() => {
                 setEditData(null);

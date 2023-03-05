@@ -13,7 +13,6 @@ import MonthlyDiscountFormCreate from "./monthlydiscountcreate";
 import MonthlyDiscountFilter from "./monthlyDiscountFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { removeUnderScore } from "../../../../utilities";
 import "./monthlydiscount.css";
 
 const MonthlyDiscount = () => {
@@ -24,6 +23,7 @@ const MonthlyDiscount = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
   const [total, setTotal] = useState(0);
   const [isModalOpen, toggleModal] = useState(false);
   const [editData, setEditData] = useState(null);
@@ -51,21 +51,11 @@ const MonthlyDiscount = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
+    { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
       id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
-    },
-    {
-      id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
       name: `Entries`,
-      url: `/accounting/entries/${params.id}/${params.name}`,
+      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
     },
     {
       id: 2,
@@ -89,7 +79,7 @@ const MonthlyDiscount = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/mdsct?search=${values.search}&page=${page}`,
+        `/api/clientmdsct?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -168,28 +158,30 @@ const MonthlyDiscount = () => {
           >
             <div className="bold">View File</div>
           </Button>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<EditOutlined />}
-            onClick={() => {
-              setEditData(record);
-              toggleModal(true);
-            }}
-          />
-          <Button
-            type="primary"
-            shape="round"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              setDeletionData(record);
-              toggleDeleteModal(true);
-            }}
-          />
+          <div className="hidden">
+            <Button
+              type="primary"
+              shape="round"
+              icon={<EditOutlined />}
+              onClick={() => {
+                setEditData(record);
+                toggleModal(true);
+              }}
+            />
+            <Button
+              type="primary"
+              shape="round"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => {
+                setDeletionData(record);
+                toggleDeleteModal(true);
+              }}
+            />
+          </div>
         </div>
       ),
-      width: "300px",
+      // width: "300px",
     },
   ];
 
@@ -306,6 +298,7 @@ const MonthlyDiscount = () => {
               <FaFilter className="small-text" />
             </Button>
             <Button
+              className={user.isHead && "hidden"}
               type="primary"
               onClick={() => {
                 setEditData(null);

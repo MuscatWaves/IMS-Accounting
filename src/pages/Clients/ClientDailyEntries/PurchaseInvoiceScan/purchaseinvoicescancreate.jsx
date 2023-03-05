@@ -40,7 +40,7 @@ const PurchaseInvoiceScanFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pis" : "/api/pis/create",
+      url: editData ? "/api/pis" : "/api/clientpis/create",
       headers: {
         Authorization: token,
       },

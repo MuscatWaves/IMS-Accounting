@@ -41,7 +41,7 @@ const PurchaseFromOtherBranchesReportFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/pfob" : "/api/pfob/create",
+      url: editData ? "/api/pfob" : "/api/clientpfob/create",
       headers: {
         Authorization: token,
       },

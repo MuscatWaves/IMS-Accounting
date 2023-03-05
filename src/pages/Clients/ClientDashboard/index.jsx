@@ -16,8 +16,6 @@ const AccountingDashBoard = () => {
   };
   const user = token && jwtDecode(token);
 
-  console.log(user);
-
   useEffect(() => {
     document.title = "Dashboard - Client";
     if (token) {

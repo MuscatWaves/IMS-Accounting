@@ -40,7 +40,7 @@ const GrvReportFormCreate = ({
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/grv" : "/api/grv/create",
+      url: editData ? "/api/grv" : "/api/clientgrv/create",
       headers: {
         Authorization: token,
       },
