@@ -9,7 +9,18 @@ export const cards = (user) => [
       .replace("/", "-")
       .replace(/\s+/g, "_")
       .replace(/\./g, "")}`,
-    description: "Manage Daily Entries",
+    description: "View/Manage Daily Entries",
+    // disabled: !user.isHead,
+  },
+  {
+    id: 1,
+    icon: BsPersonBadge,
+    title: "Financial Statements",
+    path: `/accounting/client/fs/${user.clientAccountId}/${user.name
+      .replace("/", "-")
+      .replace(/\s+/g, "_")
+      .replace(/\./g, "")}`,
+    description: "View Financial Statements",
     // disabled: !user.isHead,
   },
 ];

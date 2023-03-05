@@ -82,6 +82,29 @@ const ClientMonthlyOffers = lazy(() =>
 );
 const ClientPurchases = lazy(() => import("../pages/Clients/ClientPurchases"));
 const ClientSales = lazy(() => import("../pages/Clients/ClientSales"));
+//  Accounting Financial Statements
+const ClientFinancialStatements = lazy(() =>
+  import("../pages/Clients/ClientFinancialStatements")
+);
+const ClientBalanceSheet = lazy(() =>
+  import("../pages/Clients/ClientFinancialStatements/BalanceSheet")
+);
+const ClientIncomeStatement = lazy(() =>
+  import("../pages/Clients/ClientFinancialStatements/IncomeStatement")
+);
+const ClientVATReport = lazy(() =>
+  import("../pages/Clients/ClientFinancialStatements/VATReport")
+);
+const ClientVATReturn = lazy(() =>
+  import("../pages/Clients/ClientFinancialStatements/VATReturn")
+);
+const ClientTaxReport = lazy(() =>
+  import("../pages/Clients/ClientFinancialStatements/TaxReport")
+);
+const ClientVATReturnTracker = lazy(() =>
+  import("../pages/Clients/ClientFinancialStatements/VATReturnTracker")
+);
+
 // const ClientRegister = lazy(() => import("../pages/Clients/ClientRegister"));
 
 // Accounting
@@ -334,6 +357,34 @@ const Routing = () => {
                 <Route
                   path="/accounting/client/dailentries/sales/:id/:name"
                   element={<ClientSales />}
+                ></Route>
+                <Route
+                  path="/accounting/client/fs/:id/:name"
+                  element={<ClientFinancialStatements />}
+                ></Route>
+                <Route
+                  path="/accounting/client/fs/balancesheet/:id/:name"
+                  element={<ClientBalanceSheet />}
+                ></Route>
+                <Route
+                  path="/accounting/client/fs/incomestatement/:id/:name"
+                  element={<ClientIncomeStatement />}
+                ></Route>
+                <Route
+                  path="/accounting/client/fs/vatreport/:id/:name"
+                  element={<ClientVATReport />}
+                ></Route>
+                <Route
+                  path="/accounting/client/fs/vatreturn/:id/:name"
+                  element={<ClientVATReturn />}
+                ></Route>
+                <Route
+                  path="/accounting/client/fs/taxreport/:id/:name"
+                  element={<ClientTaxReport />}
+                ></Route>
+                <Route
+                  path="/accounting/client/fs/vatreturntracker/:id/:name"
+                  element={<ClientVATReturnTracker />}
                 ></Route>
                 {/* Accounting - Accountant & AH */}
                 <Route path="/accounting" element={<AccountingLogin />}></Route>
