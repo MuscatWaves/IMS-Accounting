@@ -84,7 +84,7 @@ const ClientPurchases = lazy(() => import("../pages/Clients/ClientPurchases"));
 const ClientSales = lazy(() => import("../pages/Clients/ClientSales"));
 // const ClientRegister = lazy(() => import("../pages/Clients/ClientRegister"));
 
-// Recruitment
+// Accounting
 const AccountingLogin = lazy(() =>
   import("../pages/Accounting/AccountingLogin")
 );

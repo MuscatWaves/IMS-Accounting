@@ -41,7 +41,7 @@ const ItemExpiry = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Item Expiry";
+    document.title = "Accounting - Item Expiry";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -225,9 +225,9 @@ const ItemExpiry = () => {
       >
         <p>{`Are you sure you want to delete ${deletionData?.type} of "${deletionData?.name}" from file data?`}</p>
       </Modal>
-      <Header home={"/recruitment/dashboard"} logOut={"/recruitment"} />
+      <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div
-        className="recruitment-contacts"
+        className="accounting-contacts"
         variants={container}
         initial="hidden"
         animate="show"
@@ -235,10 +235,7 @@ const ItemExpiry = () => {
         <m.div className="title-text primary-color" variants={item}>
           Item Expiry
         </m.div>
-        <m.div
-          className="recruitment-filter-nav-header-without"
-          variants={item}
-        >
+        <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />
           <div className="flex-small-gap">
             <form

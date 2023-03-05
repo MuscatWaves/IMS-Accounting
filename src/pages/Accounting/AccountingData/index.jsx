@@ -52,14 +52,11 @@ const AccountingData = () => {
       transition={{ duration: 0.6 }}
     >
       <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
-      <div className="recruitment-contacts">
+      <div className="accounting-contacts">
         <m.div className="title-text primary-color" variants={item}>
           {`Accounting Data for ${removeUnderScore(param.name)}`}
         </m.div>
-        <m.div
-          className="recruitment-filter-nav-header-without"
-          variants={item}
-        >
+        <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />
         </m.div>
         <Divider />

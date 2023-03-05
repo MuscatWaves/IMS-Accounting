@@ -28,7 +28,7 @@ const AccountingDashBoard = () => {
 
   return (
     <m.div
-      className="recruitment-dashboard"
+      className="accounting-dashboard"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

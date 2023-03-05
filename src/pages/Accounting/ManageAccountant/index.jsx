@@ -216,7 +216,7 @@ const ManageAccountant = () => {
       </Modal>
       <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div
-        className="recruitment-contacts"
+        className="accounting-contacts"
         variants={container}
         initial="hidden"
         animate="show"
@@ -224,10 +224,7 @@ const ManageAccountant = () => {
         <m.div className="title-text primary-color" variants={item}>
           Manage Accountant
         </m.div>
-        <m.div
-          className="recruitment-filter-nav-header-without"
-          variants={item}
-        >
+        <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />
           <div className="flex-small-gap">
             <form

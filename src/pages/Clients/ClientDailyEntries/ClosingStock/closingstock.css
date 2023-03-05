@@ -1,11 +1,11 @@
-.recruitment-contacts {
+.accounting-contacts {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   padding: 2rem;
 }
 
-.recruitment-filter-nav-header-without {
+.accounting-filter-nav-header-without {
   display: flex;
   justify-content: space-between;
   border-radius: 12px;

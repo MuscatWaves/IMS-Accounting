@@ -41,7 +41,7 @@ const PurchaseInvoiceScan = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Recruitment - Purchase Invoice Scan";
+    document.title = "Accounting - Purchase Invoice Scan";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -234,9 +234,9 @@ const PurchaseInvoiceScan = () => {
       >
         <p>{`Are you sure you want to delete ${deletionData?.type} of "${deletionData?.name}" from file data?`}</p>
       </Modal>
-      <Header home={"/recruitment/dashboard"} logOut={"/recruitment"} />
+      <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div
-        className="recruitment-contacts"
+        className="accounting-contacts"
         variants={container}
         initial="hidden"
         animate="show"
@@ -244,10 +244,7 @@ const PurchaseInvoiceScan = () => {
         <m.div className="title-text primary-color" variants={item}>
           Purchase Invoice Scan
         </m.div>
-        <m.div
-          className="recruitment-filter-nav-header-without"
-          variants={item}
-        >
+        <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />
           <div className="flex-small-gap">
             <form
