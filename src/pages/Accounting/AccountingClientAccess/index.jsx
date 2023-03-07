@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
-import Header from "../../../../components/Header";
+import Header from "../../../components/Header";
 import Cookies from "universal-cookie";
-import BreadCrumb from "../../../../components/BreadCrumb";
-import { container, item } from "../../AccountingDashBoard/constants";
+import BreadCrumb from "../../../components/BreadCrumb";
 import { Button, Input, message, Modal, Pagination, Table } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import CashBankStatementFormCreate from "./cashbankstatementcreate";
-import CashBankStatementFilter from "./cashBankStatementFilter";
+import { useQuery } from "react-query";
+import AcaFormCreate from "./acacreate";
+import AcaFilter from "./acaFilter";
+import { container, item } from "../../../utilities";
 import dayjs from "dayjs";
-import { useParams } from "react-router-dom";
-import { removeUnderScore } from "../../../../utilities";
-import "./cashbankstatement.css";
+import "./aca.css";
 
-const CashBankStatement = () => {
-  const params = useParams();
+const AccountingClientAccess = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
   const [name, setName] = useState("");
@@ -41,7 +39,7 @@ const CashBankStatement = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Accounting - Excel Cash & Bank Statements ";
+    document.title = "Accounting - Manage Client Access";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,23 +51,8 @@ const CashBankStatement = () => {
   const navigation = [
     { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
     {
-      id: 1,
-      name: "Pre Selection",
-      url: "/accounting/preselectiondata",
-    },
-    {
-      id: 2,
-      name: `Accounting Data for ${removeUnderScore(params.name)}`,
-      url: `/accounting/data/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
-      name: `Entries`,
-      url: `/accounting/entries/${params.id}/${params.name}`,
-    },
-    {
       id: 4,
-      name: "Excel Cash & Bank Statements",
+      name: "Manage Client Access",
       active: true,
     },
   ];
@@ -78,6 +61,26 @@ const CashBankStatement = () => {
     setPage(page);
     getData(filter, page);
   };
+
+  const { data: clientsList } = useQuery(
+    ["clients"],
+    () =>
+      axios.get("/api/client", {
+        headers: {
+          Authorization: token,
+        },
+      }),
+    {
+      refetchOnWindowFocus: false,
+      select: (data) => {
+        const newData = data.data.data.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+        return newData;
+      },
+    }
+  );
 
   const getData = async (values, page) => {
     setLoading(true);
@@ -89,7 +92,7 @@ const CashBankStatement = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/ecbp?search=${values.search}&page=${page}`,
+        `/api/grv?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -113,28 +116,6 @@ const CashBankStatement = () => {
 
   const columns = [
     {
-      title: "Date",
-      render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
-    },
-    {
-      title: "Opening balance",
-      render: (record) => <div className="text-grey">{record.balance}</div>,
-    },
-    {
-      title: "Total sales (Cash and Bank)",
-      render: (record) => <div className="text-grey">{record.sales}</div>,
-    },
-    {
-      title: "Total Expense",
-      render: (record) => <div className="text-grey">{record.expense}</div>,
-    },
-    {
-      title: "Closing Balance end of the Day",
-      render: (record) => (
-        <div className="text-grey">{record.closingBalance}</div>
-      ),
-    },
-    {
       title: "Client",
       render: (record) => (
         <div>
@@ -143,6 +124,14 @@ const CashBankStatement = () => {
         </div>
       ),
     },
+    {
+      title: "Created Date",
+      render: (record) => <div>{dayjs(record.createdAt).format("llll")}</div>,
+    },
+    // {
+    //   title: "Access Provided",
+    //   render: (record) => <div>{record.accessmap()}</div>
+    // },
     {
       title: "Actions",
       render: (record) => (
@@ -187,7 +176,7 @@ const CashBankStatement = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/ecbp/${deletionData.id}`,
+      url: `/api/grv/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -222,14 +211,14 @@ const CashBankStatement = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <CashBankStatementFormCreate
+        <AcaFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
           setEditData={setEditData}
           getData={refetch}
           filterValues={filter}
-          params={params}
+          clientsList={clientsList}
         />
       )}
       <Modal
@@ -253,7 +242,7 @@ const CashBankStatement = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Excel Cash & Bank Statements
+          Manage Client Access
         </m.div>
         <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />
@@ -307,13 +296,14 @@ const CashBankStatement = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <CashBankStatementFilter
+            <AcaFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              clientsList={clientsList}
             />
           )}
         </AnimatePresence>
@@ -342,4 +332,4 @@ const CashBankStatement = () => {
   );
 };
 
-export default CashBankStatement;
+export default AccountingClientAccess;

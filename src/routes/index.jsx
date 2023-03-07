@@ -126,6 +126,9 @@ const AccountingClientInformation = lazy(() =>
 const AccountingClientAttachments = lazy(() =>
   import("../pages/Accounting/AccountingClientAttachments")
 );
+const AccountingClientAccess = lazy(() =>
+  import("../pages/Accounting/AccountingClientAccess")
+);
 const PreAccountData = lazy(() => import("../pages/Accounting/PreAccountData"));
 const AccountingData = lazy(() => import("../pages/Accounting/AccountingData"));
 // Accounting Entries - Accountant
@@ -395,6 +398,10 @@ const Routing = () => {
                 <Route
                   path="/accounting/manageAccountant"
                   element={<ManageAccountant />}
+                ></Route>
+                <Route
+                  path="/accounting/manageClientAccess"
+                  element={<AccountingClientAccess />}
                 ></Route>
                 <Route
                   path="/accounting/clients"

@@ -14,6 +14,7 @@ import { useQuery } from "react-query";
 import AccountingClientAttachmentForm from "./accountingclientattachmentcreate";
 import AccountingClientInformationFilter from "./accountingClientAttachmentFilter";
 import "./accountingclientinfo.css";
+import dayjs from "dayjs";
 
 const AccountingClientAttachments = () => {
   const cookies = new Cookies();
@@ -224,7 +225,9 @@ const AccountingClientAttachments = () => {
         okType={"danger"}
         confirmLoading={deleteLoading}
       >
-        <p>{`Are you sure you want to delete ${deletionData?.type} of "${deletionData?.name}" from file data?`}</p>
+        <p>{`Are you sure you want to delete the entry created at "${dayjs(
+          deletionData?.createdAt
+        ).format("llll")}" from data?`}</p>
       </Modal>
       <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div

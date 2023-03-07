@@ -30,6 +30,15 @@ export const cards = (user) => [
   },
   {
     id: 4,
+    icon: ImAttachment,
+    title: "Manage Client Access",
+    path: "/accounting/manageClientAccess",
+    description:
+      "Manage client access according to the service or manufacturing sector",
+    disabled: !user.isHead,
+  },
+  {
+    id: 5,
     icon: BsPersonBadge,
     title: "Manage Accountant",
     path: "/accounting/manageAccountant",
@@ -37,7 +46,7 @@ export const cards = (user) => [
     disabled: !user.isHead,
   },
   {
-    id: 5,
+    id: 6,
     icon: BsPersonBadge,
     title: "Accounting Data",
     path: "/accounting/preselectiondata",
