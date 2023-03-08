@@ -3,7 +3,15 @@ import { AnimatePresence, m } from "framer-motion";
 import Header from "../../../components/Header";
 import Cookies from "universal-cookie";
 import BreadCrumb from "../../../components/BreadCrumb";
-import { Button, Input, message, Modal, Pagination, Table } from "antd";
+import {
+  Button,
+  Divider,
+  Input,
+  message,
+  Modal,
+  Pagination,
+  Table,
+} from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
@@ -12,6 +20,7 @@ import { useQuery } from "react-query";
 import AcaFormCreate from "./acacreate";
 import AcaFilter from "./acaFilter";
 import { container, item } from "../../../utilities";
+import { BsCheckCircleFill } from "react-icons/bs";
 import dayjs from "dayjs";
 import "./aca.css";
 
@@ -28,6 +37,7 @@ const AccountingClientAccess = () => {
   const [deletionData, setDeletionData] = useState(null);
   const [deleteModal, toggleDeleteModal] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [moreInfoModal, toggleMoreInfoModal] = useState(false);
   var localizedFormat = require("dayjs/plugin/localizedFormat");
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
@@ -92,7 +102,7 @@ const AccountingClientAccess = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/grv?search=${values.search}&page=${page}`,
+        `/api/clientaccess?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -139,13 +149,12 @@ const AccountingClientAccess = () => {
           <Button
             type="primary"
             onClick={() => {
-              window.open(
-                `https://cvparse.fra1.cdn.digitaloceanspaces.com/accounts/${record.attachment}`
-              );
+              setEditData(record);
+              toggleMoreInfoModal(true);
             }}
             ghost
           >
-            <div className="bold">View File</div>
+            <div className="bold">View Access Information</div>
           </Button>
           <Button
             type="primary"
@@ -176,7 +185,7 @@ const AccountingClientAccess = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/grv/${deletionData.id}`,
+      url: `/api/clientaccess/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -202,6 +211,113 @@ const AccountingClientAccess = () => {
     setDeleteLoading(false);
     setDeletionData(null);
   };
+
+  const entries = [
+    { id: 1, label: "GRV Report", value: editData?.grv },
+    { id: 6, label: "Attendance", value: editData?.attendance },
+    {
+      id: 9,
+      label: "Inventory Stock in-out Ledger",
+      value: editData?.inventoryStockInOutLedger,
+    },
+    { id: 10, label: "Item Expiry", value: editData?.itemExpiry },
+    {
+      id: 11,
+      label: "Closing Stock with values",
+      value: editData?.closingStockwithvalues,
+    },
+    {
+      id: 12,
+      label: "Excel Cash & Bank Payments",
+      value: editData?.excelCashBankPayments,
+    },
+    { id: 13, label: "Merchant Summary", value: editData?.merchantSummary },
+    {
+      id: 14,
+      label: "Outstanding Statement Supplier",
+      value: editData?.outstandingStatementSupplier,
+    },
+    {
+      id: 16,
+      label: "Payment Voucher Scan",
+      value: editData?.paymentVoucherScan,
+    },
+    {
+      id: 17,
+      label: "Ooredoo & Omantel Sales & Payment Balance",
+      value: editData?.ooredooOmantelSalesPaymentBalance,
+    },
+    { id: 18, label: "Bank Statement", value: editData?.bankStatement },
+    {
+      id: 20,
+      label: "Product cost sheet for Manufacturing",
+      value: editData?.productCostSheetForManufacturing,
+    },
+    {
+      id: 21,
+      label: "Product cost sheet for Services",
+      value: editData?.productCostSheetForServices,
+    },
+    {
+      id: 22,
+      label: "Monthly Discounts",
+      value: editData?.monthlyDiscount,
+    },
+    {
+      id: 23,
+      label: "Monthly Offers",
+      value: editData?.monthlyOffers,
+    },
+  ];
+
+  const purchase = [
+    { id: 2, label: "Purchase Report", value: editData?.purchase },
+    { id: 3, label: "Purchase Return Report", value: editData?.purchaseReturn },
+    {
+      id: 4,
+      label: "Purchase from Other Branches",
+      value: editData?.purchaseFromOtherBranches,
+    },
+    {
+      id: 5,
+      label: "Purchase Invoice Scan",
+      value: editData?.purchaseInvoiceScan,
+    },
+  ];
+
+  const sales = [
+    { id: 7, label: "Sales Report", value: editData?.salesReport },
+    {
+      id: 8,
+      label: "Sales Quantitative Summary",
+      value: editData?.salesQuantitativeSummary,
+    },
+    {
+      id: 15,
+      label: "Sales to other store",
+      value: editData?.salesToOtherStoreIfAny,
+    },
+    { id: 19, label: "Credit Sales", value: editData?.creditSales },
+  ];
+
+  const financialStatements = [
+    { id: 1, label: "Balance Sheet", value: editData?.balanceSheetColumns },
+    {
+      id: 2,
+      label: "Income Statements",
+      value: editData?.incomeStatementsColumns,
+    },
+    { id: 3, label: "VAT Report", value: editData?.vatReportColumns },
+    { id: 4, label: "VAT Return", value: editData?.vatReturnColumns },
+    { id: 5, label: "Tax Report", value: editData?.taxReportColumns },
+    { id: 6, label: "VAT Return Tracker", value: editData?.vatReturnTracker },
+    { id: 7, label: "Invoice Details", value: editData?.invoiceDetails },
+    {
+      id: 8,
+      label: "Payments Received Invoice",
+      value: editData?.paymentsReceivedInvoice,
+    },
+  ];
 
   return (
     <m.div
@@ -233,6 +349,97 @@ const AccountingClientAccess = () => {
         <p>{`Are you sure you want to delete the entry created at "${dayjs(
           deletionData?.createdAt
         ).format("llll")}" from data?`}</p>
+      </Modal>
+      <Modal
+        title={
+          <div className="large-text bold text-light-grey">
+            More information
+          </div>
+        }
+        open={moreInfoModal}
+        onCancel={() => {
+          setEditData(null);
+          toggleMoreInfoModal(false);
+        }}
+        footer={false}
+        centered
+      >
+        <div className="very-small-padding">
+          <div className="title-text">{editData?.name}</div>
+          <div className="medium-text bold">{editData?.email}</div>
+          {entries.filter((entry) => entry.value).length > 0 && (
+            <div>
+              <Divider orientation="left" orientationMargin="0">
+                <div className="bolder text-black small-text">
+                  Daily entries
+                </div>
+              </Divider>
+              <div className="client-access-card">
+                {entries
+                  .filter((entry) => entry.value)
+                  .map((data) => (
+                    <div className="flex-small-gap" key={data.id}>
+                      <BsCheckCircleFill className="text-green" />
+                      <div>{data.label}</div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+          {purchase.filter((entry) => entry.value).length > 0 && (
+            <div>
+              <Divider orientation="left" orientationMargin="0">
+                <div className="bolder text-black small-text">Purchases</div>
+              </Divider>
+              <div className="client-access-card">
+                {purchase
+                  .filter((entry) => entry.value)
+                  .map((data) => (
+                    <div className="flex-small-gap" key={data.id}>
+                      <BsCheckCircleFill className="text-green" />
+                      <div>{data.label}</div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+          {sales.filter((entry) => entry.value).length > 0 && (
+            <div>
+              <Divider orientation="left" orientationMargin="0">
+                <div className="bolder text-black small-text">Sales</div>
+              </Divider>
+              <div className="client-access-card">
+                {sales
+                  .filter((entry) => entry.value)
+                  .map((data) => (
+                    <div className="flex-small-gap" key={data.id}>
+                      <BsCheckCircleFill className="text-green" />
+                      <div>{data.label}</div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+          {financialStatements.filter((entry) => entry.value).length > 0 && (
+            <div>
+              <Divider orientation="left" orientationMargin="0">
+                <div className="bolder text-black small-text">
+                  Financial Statements
+                </div>
+              </Divider>
+              <div className="client-access-card">
+                {financialStatements
+                  .filter((entry) => entry.value)
+                  .map((data) => (
+                    <div className="flex-small-gap" key={data.id}>
+                      <BsCheckCircleFill className="text-green" />
+                      <div>{data.label}</div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+        </div>
       </Modal>
       <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div

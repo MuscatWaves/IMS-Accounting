@@ -10,6 +10,8 @@ import { container, item } from "../../../utilities";
 import "./financialstatements.css";
 
 const FinancialStatements = () => {
+  const entries = {};
+  const access = JSON.parse(localStorage.getItem("access"));
   const params = useParams();
   const navigateTo = useNavigate();
   useEffect(() => {
@@ -24,6 +26,10 @@ const FinancialStatements = () => {
       active: true,
     },
   ];
+
+  access.financialStatements.forEach((elem, i) => {
+    entries[access.financialStatements[i].label] = elem.value;
+  });
 
   return (
     <m.div
@@ -48,7 +54,7 @@ const FinancialStatements = () => {
             initial="hidden"
             animate="show"
           >
-            {predashoptions(params).map(
+            {predashoptions(params, entries).map(
               (card) =>
                 !card.disabled && (
                   <m.div

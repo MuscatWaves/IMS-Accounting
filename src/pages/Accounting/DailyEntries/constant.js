@@ -3,6 +3,7 @@ export const predashoptions = (params) => [
     id: 1,
     title: "Attendance Report",
     path: `/accounting/entries/attendanceReport/${params.id}/${params.name}`,
+    // disabled: ""
   },
   {
     id: 2,

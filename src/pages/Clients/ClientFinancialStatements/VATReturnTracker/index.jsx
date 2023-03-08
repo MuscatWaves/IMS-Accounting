@@ -273,7 +273,7 @@ const VATReturnTracker = () => {
           deletionData?.createdAt
         ).format("llll")}" from data?`}</p>
       </Modal>
-      <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
+      <Header home={"/client/dashboard"} logOut={"/client"} />
       <m.div
         className="accounting-contacts"
         variants={container}

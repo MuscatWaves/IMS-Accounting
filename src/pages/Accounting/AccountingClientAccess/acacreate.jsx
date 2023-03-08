@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Button, Form, Drawer, message, Select, Switch, Divider } from "antd";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import dayjs from "dayjs";
 import "./aca.css";
 
 const AcaFormCreate = ({
@@ -25,57 +24,50 @@ const AcaFormCreate = ({
   };
 
   const handleUpdateUser = async (values, status = editData?.status) => {
-    var FormData = require("form-data");
-    var data = new FormData();
-    editData && data.append("id", editData?.id);
-    data.append("clientId", values?.clientId);
-    data.append("grvReport", values.grvReport);
-    data.append("purchaseReport", values.grvReport);
-    data.append("purchaseReturnReport", values.purchaseReturnReport);
-    data.append("purchaseFromOtherBranch", values.purchaseFromOtherBranch);
-    data.append("purchaseInvoiceScan", values.purchaseInvoiceScan);
-    data.append("attendance", values.attendance);
-    data.append("salesReport", values.purchaseFromOtherBranch);
-    data.append("salesQuantitativeSummary", values.purchaseFromOtherBranch);
-    data.append("inventoryStockInOutLedger", values.inventoryStockInOutLedger);
-    data.append("itemExpiry", values.itemExpiry);
-    data.append("closingStockWithValues", values.closingStockWithValues);
-    data.append("excelCashBankStatements", values.excelCashBankStatements);
-    data.append("merchantSummary", values.merchantSummary);
-    data.append(
-      "outstandingStatementSupplier",
-      values.outstandingStatementSupplier
-    );
-    data.append("salesToOtherStore", values.salesToOtherStore);
-    data.append("paymentVoucherScan", values.paymentVoucherScan);
-    data.append("oredooOman", values.oredooOman);
-    data.append("bankStatement", values.bankStatement);
-    data.append("creditSales", values.creditSales);
-    data.append(
-      "productCostSheetForManufacturing",
-      values.productCostSheetForManufacturing
-    );
-    data.append(
-      "productCostSheetForServices",
-      values.productCostSheetForServices
-    );
-    data.append("monthlyDiscount", values.monthlyDiscount);
-    data.append("monthlyOffers", values.monthlyOffers);
-    data.append("balanceSheet", values.balanceSheet);
-    data.append("incomeStatement", values.incomeStatement);
-    data.append("vatReport", values.vatReport);
-    data.append("vatReturn", values.vatReturn);
-    data.append("taxReport", values.taxReport);
-    data.append("invoiceDetails", values.invoiceDetails);
-    data.append("vatReturnTracker", values.vatReturnTracker);
-    data.append("prInvoice", values.prInvoice);
+    var data = JSON.stringify({
+      id: Number(editData?.id),
+      attendance: values?.attendance,
+      balanceSheetColumns: values?.balanceSheetColumns,
+      bankStatement: values?.bankStatement,
+      closingStockwithvalues: values?.closingStockwithvalues,
+      creditSales: values?.creditSales,
+      excelCashBankPayments: values?.excelCashBankPayments,
+      grv: values?.grv,
+      incomeStatementsColumns: values?.incomeStatementsColumns,
+      inventoryStockInOutLedger: values?.inventoryStockInOutLedger,
+      invoiceDetails: values?.invoiceDetails,
+      itemExpiry: values?.itemExpiry,
+      merchantSummary: values?.merchantSummary,
+      monthlyDiscount: values?.monthlyDiscount,
+      monthlyOffers: values?.monthlyOffers,
+      ooredooOmantelSalesPaymentBalance:
+        values?.ooredooOmantelSalesPaymentBalance,
+      outstandingStatementSupplier: values?.outstandingStatementSupplier,
+      paymentVoucherScan: values?.paymentVoucherScan,
+      paymentsReceivedInvoice: values?.paymentsReceivedInvoice,
+      productCostSheetForManufacturing:
+        values?.productCostSheetForManufacturing,
+      productCostSheetForServices: values?.productCostSheetForServices,
+      purchase: values?.purchase,
+      purchaseFromOtherBranches: values?.purchaseFromOtherBranches,
+      purchaseInvoiceScan: values?.purchaseInvoiceScan,
+      purchaseReturn: values?.purchaseReturn,
+      salesQuantitativeSummary: values?.salesQuantitativeSummary,
+      salesReport: values?.salesReport,
+      salesToOtherStoreIfAny: values?.salesToOtherStoreIfAny,
+      taxReportColumns: values?.taxReportColumns,
+      vatReportColumns: values?.vatReportColumns,
+      vatReturnColumns: values?.vatReturnColumns,
+      vatReturnTracker: values?.vatReturnTracker,
+    });
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/grv" : "/api/grv/create",
+      url: editData ? "/api/clientaccess" : "/api/clientaccess/create",
       headers: {
         Authorization: token,
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -94,7 +86,7 @@ const AcaFormCreate = ({
   };
 
   const entries = [
-    { id: 1, label: "GRV Report", value: "grvReport" },
+    { id: 1, label: "GRV Report", value: "grv" },
     { id: 6, label: "Attendance", value: "attendance" },
     {
       id: 9,
@@ -105,12 +97,12 @@ const AcaFormCreate = ({
     {
       id: 11,
       label: "Closing Stock with values",
-      value: "closingStockWithValues",
+      value: "closingStockwithvalues",
     },
     {
       id: 12,
       label: "Excel Cash & Bank Payments",
-      value: "excelCashBankStatement",
+      value: "excelCashBankPayments",
     },
     { id: 13, label: "Merchant Summary", value: "merchantSummary" },
     {
@@ -122,7 +114,7 @@ const AcaFormCreate = ({
     {
       id: 17,
       label: "Ooredoo & Omantel Sales & Payment Balance",
-      value: "oredooOmantel",
+      value: "ooredooOmantelSalesPaymentBalance",
     },
     { id: 18, label: "Bank Statement", value: "bankStatement" },
     {
@@ -138,18 +130,18 @@ const AcaFormCreate = ({
     {
       id: 22,
       label: "Monthly Discounts",
-      value: "productCostSheetForManufacturing",
+      value: "monthlyDiscount",
     },
     {
       id: 23,
       label: "Monthly Offers",
-      value: "productCostSheetForManufacturing",
+      value: "monthlyOffers",
     },
   ];
 
   const purchase = [
-    { id: 2, label: "Purchase Report", value: "purchaseReport" },
-    { id: 3, label: "Purchase Return Report", value: "purchaseReturnReport" },
+    { id: 2, label: "Purchase Report", value: "purchase" },
+    { id: 3, label: "Purchase Return Report", value: "purchaseReturn" },
     {
       id: 4,
       label: "Purchase from Other Branches",
@@ -163,24 +155,24 @@ const AcaFormCreate = ({
     {
       id: 8,
       label: "Sales Quantitative Summary",
-      value: "salesQuantitativeReport",
+      value: "salesQuantitativeSummary",
     },
-    { id: 15, label: "Sales to other store", value: "salesToOtherStore" },
+    { id: 15, label: "Sales to other store", value: "salesToOtherStoreIfAny" },
     { id: 19, label: "Credit Sales", value: "creditSales" },
   ];
 
   const financialStatements = [
-    { id: 1, label: "Balance Sheet", value: "balanceSheet" },
-    { id: 2, label: "Income Statements", value: "incomeStatements" },
-    { id: 3, label: "VAT Report", value: "vatReport" },
-    { id: 4, label: "VAT Return", value: "vatReturn" },
-    { id: 5, label: "Tax Report", value: "taxReport" },
+    { id: 1, label: "Balance Sheet", value: "balanceSheetColumns" },
+    { id: 2, label: "Income Statements", value: "incomeStatementsColumns" },
+    { id: 3, label: "VAT Report", value: "vatReportColumns" },
+    { id: 4, label: "VAT Return", value: "vatReturnColumns" },
+    { id: 5, label: "Tax Report", value: "taxReportColumns" },
     { id: 6, label: "VAT Return Tracker", value: "vatReturnTracker" },
     { id: 7, label: "Invoice Details", value: "invoiceDetails" },
     {
       id: 8,
       label: "Payments Received Invoice",
-      value: "paymentRecievedInvoice",
+      value: "paymentsReceivedInvoice",
     },
   ];
 
@@ -201,15 +193,44 @@ const AcaFormCreate = ({
           scrollToFirstError={true}
           initialValues={{
             clientId: editData?.clientId || null,
-            entryDate:
-              (editData?.entryDate &&
-                dayjs(editData?.entryDate).isValid() &&
-                dayjs(editData?.entryDate)) ||
-              "",
-            grv: editData?.grv || "",
-            vat: editData?.vat || "",
-            location: editData?.location || "",
-            file: editData?.file || null,
+            attendance: editData?.attendance || false,
+            balanceSheetColumns: editData?.balanceSheetColumns || false,
+            bankStatement: editData?.bankStatement || false,
+            closingStockwithvalues: editData?.closingStockwithvalues || false,
+            creditSales: editData?.creditSales || false,
+            excelCashBankPayments: editData?.excelCashBankPayments || false,
+            grv: editData?.grv || false,
+            incomeStatementsColumns: editData?.incomeStatementsColumns || false,
+            inventoryStockInOutLedger:
+              editData?.inventoryStockInOutLedger || false,
+            invoiceDetails: editData?.invoiceDetails || false,
+            itemExpiry: editData?.itemExpiry || false,
+            merchantSummary: editData?.merchantSummary || false,
+            monthlyDiscount: editData?.monthlyDiscount || false,
+            monthlyOffers: editData?.monthlyOffers || false,
+            ooredooOmantelSalesPaymentBalance:
+              editData?.ooredooOmantelSalesPaymentBalance || false,
+            outstandingStatementSupplier:
+              editData?.outstandingStatementSupplier || false,
+            paymentVoucherScan: editData?.paymentVoucherScan || false,
+            paymentsReceivedInvoice: editData?.paymentsReceivedInvoice || false,
+            productCostSheetForManufacturing:
+              editData?.productCostSheetForManufacturing || false,
+            productCostSheetForServices:
+              editData?.productCostSheetForServices || false,
+            purchase: editData?.purchase || false,
+            purchaseFromOtherBranches:
+              editData?.purchaseFromOtherBranches || false,
+            purchaseInvoiceScan: editData?.purchaseInvoiceScan || false,
+            purchaseReturn: editData?.purchaseReturn || false,
+            salesQuantitativeSummary:
+              editData?.salesQuantitativeSummary || false,
+            salesReport: editData?.salesReport || false,
+            salesToOtherStoreIfAny: editData?.salesToOtherStoreIfAny || false,
+            taxReportColumns: editData?.taxReportColumns || false,
+            vatReportColumns: editData?.vatReportColumns || false,
+            vatReturnColumns: editData?.vatReturnColumns || false,
+            vatReturnTracker: editData?.vatReturnTracker || false,
           }}
         >
           <Form.Item

@@ -10,6 +10,8 @@ import BreadCrumb from "../../../components/BreadCrumb";
 import { container, item } from "../../../utilities";
 
 const ClientPurchases = () => {
+  const entries = {};
+  const access = JSON.parse(localStorage.getItem("access"));
   const params = useParams();
   const navigateTo = useNavigate();
   useEffect(() => {
@@ -30,6 +32,10 @@ const ClientPurchases = () => {
     },
   ];
 
+  access.purchase.forEach((elem, i) => {
+    entries[access.purchase[i].label] = elem.value;
+  });
+
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -37,7 +43,7 @@ const ClientPurchases = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
+      <Header home={"/client/dashboard"} logOut={"/client"} />
       <div className="main-body">
         <m.div className="title-text primary-color" variants={item}>
           Entries - Purchases
@@ -53,7 +59,7 @@ const ClientPurchases = () => {
             initial="hidden"
             animate="show"
           >
-            {predashoptions(params).map(
+            {predashoptions(params, entries).map(
               (card) =>
                 !card.disabled && (
                   <m.div

@@ -1,6 +1,6 @@
 import { BsPersonBadge } from "react-icons/bs";
 
-export const cards = (user) => [
+export const cards = (user, access) => [
   {
     id: 1,
     icon: BsPersonBadge,
@@ -10,10 +10,14 @@ export const cards = (user) => [
       .replace(/\s+/g, "_")
       .replace(/\./g, "")}`,
     description: "View/Manage Daily Entries",
-    // disabled: !user.isHead,
+    disabled: !(
+      access?.purchase.filter((entry) => entry.value).length > 0 ||
+      access?.sales.filter((entry) => entry.value).length > 0 ||
+      access?.entries.filter((entry) => entry.value).length > 0
+    ),
   },
   {
-    id: 1,
+    id: 2,
     icon: BsPersonBadge,
     title: "Financial Statements",
     path: `/accounting/client/fs/${user.clientAccountId}/${user.name
@@ -21,7 +25,8 @@ export const cards = (user) => [
       .replace(/\s+/g, "_")
       .replace(/\./g, "")}`,
     description: "View Financial Statements",
-    // disabled: !user.isHead,
+    disabled:
+      !access?.financialStatements.filter((entry) => entry.value).length > 0,
   },
 ];
 
