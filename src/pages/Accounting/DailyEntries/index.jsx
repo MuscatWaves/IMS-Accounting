@@ -11,6 +11,8 @@ import BreadCrumb from "../../../components/BreadCrumb";
 import { removeUnderScore } from "../../../utilities";
 
 const DailyEntries = () => {
+  const entries = {};
+  const access = JSON.parse(localStorage.getItem("accessAcc"));
   const params = useParams();
   const navigateTo = useNavigate();
   useEffect(() => {
@@ -36,6 +38,10 @@ const DailyEntries = () => {
     },
   ];
 
+  access.entries.forEach((elem, i) => {
+    entries[access.entries[i].label] = elem.value;
+  });
+
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -59,7 +65,7 @@ const DailyEntries = () => {
             initial="hidden"
             animate="show"
           >
-            {predashoptions(params).map(
+            {predashoptions(params, entries, access).map(
               (card) =>
                 !card.disabled && (
                   <m.div

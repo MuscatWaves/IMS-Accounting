@@ -46,6 +46,14 @@ export const cards = (user) => [
     disabled: !user.isHead,
   },
   {
+    id: 5,
+    icon: BsPersonBadge,
+    title: "Manage Accountant Access",
+    path: "/accounting/accaccess",
+    description: "Manage accountant accounts access",
+    disabled: !user.isHead,
+  },
+  {
     id: 6,
     icon: BsPersonBadge,
     title: "Accounting Data",

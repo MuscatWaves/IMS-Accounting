@@ -15,7 +15,6 @@ const PRFormCreate = ({
   getData,
   filterValues,
   params,
-  invoiceData,
 }) => {
   const [form] = Form.useForm();
   const [isLoading, setLoading] = useState(false);
@@ -91,7 +90,7 @@ const PRFormCreate = ({
                 dayjs(editData?.entryDate)) ||
               "",
             clientName: removeUnderScore(params.name) || "",
-            invoiceNumber: editData?.invoiceNumber || null,
+            invoiceNumber: editData?.invoiceNumber || "",
             POWONumber: editData?.POWONumber || "",
             invoiceAmount: editData?.invoiceAmount || "",
             amountReceived: editData?.amountReceived || "",
@@ -160,16 +159,7 @@ const PRFormCreate = ({
               },
             ]}
           >
-            <Select
-              options={invoiceData}
-              placeholder={"Select the Invoice Number"}
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              showSearch
-            />
+            <Input placeholder={"Enter Invoice number"} />
           </Form.Item>
           <Form.Item
             name="POWONumber"

@@ -15,6 +15,7 @@ import { removeUnderScore } from "../../../utilities";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import "./pr.css";
+import { useQuery } from "react-query";
 
 const PRInvoice = () => {
   const params = useParams();
@@ -105,6 +106,26 @@ const PRInvoice = () => {
       setLoading(false);
     }
   };
+
+  const { data: invoiceData } = useQuery(
+    ["clientInformation"],
+    () =>
+      axios.get(`/api/incdt`, {
+        headers: {
+          Authorization: token,
+        },
+      }),
+    {
+      refetchOnWindowFocus: false,
+      select: (data) => {
+        const newData = data.data.data.map((data) => ({
+          label: `${data.invoiceNumber} - ${data.invoiceType}`,
+          value: data.invoiceNumber,
+        }));
+        return newData;
+      },
+    }
+  );
 
   const columns = [
     {
@@ -235,6 +256,7 @@ const PRInvoice = () => {
           getData={refetch}
           filterValues={filter}
           params={params}
+          invoiceData={invoiceData}
         />
       )}
       <Modal

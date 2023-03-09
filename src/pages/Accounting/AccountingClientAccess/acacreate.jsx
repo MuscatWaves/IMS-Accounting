@@ -168,6 +168,9 @@ const AcaFormCreate = ({
     { id: 4, label: "VAT Return", value: "vatReturnColumns" },
     { id: 5, label: "Tax Report", value: "taxReportColumns" },
     { id: 6, label: "VAT Return Tracker", value: "vatReturnTracker" },
+  ];
+
+  const invoices = [
     { id: 7, label: "Invoice Details", value: "invoiceDetails" },
     {
       id: 8,
@@ -316,6 +319,23 @@ const AcaFormCreate = ({
             </div>
           </Divider>
           {financialStatements.map((entry) => (
+            <Form.Item
+              key={entry.id}
+              name={entry.value}
+              label={entry.label}
+              valuePropName={"checked"}
+            >
+              <Switch />
+            </Form.Item>
+          ))}
+          <Divider
+            orientation="left"
+            orientationMargin="0"
+            className="grid-all-column"
+          >
+            <div className="bolder text-black small-text">Invoices</div>
+          </Divider>
+          {invoices.map((entry) => (
             <Form.Item
               key={entry.id}
               name={entry.value}

@@ -1,4 +1,5 @@
 import { BsPersonBadge } from "react-icons/bs";
+import { MdOutlineAssignmentInd } from "react-icons/md";
 
 export const cards = (user, access) => [
   {
@@ -25,8 +26,32 @@ export const cards = (user, access) => [
       .replace(/\s+/g, "_")
       .replace(/\./g, "")}`,
     description: "View Financial Statements",
-    disabled:
-      !access?.financialStatements.filter((entry) => entry.value).length > 0,
+    disabled: !(
+      access?.financialStatements.filter((entry) => entry.value).length > 0 &&
+      user.isHead
+    ),
+  },
+  {
+    id: 3,
+    icon: MdOutlineAssignmentInd,
+    title: "Invoices",
+    path: `/accounting/client/invoice/${user.clientAccountId}/${user.name
+      .replace("/", "-")
+      .replace(/\s+/g, "_")
+      .replace(/\./g, "")}`,
+    description: "View Invoice Details",
+    disabled: !(access.invoice && user.isHead),
+  },
+  {
+    id: 4,
+    icon: MdOutlineAssignmentInd,
+    title: "PR Invoices",
+    path: `/accounting/client/prinvoice/${user.clientAccountId}/${user.name
+      .replace("/", "-")
+      .replace(/\s+/g, "_")
+      .replace(/\./g, "")}`,
+    description: "View PR Invoice Details",
+    disabled: !(access.prInvoice && user.isHead),
   },
 ];
 

@@ -7,7 +7,7 @@ import Dragger from "antd/es/upload/Dragger";
 import dayjs from "dayjs";
 import { removeUnderScore } from "../../../utilities";
 
-const PRFormCreate = ({
+const InvoiceFormCreate = ({
   isModalOpen,
   setModal,
   editData,
@@ -15,8 +15,9 @@ const PRFormCreate = ({
   getData,
   filterValues,
   params,
-  invoiceData,
+  client,
 }) => {
+  const { TextArea } = Input;
   const [form] = Form.useForm();
   const [isLoading, setLoading] = useState(false);
   const cookies = new Cookies();
@@ -33,18 +34,21 @@ const PRFormCreate = ({
     editData && data.append("id", editData?.id);
     data.append("clientId", values?.clientId);
     editData && data.append("entryDate", values?.entryDate);
-    data.append("clientName", values.clientName);
+    data.append("clientName", removeUnderScore(params.name));
+    data.append("clientAddress", client.ci_address);
+    data.append("VATNumber", client.ci_VATIN);
+    data.append("TaxNumber", client.ci_Tax);
+    data.append("invoiceType", values.invoiceType);
     data.append("invoiceNumber", values.invoiceNumber);
-    data.append("POWONumber", values.POWONumber);
-    data.append("invoiceAmount", values.invoiceAmount);
-    data.append("amountReceived", values.amountReceived);
-    data.append("pendingBalance", values.pendingBalance);
+    data.append("netPayable", values.netPayable);
+    data.append("summary", values.summary);
+    data.append("POWONumbers", values.POWONumbers);
     !editData && data.append("file", values.file.file);
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
       maxBodyLength: Infinity,
-      url: editData ? "/api/prict" : "/api/prict/create",
+      url: editData ? "/api/incdt" : "/api/incdt/create",
       headers: {
         Authorization: token,
       },
@@ -66,11 +70,7 @@ const PRFormCreate = ({
 
   return (
     <Drawer
-      title={
-        editData
-          ? "Update Payments Received Invoice"
-          : "Create Payments Received Invoice"
-      }
+      title={editData ? "Update Tax Report" : "Create Tax Report"}
       placement="right"
       size="large"
       onClose={onClose}
@@ -90,17 +90,16 @@ const PRFormCreate = ({
                 dayjs(editData?.entryDate).isValid() &&
                 dayjs(editData?.entryDate)) ||
               "",
-            clientName: removeUnderScore(params.name) || "",
-            invoiceNumber: editData?.invoiceNumber || null,
-            POWONumber: editData?.POWONumber || "",
-            invoiceAmount: editData?.invoiceAmount || "",
-            amountReceived: editData?.amountReceived || "",
-            pendingBalance: editData?.pendingBalance || "",
+            invoiceType: editData?.invoiceType || null,
+            invoiceNumber: editData?.invoiceNumber || "",
+            netPayable: editData?.netPayable || "",
+            POWONumbers: editData?.POWONumbers || "",
+            summary: editData?.summary || "",
             file: editData?.file || null,
           }}
         >
           <Form.Item
-            className={"hidden"}
+            className={!editData && "grid-2-column"}
             name="clientId"
             label={"Client"}
             rules={[
@@ -139,85 +138,71 @@ const PRFormCreate = ({
             </Form.Item>
           )}
           <Form.Item
-            name="clientName"
-            label={"Client Name"}
+            name="invoiceType"
+            label={"Invoice Type"}
             rules={[
               {
                 required: true,
-                message: "No Client Name provided",
-              },
-            ]}
-          >
-            <Input placeholder={"Enter Client Name"} disabled />
-          </Form.Item>
-          <Form.Item
-            name="invoiceNumber"
-            label={"Invoice number"}
-            rules={[
-              {
-                required: true,
-                message: "No Invoice number provided",
+                message: "No Invoice Type provided",
               },
             ]}
           >
             <Select
-              options={invoiceData}
-              placeholder={"Select the Invoice Number"}
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              showSearch
+              placeholder={"Select Invoice Type"}
+              options={[
+                { label: "Accounting Services", value: "Accounting Services" },
+                { label: "Man Power Services", value: "Man Power Services" },
+              ]}
             />
           </Form.Item>
           <Form.Item
-            name="POWONumber"
-            label={"PO/WO number"}
+            name="invoiceNumber"
+            label={"Invoice Number"}
             rules={[
               {
                 required: true,
-                message: "No PO/WO number provided",
+                message: "No Invoice Number provided",
               },
             ]}
           >
-            <Input placeholder={"Enter PO/WO number"} />
+            <Input placeholder={"Enter Invoice Number"} />
           </Form.Item>
           <Form.Item
-            name="invoiceAmount"
-            label={"Total Invoice Amount"}
+            name="netPayable"
+            label={"Total Amount of Invoice"}
             rules={[
               {
                 required: true,
-                message: "No Total Invoice Amount provided",
+                message: "No Total Amount of Invoice provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Invoice Amount"} />
+            <Input placeholder={"Enter Total Amount of Invoice"} />
           </Form.Item>
           <Form.Item
-            name="amountReceived"
-            label={"Total Amount Received"}
+            name="POWONumbers"
+            label={"PO/WO numbers"}
             rules={[
               {
                 required: true,
-                message: "No Total Amount Received provided",
+                message: "No PO/WO numbers provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Amount Received"} />
+            <Input placeholder={"Enter PO/WO numbers"} />
           </Form.Item>
           <Form.Item
-            name="pendingBalance"
-            label={"Total Pending balance"}
+            className="grid-2-column"
+            name="summary"
+            label={"Summary"}
             rules={[
               {
                 required: true,
-                message: "No Total Pending balance provided",
+                message: "No Summary provided",
               },
             ]}
           >
-            <Input placeholder={"Enter Total Pending balance"} />
+            <TextArea placeholder={"Enter Summary"} />
           </Form.Item>
           {!editData && (
             <Form.Item
@@ -265,9 +250,7 @@ const PRFormCreate = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData
-                ? "Update Payments Received Invoice"
-                : "Create Payments Received Invoice"}
+              {editData ? "Update Tax Report" : "Create Tax Report"}
             </Button>
           </div>
         </Form>
@@ -276,4 +259,4 @@ const PRFormCreate = ({
   );
 };
 
-export default PRFormCreate;
+export default InvoiceFormCreate;

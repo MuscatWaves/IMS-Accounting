@@ -169,13 +169,10 @@ const AccountingDashBoard = () => {
             label: "vatReturnTracker",
             value: editData?.vatReturnTracker,
           },
-          { id: 7, label: "invoiceDetails", value: editData?.invoiceDetails },
-          {
-            id: 8,
-            label: "paymentsReceivedInvoice",
-            value: editData?.paymentsReceivedInvoice,
-          },
         ];
+
+        const invoice = editData?.invoiceDetails;
+        const prInvoice = editData?.paymentsReceivedInvoice;
 
         localStorage.setItem(
           "access",
@@ -184,6 +181,8 @@ const AccountingDashBoard = () => {
             purchase: purchase,
             sales: sales,
             financialStatements: financialStatements,
+            invoice: invoice,
+            prInvoice: prInvoice,
           })
         );
 
@@ -192,6 +191,8 @@ const AccountingDashBoard = () => {
           purchase: purchase,
           sales: sales,
           financialStatements: financialStatements,
+          invoice: invoice,
+          prInvoice: prInvoice,
         };
       },
     }

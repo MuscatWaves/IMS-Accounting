@@ -10,6 +10,8 @@ import { removeUnderScore, container, item } from "../../../utilities";
 import "./financialstatements.css";
 
 const FinancialStatements = () => {
+  const entries = {};
+  const access = JSON.parse(localStorage.getItem("accessAcc"));
   const params = useParams();
   const navigateTo = useNavigate();
   useEffect(() => {
@@ -35,6 +37,10 @@ const FinancialStatements = () => {
     },
   ];
 
+  access.financialStatements.forEach((elem, i) => {
+    entries[access.financialStatements[i].label] = elem.value;
+  });
+
   return (
     <m.div
       initial={{ opacity: 0 }}
@@ -58,7 +64,7 @@ const FinancialStatements = () => {
             initial="hidden"
             animate="show"
           >
-            {predashoptions(params).map(
+            {predashoptions(params, entries).map(
               (card) =>
                 !card.disabled && (
                   <m.div

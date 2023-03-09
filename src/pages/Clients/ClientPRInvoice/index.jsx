@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
-import Header from "../../../../components/Header";
+import Header from "../../../components/Header";
 import Cookies from "universal-cookie";
-import BreadCrumb from "../../../../components/BreadCrumb";
-import { container, item } from "../../ClientDashboard/constants";
+import BreadCrumb from "../../../components/BreadCrumb";
+import { container, item } from "../../../utilities";
 import { Button, Input, message, Modal, Pagination, Table } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
-import CreditSalesFormCreate from "./cscreate";
-import CreditSalesFilter from "./csFilter";
+import PRFormCreate from "./prcreate";
+import PRFilter from "./prFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import "./cs.css";
+import "./pr.css";
 
-const CreditSales = () => {
+const ClientPRInvoice = () => {
   const params = useParams();
   const cookies = new Cookies();
   const token = cookies.get("token");
-  const user = JSON.parse(localStorage.getItem("user"));
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -41,7 +40,7 @@ const CreditSales = () => {
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Accounting - Credit Sales";
+    document.title = "Accounting - Payments Received Invoice";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -53,18 +52,8 @@ const CreditSales = () => {
   const navigation = [
     { id: 0, name: "Dashboard", url: "/client/dashboard" },
     {
-      id: 1,
-      name: `Entries`,
-      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
-    },
-    {
-      id: 2,
-      name: `Sales`,
-      url: `/accounting/client/dailentries/sales/${params.id}/${params.name}`,
-    },
-    {
       id: 3,
-      name: "Credit Sales",
+      name: "Payments Received Invoice",
       active: true,
     },
   ];
@@ -84,7 +73,7 @@ const CreditSales = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/clientcsls?search=${values.search}&page=${page}`,
+        `/api/clientprict?search=${values.search}&page=${page}`,
         config
       );
       if (Data.status === 200) {
@@ -108,24 +97,36 @@ const CreditSales = () => {
 
   const columns = [
     {
-      title: "Date",
+      title: "Entry Date",
       render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
     },
     {
-      title: "Total Sales Amount",
-      render: (record) => <div className="text-grey">{record.sales}</div>,
+      title: "Invoice number",
+      render: (record) => (
+        <div className="text-grey">{record.invoiceNumber}</div>
+      ),
     },
     {
-      title: "Total Discount Amount",
-      render: (record) => <div className="text-grey">{record.discount}</div>,
+      title: "PO/WO number",
+      render: (record) => <div className="text-grey">{record.POWONumber}</div>,
     },
     {
-      title: "Total VAT Amount",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
+      title: "Total Invoice Amount",
+      render: (record) => (
+        <div className="text-grey">{record.invoiceAmount}</div>
+      ),
     },
     {
-      title: "Total Net Amount",
-      render: (record) => <div className="text-grey">{record.net}</div>,
+      title: "Total Amount Received",
+      render: (record) => (
+        <div className="text-grey">{record.amountReceived}</div>
+      ),
+    },
+    {
+      title: "Total Pending balance",
+      render: (record) => (
+        <div className="text-grey">{record.pendingBalance}</div>
+      ),
     },
     {
       title: "Client",
@@ -182,7 +183,7 @@ const CreditSales = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/csls/${deletionData.id}`,
+      url: `/api/prict/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -217,7 +218,7 @@ const CreditSales = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <CreditSalesFormCreate
+        <PRFormCreate
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
@@ -248,7 +249,7 @@ const CreditSales = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Credit Sales
+          Payments Received Invoice
         </m.div>
         <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />
@@ -290,7 +291,7 @@ const CreditSales = () => {
               <FaFilter className="small-text" />
             </Button>
             <Button
-              className={user.isHead && "hidden"}
+              className="hidden"
               type="primary"
               onClick={() => {
                 setEditData(null);
@@ -303,7 +304,7 @@ const CreditSales = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <CreditSalesFilter
+            <PRFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -338,4 +339,4 @@ const CreditSales = () => {
   );
 };
 
-export default CreditSales;
+export default ClientPRInvoice;

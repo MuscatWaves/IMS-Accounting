@@ -38,6 +38,7 @@ const PreAccountData = () => {
     {
       refetchOnWindowFocus: false,
       select: (data) => {
+        console.log(data.data.data);
         const newData = data.data.data.map((item) => ({
           name: item.name,
           email: item.email,

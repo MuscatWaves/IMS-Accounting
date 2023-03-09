@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
-import Header from "../../../../components/Header";
+import Header from "../../../components/Header";
 import Cookies from "universal-cookie";
-import BreadCrumb from "../../../../components/BreadCrumb";
-import { container, item } from "../../ClientDashboard/constants";
+import BreadCrumb from "../../../components/BreadCrumb";
+import { container, item } from "../AccountingDashBoard/constants";
 import { Button, Input, message, Modal, Pagination, Table } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { FaFilter } from "react-icons/fa";
-import { AiOutlineSearch } from "react-icons/ai";
-import CreditSalesFormCreate from "./cscreate";
-import CreditSalesFilter from "./csFilter";
+import AccountantAccessForm from "./accountingcreate";
 import dayjs from "dayjs";
-import { useParams } from "react-router-dom";
-import "./cs.css";
+import { FaFilter } from "react-icons/fa";
+import { checkFilterActive } from "../../../utilities";
+import { AiOutlineSearch } from "react-icons/ai";
+import AccountantAccessFilter from "./accountingFilter";
+import "./accountingaccess.css";
 
-const CreditSales = () => {
-  const params = useParams();
+const AccountantAccess = () => {
   const cookies = new Cookies();
   const token = cookies.get("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  var localizedFormat = require("dayjs/plugin/localizedFormat");
+  dayjs.extend(localizedFormat);
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -30,18 +30,15 @@ const CreditSales = () => {
   const [deletionData, setDeletionData] = useState(null);
   const [deleteModal, toggleDeleteModal] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  var localizedFormat = require("dayjs/plugin/localizedFormat");
-  dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    name: "",
+    email: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
   useEffect(() => {
-    document.title = "Accounting - Credit Sales";
+    document.title = "Accounting - Accountant Access";
     refetch(filter);
     // eslint-disable-next-line
   }, []);
@@ -51,20 +48,10 @@ const CreditSales = () => {
   };
 
   const navigation = [
-    { id: 0, name: "Dashboard", url: "/client/dashboard" },
+    { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
     {
       id: 1,
-      name: `Entries`,
-      url: `/accounting/client/dailyentries/${params.id}/${params.name}`,
-    },
-    {
-      id: 2,
-      name: `Sales`,
-      url: `/accounting/client/dailentries/sales/${params.id}/${params.name}`,
-    },
-    {
-      id: 3,
-      name: "Credit Sales",
+      name: "Accountant Access",
       active: true,
     },
   ];
@@ -84,7 +71,7 @@ const CreditSales = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/clientcsls?search=${values.search}&page=${page}`,
+        `/api/client?page=${page}&search=${values.search}&name=${values.name}&email=${values.email}`,
         config
       );
       if (Data.status === 200) {
@@ -108,33 +95,37 @@ const CreditSales = () => {
 
   const columns = [
     {
-      title: "Date",
-      render: (record) => <div>{dayjs(record.entryDate).format("llll")}</div>,
-    },
-    {
-      title: "Total Sales Amount",
-      render: (record) => <div className="text-grey">{record.sales}</div>,
-    },
-    {
-      title: "Total Discount Amount",
-      render: (record) => <div className="text-grey">{record.discount}</div>,
-    },
-    {
-      title: "Total VAT Amount",
-      render: (record) => <div className="text-grey">{record.vat}</div>,
-    },
-    {
-      title: "Total Net Amount",
-      render: (record) => <div className="text-grey">{record.net}</div>,
-    },
-    {
-      title: "Client",
+      title: "Name",
       render: (record) => (
         <div>
           <div className="text-black bold">{record.name}</div>
-          <div className="very-small-text text-grey bold">{record.email}</div>
+          <div className="very-small-text text-grey bold">
+            {dayjs(record.createdAt).format("llll")}
+          </div>
         </div>
       ),
+    },
+    {
+      title: "Email",
+      render: (record) => <div className="text-grey">{record.email}</div>,
+    },
+    {
+      title: "Status",
+      render: (record) =>
+        record.isActive ? (
+          <div className="text-green">Active</div>
+        ) : (
+          <div className="text-red">Inactive</div>
+        ),
+    },
+    {
+      title: "Account Type",
+      render: (record) =>
+        record.isHead ? (
+          <div className="text-grey">Owner Account</div>
+        ) : (
+          <div className="text-grey">Sub User Account</div>
+        ),
     },
     {
       title: "Actions",
@@ -142,39 +133,26 @@ const CreditSales = () => {
         <div className="flex-small-gap">
           <Button
             type="primary"
+            shape="round"
+            icon={<EditOutlined />}
             onClick={() => {
-              window.open(
-                `https://cvparse.fra1.cdn.digitaloceanspaces.com/accounts/${record.attachment}`
-              );
+              setEditData(record);
+              toggleModal(true);
             }}
-            ghost
-          >
-            <div className="bold">View File</div>
-          </Button>
-          <div className="hidden">
-            <Button
-              type="primary"
-              shape="round"
-              icon={<EditOutlined />}
-              onClick={() => {
-                setEditData(record);
-                toggleModal(true);
-              }}
-            />
-            <Button
-              type="primary"
-              shape="round"
-              danger
-              icon={<DeleteOutlined />}
-              onClick={() => {
-                setDeletionData(record);
-                toggleDeleteModal(true);
-              }}
-            />
-          </div>
+          />
+          <Button
+            type="primary"
+            shape="round"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              setDeletionData(record);
+              toggleDeleteModal(true);
+            }}
+          />
         </div>
       ),
-      // width: "300px",
+      width: "300px",
     },
   ];
 
@@ -182,7 +160,7 @@ const CreditSales = () => {
     setDeleteLoading(true);
     await axios({
       method: "delete",
-      url: `/api/csls/${deletionData.id}`,
+      url: `/api/client/${deletionData.id}`,
       headers: {
         Accept: "application/json",
         "Content-Type": "multipart/form-data",
@@ -199,7 +177,6 @@ const CreditSales = () => {
       .catch(function (response) {
         message.error("Something Went Wrong!", "error");
         setDeleteLoading(false);
-        setData([]);
       });
   };
 
@@ -217,14 +194,13 @@ const CreditSales = () => {
       transition={{ duration: 0.6 }}
     >
       {isModalOpen && (
-        <CreditSalesFormCreate
+        <AccountantAccessForm
           isModalOpen={isModalOpen}
           setModal={toggleModal}
           editData={editData}
           setEditData={setEditData}
           getData={refetch}
-          filterValues={filter}
-          params={params}
+          filter={filter}
         />
       )}
       <Modal
@@ -236,11 +212,9 @@ const CreditSales = () => {
         okType={"danger"}
         confirmLoading={deleteLoading}
       >
-        <p>{`Are you sure you want to delete the entry created at "${dayjs(
-          deletionData?.createdAt
-        ).format("llll")}" from data?`}</p>
+        <p>{`Are you sure you want to delete "${deletionData?.name}" from client data?`}</p>
       </Modal>
-      <Header home={"/client/dashboard"} logOut={"/client"} />
+      <Header home={"/accounting/dashboard"} logOut={"/accounting"} />
       <m.div
         className="accounting-contacts"
         variants={container}
@@ -248,13 +222,12 @@ const CreditSales = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Credit Sales
+          Accountant Access
         </m.div>
         <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />
           <div className="flex-small-gap">
             <form
-              className="hidden"
               onSubmit={(e) => {
                 e.preventDefault();
                 setFilter({
@@ -263,9 +236,8 @@ const CreditSales = () => {
                 });
                 refetch({
                   search: name,
-                  clientName: filter?.clientName,
-                  crNumber: filter?.crNumber,
-                  clientEmail: filter?.clientEmail,
+                  name: filter?.name || "",
+                  email: filter?.email || "",
                 });
               }}
             >
@@ -284,13 +256,11 @@ const CreditSales = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
             <Button
-              className={user.isHead && "hidden"}
               type="primary"
               onClick={() => {
                 setEditData(null);
@@ -303,7 +273,7 @@ const CreditSales = () => {
         </m.div>
         <AnimatePresence>
           {isFilterModal && (
-            <CreditSalesFilter
+            <AccountantAccessFilter
               isFilterModal={isFilterModal}
               toggleFilterModal={toggleFilterModal}
               filterData={filter}
@@ -338,4 +308,4 @@ const CreditSales = () => {
   );
 };
 
-export default CreditSales;
+export default AccountantAccess;

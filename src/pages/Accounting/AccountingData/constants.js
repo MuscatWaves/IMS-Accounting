@@ -3,14 +3,18 @@ import { MdOutlineAssignmentInd } from "react-icons/md";
 import { BsPersonBadge } from "react-icons/bs";
 import { ImAttachment } from "react-icons/im";
 
-export const cards = (user, params) => [
+export const cards = (params, access) => [
   {
     id: 1,
     icon: BsPersonBadge,
     title: "Entries",
     path: `/accounting/entries/${params.id}/${params.name}`,
     description: "Manage client daily entries data",
-    // disabled: !user.isHead,
+    // disabled: !(
+    //   access?.purchase.filter((entry) => entry.value).length > 0 ||
+    //   access?.sales.filter((entry) => entry.value).length > 0 ||
+    //   access?.entries.filter((entry) => entry.value).length > 0
+    // ),
   },
   {
     id: 2,
@@ -18,7 +22,8 @@ export const cards = (user, params) => [
     title: "Financial Statements",
     path: `/accounting/fs/${params.id}/${params.name}`,
     description: "Manage financial statements for clients",
-    // disabled: !user.isHead,
+    // disabled:
+    //   !access?.financialStatements.filter((entry) => entry.value).length > 0,
   },
   {
     id: 3,
@@ -26,7 +31,7 @@ export const cards = (user, params) => [
     title: "Manage Invoices",
     path: `/accounting/invoice/${params.id}/${params.name}`,
     description: "Manage invoice details for client",
-    // disabled: !user.isHead,
+    // disabled: !access.invoice,
   },
   {
     id: 4,
@@ -34,7 +39,7 @@ export const cards = (user, params) => [
     title: "Manage PR Invoices",
     path: `/accounting/prinvoice/${params.id}/${params.name}`,
     description: "Manage PR Invoices for client",
-    // disabled: !user.isHead,
+    // disabled: !access.prInvoice,
   },
   {
     id: 5,
@@ -42,7 +47,6 @@ export const cards = (user, params) => [
     title: "Report",
     path: "/accounting/clientAttachments",
     description: "Manage attachments for the client data",
-    // disabled: !user.isHead,
   },
 ];
 

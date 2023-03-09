@@ -1,0 +1,64 @@
+.accounting-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.accounting-filter-nav-header-without {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 12px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  background-color: #fff;
+  border-radius: 0 0 12px 12px;
+}
+
+.pagination-total {
+  font-size: 16px;
+  font-weight: 700;
+  color: #6b6b6b;
+}
+
+.client-contact-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  align-items: center;
+  gap: 1rem;
+}
+
+.client-contact-card--first,
+.client-contact-card--second {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.client-contact-card--first {
+  align-items: flex-start;
+}
+
+.dash-card-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  width: 80px;
+  height: 80px;
+  padding: 0.2rem;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.cards-main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: center;
+  gap: 1rem;
+}

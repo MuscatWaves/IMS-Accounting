@@ -17,4 +17,10 @@ export const predashoptions = (params, access) => [
     path: `/accounting/client/entries/salesToOtherBranch/${params.id}/${params.name}`,
     disabled: !access.salesToOtherStoreIfAny,
   },
+  {
+    id: 4,
+    title: "Credit Sales",
+    path: `/accounting/client/entries/creditSales/${params.id}/${params.name}`,
+    disabled: !access.creditSales,
+  },
 ];

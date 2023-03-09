@@ -82,6 +82,8 @@ const ClientMonthlyOffers = lazy(() =>
 );
 const ClientPurchases = lazy(() => import("../pages/Clients/ClientPurchases"));
 const ClientSales = lazy(() => import("../pages/Clients/ClientSales"));
+const ClientInvoices = lazy(() => import("../pages/Clients/ClientInvoice"));
+const ClientPRInvoices = lazy(() => import("../pages/Clients/ClientPRInvoice"));
 //  Accounting Financial Statements
 const ClientFinancialStatements = lazy(() =>
   import("../pages/Clients/ClientFinancialStatements")
@@ -228,6 +230,9 @@ const VATReturnTracker = lazy(() =>
 );
 const Invoices = lazy(() => import("../pages/Accounting/Invoice"));
 const PRInvoices = lazy(() => import("../pages/Accounting/PRInvoice"));
+const AccountantAccess = lazy(() =>
+  import("../pages/Accounting/AccountantAccess")
+);
 
 // Misc
 const PageNotFound = lazy(() => import("../components/NoPageFound"));
@@ -389,6 +394,14 @@ const Routing = () => {
                   path="/accounting/client/fs/vatreturntracker/:id/:name"
                   element={<ClientVATReturnTracker />}
                 ></Route>
+                <Route
+                  path="/accounting/client/invoice/:id/:name"
+                  element={<ClientInvoices />}
+                ></Route>
+                <Route
+                  path="/accounting/client/prinvoice/:id/:name"
+                  element={<ClientPRInvoices />}
+                ></Route>
                 {/* Accounting - Accountant & AH */}
                 <Route path="/accounting" element={<AccountingLogin />}></Route>
                 <Route
@@ -422,6 +435,10 @@ const Routing = () => {
                 <Route
                   path="/accounting/data/:id/:name"
                   element={<AccountingData />}
+                ></Route>
+                <Route
+                  path="/accounting/accaccess"
+                  element={<AccountantAccess />}
                 ></Route>
                 {/* Accounting Entries */}
                 <Route

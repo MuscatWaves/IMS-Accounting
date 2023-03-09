@@ -69,6 +69,11 @@ const CreditSales = () => {
     },
     {
       id: 4,
+      name: `Sales`,
+      url: `/accounting/dailentries/sales/${params.id}/${params.name}`,
+    },
+    {
+      id: 5,
       name: "Credit Sales",
       active: true,
     },

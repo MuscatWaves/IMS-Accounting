@@ -18,12 +18,6 @@ export const predashoptions = (params, access, hub) => [
     disabled: !access.closingStockwithvalues,
   },
   {
-    id: 4,
-    title: "Credit Sales",
-    path: `/accounting/client/entries/creditSales/${params.id}/${params.name}`,
-    disabled: !access.creditSales,
-  },
-  {
     id: 5,
     title: "Excel Cash & Bank Statements",
     path: `/accounting/client/entries/cashBankStatement/${params.id}/${params.name}`,

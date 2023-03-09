@@ -311,6 +311,9 @@ const AccountingClientAccess = () => {
     { id: 4, label: "VAT Return", value: editData?.vatReturnColumns },
     { id: 5, label: "Tax Report", value: editData?.taxReportColumns },
     { id: 6, label: "VAT Return Tracker", value: editData?.vatReturnTracker },
+  ];
+
+  const invoices = [
     { id: 7, label: "Invoice Details", value: editData?.invoiceDetails },
     {
       id: 8,
@@ -429,6 +432,23 @@ const AccountingClientAccess = () => {
               </Divider>
               <div className="client-access-card">
                 {financialStatements
+                  .filter((entry) => entry.value)
+                  .map((data) => (
+                    <div className="flex-small-gap" key={data.id}>
+                      <BsCheckCircleFill className="text-green" />
+                      <div>{data.label}</div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+          {invoices.filter((entry) => entry.value).length > 0 && (
+            <div>
+              <Divider orientation="left" orientationMargin="0">
+                <div className="bolder text-black small-text">Invoices</div>
+              </Divider>
+              <div className="client-access-card">
+                {invoices
                   .filter((entry) => entry.value)
                   .map((data) => (
                     <div className="flex-small-gap" key={data.id}>
