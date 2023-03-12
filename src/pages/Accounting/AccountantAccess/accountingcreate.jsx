@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button, Form, Drawer, Input, message, Switch } from "antd";
+import { Button, Form, Drawer, message, Switch, Select } from "antd";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import Password from "antd/es/input/Password";
 
 const AccountantAccessForm = ({
   isModalOpen,
@@ -11,6 +10,8 @@ const AccountantAccessForm = ({
   setEditData,
   getData,
   filter,
+  clientsList,
+  accountantList,
 }) => {
   const [form] = Form.useForm();
   const [isLoading, setLoading] = useState(false);
@@ -25,16 +26,14 @@ const AccountantAccessForm = ({
   const handleUpdateUser = async (values, status = editData?.status) => {
     var data = JSON.stringify({
       ...(editData && { id: Number(editData?.id) }),
-      isActive: values?.isActive,
-      isHead: values?.isHead,
-      ...(!editData && { password: values?.password }),
-      name: values?.name,
-      ...(!editData && { email: values?.email }),
+      clientId: values?.clientId,
+      accountantId: values?.accountantId,
+      access: values?.access,
     });
     setLoading(true);
     var config = {
       method: editData ? "put" : "post",
-      url: editData ? "/api/client" : "/api/client/create",
+      url: editData ? "/api/accountantaccess" : "/api/accountantaccess/create",
       headers: {
         Authorization: token,
         "Content-Type": "application/json",
@@ -57,7 +56,7 @@ const AccountantAccessForm = ({
 
   return (
     <Drawer
-      title={editData ? "Update Client" : "Create Client"}
+      title={editData ? "Update Accountant Access" : "Create Accountant Access"}
       placement="right"
       onClose={onClose}
       open={isModalOpen}
@@ -70,65 +69,54 @@ const AccountantAccessForm = ({
           form={form}
           scrollToFirstError={true}
           initialValues={{
-            name: editData?.name || "",
-            email: editData?.email || "",
-            password: editData?.password,
-            isHead: editData?.isHead || false,
-            isActive: editData?.isActive || false,
+            clientId: editData?.clientId || null,
+            accountantId: editData?.accountantId || null,
+            access: editData?.access || false,
           }}
         >
           <Form.Item
-            name="name"
-            label={"Name"}
+            name="accountantId"
+            label={"Accountant"}
             rules={[
               {
                 required: true,
-                message: "No Username provided",
+                message: "No Accountant provided",
               },
             ]}
           >
-            <Input placeholder={"Enter name of the user"} />
-          </Form.Item>
-          {!editData && (
-            <Form.Item
-              name="email"
-              label={"Email"}
-              rules={[
-                {
-                  required: true,
-                  message: "No Email provided",
-                },
-              ]}
-            >
-              <Input placeholder={"Enter email of the user"} />
-            </Form.Item>
-          )}
-          {!editData && (
-            <Form.Item
-              name="password"
-              label={"Password"}
-              rules={[
-                {
-                  required: true,
-                  message: "No Password provided",
-                },
-              ]}
-            >
-              <Password placeholder={"Enter password for the user"} />
-            </Form.Item>
-          )}
-          <Form.Item
-            name={"isActive"}
-            label={"Account Status"}
-            valuePropName={"checked"}
-          >
-            <Switch />
+            <Select
+              options={accountantList}
+              placeholder={"Select the Accountant"}
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              showSearch
+            />
           </Form.Item>
           <Form.Item
-            name={"isHead"}
-            label={"Owner Account"}
-            valuePropName={"checked"}
+            name="clientId"
+            label={"Client"}
+            rules={[
+              {
+                required: true,
+                message: "No Client provided",
+              },
+            ]}
           >
+            <Select
+              options={clientsList}
+              placeholder={"Select the client"}
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              showSearch
+            />
+          </Form.Item>
+          <Form.Item name={"access"} label={"Access"} valuePropName={"checked"}>
             <Switch />
           </Form.Item>
           <div
@@ -144,7 +132,9 @@ const AccountantAccessForm = ({
               htmlType="submit"
               loading={isLoading}
             >
-              {editData ? "Update Client" : "Create Client"}
+              {editData
+                ? "Update Accountant Access"
+                : "Create Accountant Access"}
             </Button>
           </div>
         </Form>

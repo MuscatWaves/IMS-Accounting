@@ -14,6 +14,7 @@ import { checkFilterActive } from "../../../utilities";
 import { AiOutlineSearch } from "react-icons/ai";
 import AccountantAccessFilter from "./accountingFilter";
 import "./accountingaccess.css";
+import { useQuery } from "react-query";
 
 const AccountantAccess = () => {
   const cookies = new Cookies();
@@ -71,7 +72,7 @@ const AccountantAccess = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/client?page=${page}&search=${values.search}&name=${values.name}&email=${values.email}`,
+        `/api/accountantaccess?page=${page}&search=${values.search}&name=${values.name}&email=${values.email}`,
         config
       );
       if (Data.status === 200) {
@@ -93,38 +94,84 @@ const AccountantAccess = () => {
     }
   };
 
+  const { data: clientsList } = useQuery(
+    ["clients"],
+    () =>
+      axios.get("/api/client", {
+        headers: {
+          Authorization: token,
+        },
+      }),
+    {
+      refetchOnWindowFocus: false,
+      select: (data) => {
+        const newData = data.data.data.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+        return newData;
+      },
+    }
+  );
+
+  const { data: accountantList } = useQuery(
+    ["accountant"],
+    () =>
+      axios.get("/api/accountant", {
+        headers: {
+          Authorization: token,
+        },
+      }),
+    {
+      refetchOnWindowFocus: false,
+      select: (data) => {
+        const newData = data.data.data.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }));
+        return newData;
+      },
+    }
+  );
+
+  console.log(clientsList, accountantList);
+
   const columns = [
     {
-      title: "Name",
+      title: "Accountant",
       render: (record) => (
         <div>
-          <div className="text-black bold">{record.name}</div>
+          <div className="text-black bold">{record.accountantName}</div>
           <div className="very-small-text text-grey bold">
-            {dayjs(record.createdAt).format("llll")}
+            {record.accountantUser}
           </div>
         </div>
       ),
     },
     {
-      title: "Email",
-      render: (record) => <div className="text-grey">{record.email}</div>,
+      title: "Client",
+      render: (record) => (
+        <div>
+          <div className="text-black bold">{record.name}</div>
+          <div className="very-small-text text-grey bold">{record.email}</div>
+        </div>
+      ),
+    },
+    {
+      title: "Created at",
+      render: (record) => (
+        <div className="text-black bold">
+          {dayjs(record.createdAt).format("llll")}
+        </div>
+      ),
     },
     {
       title: "Status",
       render: (record) =>
-        record.isActive ? (
+        record.access ? (
           <div className="text-green">Active</div>
         ) : (
           <div className="text-red">Inactive</div>
-        ),
-    },
-    {
-      title: "Account Type",
-      render: (record) =>
-        record.isHead ? (
-          <div className="text-grey">Owner Account</div>
-        ) : (
-          <div className="text-grey">Sub User Account</div>
         ),
     },
     {
@@ -201,6 +248,8 @@ const AccountantAccess = () => {
           setEditData={setEditData}
           getData={refetch}
           filter={filter}
+          clientsList={clientsList}
+          accountantList={accountantList}
         />
       )}
       <Modal

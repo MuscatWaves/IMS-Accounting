@@ -113,13 +113,13 @@ const ManageAccountant = () => {
       title: "Head Admin",
       render: (record) =>
         record.isHead ? (
-          <div className="text-green">True</div>
+          <div className="text-green">Active</div>
         ) : (
-          <div className="text-red">False</div>
+          <div className="text-red">Inactive</div>
         ),
     },
     {
-      title: "Status",
+      title: "Account Status",
       render: (record) =>
         record.isActive ? (
           <div className="text-green">Active</div>
