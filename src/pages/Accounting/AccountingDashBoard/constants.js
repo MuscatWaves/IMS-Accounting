@@ -48,7 +48,7 @@ export const cards = (user) => [
     disabled: !user.isHead,
   },
   {
-    id: 5,
+    id: 6,
     icon: RiAdminLine,
     title: "Manage Accountant Access",
     path: "/accounting/accaccess",
@@ -56,11 +56,27 @@ export const cards = (user) => [
     disabled: !user.isHead,
   },
   {
-    id: 6,
+    id: 7,
     icon: HiOutlineDocumentReport,
     title: "Accounting Data",
     path: "/accounting/preselectiondata",
     description: "Manage accounting data of users",
+  },
+  {
+    id: 8,
+    icon: HiOutlineDocumentReport,
+    title: "User Guide",
+    path: "/accounting/preselectiondata",
+    description: "User guide for Accounting Head",
+    disabled: !user.isHead,
+  },
+  {
+    id: 9,
+    icon: HiOutlineDocumentReport,
+    title: "User Guide",
+    path: "/accounting/preselectiondata",
+    description: "User guide for Accountants",
+    disabled: user.isHead,
   },
 ];
 

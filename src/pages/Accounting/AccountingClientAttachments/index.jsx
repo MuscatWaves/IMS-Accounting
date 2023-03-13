@@ -237,7 +237,7 @@ const AccountingClientAttachments = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Client Information
+          Client Attachments
         </m.div>
         <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />

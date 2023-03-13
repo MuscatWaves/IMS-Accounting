@@ -51,7 +51,7 @@ const AccountingClients = () => {
     { id: 0, name: "Dashboard", url: "/accounting/dashboard" },
     {
       id: 1,
-      name: "Clients",
+      name: "Client Credentials",
       active: true,
     },
   ];
@@ -222,7 +222,7 @@ const AccountingClients = () => {
         animate="show"
       >
         <m.div className="title-text primary-color" variants={item}>
-          Clients
+          Client Credentials
         </m.div>
         <m.div className="accounting-filter-nav-header-without" variants={item}>
           <BreadCrumb items={navigation} />
