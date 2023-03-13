@@ -2,6 +2,8 @@ import { MdOutlineAssignmentInd } from "react-icons/md";
 // import { RiContactsBookLine } from "react-icons/ri";
 import { BsPersonBadge } from "react-icons/bs";
 import { ImAttachment } from "react-icons/im";
+import { RiAdminLine } from "react-icons/ri";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 
 export const cards = (user) => [
   {
@@ -30,7 +32,7 @@ export const cards = (user) => [
   },
   {
     id: 4,
-    icon: ImAttachment,
+    icon: RiAdminLine,
     title: "Manage Client Access",
     path: "/accounting/manageClientAccess",
     description:
@@ -39,7 +41,7 @@ export const cards = (user) => [
   },
   {
     id: 5,
-    icon: BsPersonBadge,
+    icon: RiAdminLine,
     title: "Manage Accountant",
     path: "/accounting/manageAccountant",
     description: "Manage accountant accounts",
@@ -47,7 +49,7 @@ export const cards = (user) => [
   },
   {
     id: 5,
-    icon: BsPersonBadge,
+    icon: RiAdminLine,
     title: "Manage Accountant Access",
     path: "/accounting/accaccess",
     description: "Manage accountant accounts access",
@@ -55,7 +57,7 @@ export const cards = (user) => [
   },
   {
     id: 6,
-    icon: BsPersonBadge,
+    icon: HiOutlineDocumentReport,
     title: "Accounting Data",
     path: "/accounting/preselectiondata",
     description: "Manage accounting data of users",

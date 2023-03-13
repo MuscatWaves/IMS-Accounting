@@ -1,10 +1,9 @@
-import { BsPersonBadge } from "react-icons/bs";
-import { MdOutlineAssignmentInd } from "react-icons/md";
+import { HiOutlineDocumentReport, HiOutlineNewspaper } from "react-icons/hi";
 
 export const cards = (user, access) => [
   {
     id: 1,
-    icon: BsPersonBadge,
+    icon: HiOutlineDocumentReport,
     title: "Daily Entries",
     path: `/accounting/client/dailyentries/${user.clientAccountId}/${user.name
       .replace("/", "-")
@@ -19,7 +18,7 @@ export const cards = (user, access) => [
   },
   {
     id: 2,
-    icon: BsPersonBadge,
+    icon: HiOutlineDocumentReport,
     title: "Financial Statements",
     path: `/accounting/client/fs/${user.clientAccountId}/${user.name
       .replace("/", "-")
@@ -33,7 +32,7 @@ export const cards = (user, access) => [
   },
   {
     id: 3,
-    icon: MdOutlineAssignmentInd,
+    icon: HiOutlineNewspaper,
     title: "Invoices",
     path: `/accounting/client/invoice/${user.clientAccountId}/${user.name
       .replace("/", "-")
@@ -44,7 +43,7 @@ export const cards = (user, access) => [
   },
   {
     id: 4,
-    icon: MdOutlineAssignmentInd,
+    icon: HiOutlineNewspaper,
     title: "PR Invoices",
     path: `/accounting/client/prinvoice/${user.clientAccountId}/${user.name
       .replace("/", "-")

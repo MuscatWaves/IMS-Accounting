@@ -1,12 +1,10 @@
-import { MdOutlineAssignmentInd } from "react-icons/md";
-// import { RiContactsBookLine } from "react-icons/ri";
-import { BsPersonBadge } from "react-icons/bs";
 import { ImAttachment } from "react-icons/im";
+import { HiOutlineNewspaper, HiOutlineDocumentReport } from "react-icons/hi";
 
 export const cards = (params, access) => [
   {
     id: 1,
-    icon: BsPersonBadge,
+    icon: HiOutlineDocumentReport,
     title: "Entries",
     path: `/accounting/entries/${params.id}/${params.name}`,
     description: "Manage client daily entries data",
@@ -18,7 +16,7 @@ export const cards = (params, access) => [
   },
   {
     id: 2,
-    icon: MdOutlineAssignmentInd,
+    icon: HiOutlineDocumentReport,
     title: "Financial Statements",
     path: `/accounting/fs/${params.id}/${params.name}`,
     description: "Manage financial statements for clients",
@@ -27,7 +25,7 @@ export const cards = (params, access) => [
   },
   {
     id: 3,
-    icon: MdOutlineAssignmentInd,
+    icon: HiOutlineNewspaper,
     title: "Manage Invoices",
     path: `/accounting/invoice/${params.id}/${params.name}`,
     description: "Manage invoice details for client",
@@ -35,7 +33,7 @@ export const cards = (params, access) => [
   },
   {
     id: 4,
-    icon: MdOutlineAssignmentInd,
+    icon: HiOutlineNewspaper,
     title: "Manage PR Invoices",
     path: `/accounting/prinvoice/${params.id}/${params.name}`,
     description: "Manage PR Invoices for client",
