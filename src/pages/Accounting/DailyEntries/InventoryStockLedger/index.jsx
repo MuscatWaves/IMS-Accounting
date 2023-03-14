@@ -13,8 +13,8 @@ import InventoryStockLedgerFormCreate from "./inventorystockledgercreate";
 import InventoryStockLedgerFilter from "./inventoryStockLedgerFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import "./inventorystockledger.css";
-import { removeUnderScore } from "../../../../utilities";
 
 const InventoryStockLedger = () => {
   const params = useParams();
@@ -34,9 +34,7 @@ const InventoryStockLedger = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -68,7 +66,7 @@ const InventoryStockLedger = () => {
       url: `/accounting/entries/${params.id}/${params.name}`,
     },
     {
-      id: 2,
+      id: 4,
       name: "Inventory Stock Ledger",
       active: true,
     },
@@ -89,7 +87,7 @@ const InventoryStockLedger = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/isiol?search=${values.search}&page=${page}`,
+        `/api/isiol?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -287,8 +285,7 @@ const InventoryStockLedger = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -312,6 +309,7 @@ const InventoryStockLedger = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

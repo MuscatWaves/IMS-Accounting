@@ -1,15 +1,16 @@
 import React from "react";
-import { Button, Divider, Form, Input } from "antd";
+import { Button, DatePicker, Divider, Form, Select } from "antd";
 import { m } from "framer-motion";
+import { removeUnderScore } from "../../../../utilities";
+import dayjs from "dayjs";
 
 const MonthlyOffersFilter = ({
   filterData,
   setFilterData,
   getData,
-  isFilterModal,
-  clientsList,
   toggleFilterModal,
   loading,
+  params,
 }) => {
   const [form] = Form.useForm();
 
@@ -33,15 +34,21 @@ const MonthlyOffersFilter = ({
   const handleSearching = async (values) => {
     getData({
       search: filterData.search,
-      clientName: values?.clientName || "",
-      crNumber: values?.crNumber || "",
-      clientEmail: values?.clientEmail || "",
+      entryDate:
+        (values?.entryDate &&
+          (
+            dayjs(values?.entryDate).isValid() && dayjs(values?.entryDate)
+          ).format("YYYY-MM-DD")) ||
+        "",
     });
     setFilterData({
       search: filterData.search,
-      clientName: values?.clientName || "",
-      crNumber: values?.crNumber || "",
-      clientEmail: values?.clientEmail || "",
+      entryDate:
+        (values?.entryDate &&
+          (
+            dayjs(values?.entryDate).isValid() && dayjs(values?.entryDate)
+          ).format("YYYY-MM-DD")) ||
+        "",
     });
   };
 
@@ -62,20 +69,34 @@ const MonthlyOffersFilter = ({
         form={form}
         scrollToFirstError={true}
         initialValues={{
-          clientName: filterData?.clientName || "",
-          crNumber: filterData?.crNumber || "",
-          clientEmail: filterData?.clientEmail || "",
+          clientId: params.id,
+          entryDate:
+            (filterData?.entryDate &&
+              (
+                dayjs(filterData?.entryDate).isValid() &&
+                dayjs(filterData?.entryDate)
+              ).format("YYYY-MM-DD")) ||
+            "",
         }}
       >
         <div className="filter-box-inner">
-          <Form.Item name="clientName" label={"Client Name"}>
-            <Input placeholder={"Name of the Client"} />
+          <Form.Item name="entryDate" label={"Date"}>
+            <DatePicker format="YYYY-MM-DD" />
           </Form.Item>
-          <Form.Item name="crNumber" label={"CR Number"}>
-            <Input placeholder={"CR Number of company"} />
-          </Form.Item>
-          <Form.Item name="clientEmail" label={"Client Email"}>
-            <Input placeholder={"Email of the client"} />
+          <Form.Item name="clientId" label={"Client"}>
+            <Select
+              options={[
+                { label: removeUnderScore(params.name), value: params.id },
+              ]}
+              placeholder={"Select the client"}
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              showSearch
+              disabled
+            />
           </Form.Item>
         </div>
         <Divider />

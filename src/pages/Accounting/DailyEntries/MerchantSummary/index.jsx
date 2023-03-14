@@ -13,8 +13,8 @@ import MerchantSummaryFormCreate from "./merchantsummarycreate";
 import MerchantSummaryFilter from "./merchantSummaryFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import "./merchantsummary.css";
-import { removeUnderScore } from "../../../../utilities";
 
 const MerchantSummary = () => {
   const params = useParams();
@@ -34,9 +34,7 @@ const MerchantSummary = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -68,7 +66,7 @@ const MerchantSummary = () => {
       url: `/accounting/entries/${params.id}/${params.name}`,
     },
     {
-      id: 2,
+      id: 4,
       name: "Merchant Summary",
       active: true,
     },
@@ -89,7 +87,7 @@ const MerchantSummary = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/msum?search=${values.search}&page=${page}`,
+        `/api/msum?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -287,8 +285,7 @@ const MerchantSummary = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -312,6 +309,7 @@ const MerchantSummary = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

@@ -13,7 +13,7 @@ import AttendanceReportFormCreate from "./attendancereportcreate";
 import AttendanceReportFilter from "./attendanceReportFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { removeUnderScore } from "../../../../utilities";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import "./attendancereport.css";
 
 const AttendanceReport = () => {
@@ -34,9 +34,7 @@ const AttendanceReport = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -89,7 +87,7 @@ const AttendanceReport = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/att?search=${values.search}&page=${page}`,
+        `/api/att?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -271,8 +269,7 @@ const AttendanceReport = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -296,6 +293,7 @@ const AttendanceReport = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

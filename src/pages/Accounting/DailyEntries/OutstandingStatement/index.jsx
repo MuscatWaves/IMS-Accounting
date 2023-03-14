@@ -13,8 +13,8 @@ import OutstandingStatementFormCreate from "./outstandingstatementcreate";
 import OutstandingStatementFilter from "./outstandingStatementFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import "./outstandingstatement.css";
-import { removeUnderScore } from "../../../../utilities";
 
 const OutstandingStatement = () => {
   const params = useParams();
@@ -89,7 +89,7 @@ const OutstandingStatement = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/oss?search=${values.search}&page=${page}`,
+        `/api/oss?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -289,8 +289,7 @@ const OutstandingStatement = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -314,6 +313,7 @@ const OutstandingStatement = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

@@ -12,7 +12,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import CreditSalesFormCreate from "./cscreate";
 import CreditSalesFilter from "./csFilter";
 import dayjs from "dayjs";
-import { removeUnderScore } from "../../../../utilities";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import { useParams } from "react-router-dom";
 import "./cs.css";
 
@@ -34,9 +34,7 @@ const CreditSales = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -94,7 +92,7 @@ const CreditSales = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/csls?search=${values.search}&page=${page}`,
+        `/api/csls?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -292,8 +290,7 @@ const CreditSales = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -317,6 +314,7 @@ const CreditSales = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

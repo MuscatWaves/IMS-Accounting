@@ -13,8 +13,8 @@ import PaymentVoucherFormCreate from "./paymentvouchercreate";
 import PaymentVoucherFilter from "./paymentVoucherFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import "./paymentvoucher.css";
-import { removeUnderScore } from "../../../../utilities";
 
 const PaymentVoucherScan = () => {
   const params = useParams();
@@ -34,9 +34,7 @@ const PaymentVoucherScan = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -89,7 +87,7 @@ const PaymentVoucherScan = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pvs?search=${values.search}&page=${page}`,
+        `/api/pvs?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -279,8 +277,7 @@ const PaymentVoucherScan = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -304,6 +301,7 @@ const PaymentVoucherScan = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

@@ -13,7 +13,7 @@ import OredooOmantelFormCreate from "./oocreate";
 import OredooOmantelFilter from "./ooFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { removeUnderScore } from "../../../../utilities";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import "./oo.css";
 
 const OredooOmantel = () => {
@@ -89,7 +89,7 @@ const OredooOmantel = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/oospb?search=${values.search}&page=${page}`,
+        `/api/oospb?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -283,8 +283,7 @@ const OredooOmantel = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -308,6 +307,7 @@ const OredooOmantel = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

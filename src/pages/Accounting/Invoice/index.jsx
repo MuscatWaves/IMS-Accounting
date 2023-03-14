@@ -19,7 +19,11 @@ import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import InvoiceFormCreate from "./invoicecreate";
 import InvoiceFilter from "./invoiceFilter";
-import { removeUnderScore, string } from "../../../utilities";
+import {
+  removeUnderScore,
+  string,
+  checkFilterActive,
+} from "../../../utilities";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import "./invoice.css";
@@ -44,9 +48,7 @@ const Invoice = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -111,7 +113,7 @@ const Invoice = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/incdt?search=${values.search}&page=${page}`,
+        `/api/incdt?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -403,8 +405,7 @@ const Invoice = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -429,6 +430,7 @@ const Invoice = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

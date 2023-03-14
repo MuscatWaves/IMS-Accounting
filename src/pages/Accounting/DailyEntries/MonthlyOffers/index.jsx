@@ -13,8 +13,8 @@ import MonthlyDiscountFormCreate from "./monthlyofferscreate";
 import MonthlyDiscountFilter from "./monthlyOffersFilter";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import "./monthlyoffers.css";
-import { removeUnderScore } from "../../../../utilities";
 
 const MonthlyOffers = () => {
   const params = useParams();
@@ -34,9 +34,7 @@ const MonthlyOffers = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -68,7 +66,7 @@ const MonthlyOffers = () => {
       url: `/accounting/entries/${params.id}/${params.name}`,
     },
     {
-      id: 2,
+      id: 4,
       name: "Monthly Offers",
       active: true,
     },
@@ -89,7 +87,7 @@ const MonthlyOffers = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/moff?search=${values.search}&page=${page}`,
+        `/api/moff?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -293,8 +291,7 @@ const MonthlyOffers = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -318,6 +315,7 @@ const MonthlyOffers = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

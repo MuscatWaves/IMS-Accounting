@@ -14,6 +14,7 @@ import "./preaccountdata.css";
 
 const PreAccountData = () => {
   const navigateTo = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
   const cookies = new Cookies();
   var localizedFormat = require("dayjs/plugin/localizedFormat");
   dayjs.extend(localizedFormat);
@@ -28,21 +29,23 @@ const PreAccountData = () => {
   ];
 
   const { data: clientsList, isFetching: jobFetching } = useQuery(
-    ["clients"],
+    ["aclients"],
     () =>
-      axios.get("/api/client", {
-        headers: {
-          Authorization: token,
-        },
-      }),
+      axios.get(
+        `/api/accountantaccess?accountantId=${user.accountantId}&clientId`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      ),
     {
       refetchOnWindowFocus: false,
       select: (data) => {
-        console.log(data.data.data);
         const newData = data.data.data.map((item) => ({
           name: item.name,
           email: item.email,
-          isActive: item.isActive,
+          isActive: item.access,
           id: item.id,
         }));
         return newData;

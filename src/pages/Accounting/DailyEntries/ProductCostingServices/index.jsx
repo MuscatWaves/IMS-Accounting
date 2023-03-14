@@ -20,9 +20,13 @@ import { AiOutlineSearch } from "react-icons/ai";
 import ProductCostingManFormCreate from "./ProductCostingServicesCreate";
 import ProductCostingManFilter from "./ProductCostingServicesFilter";
 import dayjs from "dayjs";
-import { removeUnderScore, string } from "../../../../utilities";
-import "./productcostingservices.css";
+import {
+  removeUnderScore,
+  string,
+  checkFilterActive,
+} from "../../../../utilities";
 import { useParams } from "react-router-dom";
+import "./productcostingservices.css";
 
 const ProductCostingServices = () => {
   const params = useParams();
@@ -43,9 +47,7 @@ const ProductCostingServices = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -98,7 +100,7 @@ const ProductCostingServices = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/pcsfs?search=${values.search}&page=${page}`,
+        `/api/pcsfs?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -388,8 +390,7 @@ const ProductCostingServices = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -413,6 +414,7 @@ const ProductCostingServices = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

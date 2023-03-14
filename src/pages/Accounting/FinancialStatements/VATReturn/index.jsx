@@ -11,7 +11,7 @@ import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import VatReturnFormCreate from "./vatreturncreate";
 import VatReturnFilter from "./vatReturnFilter";
-import { removeUnderScore } from "../../../../utilities";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import "./vatreturn.css";
@@ -34,9 +34,7 @@ const VATReturn = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -89,7 +87,7 @@ const VATReturn = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/fsvrtc?search=${values.search}&page=${page}`,
+        `/api/fsvrtc?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -313,8 +311,7 @@ const VATReturn = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -338,6 +335,7 @@ const VATReturn = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

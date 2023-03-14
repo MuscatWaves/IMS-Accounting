@@ -11,7 +11,7 @@ import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import TaxReportFormCreate from "./taxreportcreate";
 import TaxReportFilter from "./taxReportFilter";
-import { removeUnderScore } from "../../../../utilities";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import "./taxreport.css";
@@ -34,9 +34,7 @@ const TaxReport = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -89,7 +87,7 @@ const TaxReport = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/fstrc?search=${values.search}&page=${page}`,
+        `/api/fstrc?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -349,8 +347,7 @@ const TaxReport = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -374,6 +371,7 @@ const TaxReport = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

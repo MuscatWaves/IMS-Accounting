@@ -11,7 +11,7 @@ import { FaFilter } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import BalanceSheetFormCreate from "./balancesheetcreate";
 import BalanceSheetFilter from "./balanceSheetFilter";
-import { removeUnderScore } from "../../../../utilities";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import "./balancesheet.css";
@@ -34,9 +34,7 @@ const BalanceSheet = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -89,7 +87,7 @@ const BalanceSheet = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/fsbsc?search=${values.search}&page=${page}`,
+        `/api/fsbsc?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -301,8 +299,7 @@ const BalanceSheet = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -326,6 +323,7 @@ const BalanceSheet = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

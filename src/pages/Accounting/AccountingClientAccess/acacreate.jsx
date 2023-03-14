@@ -25,7 +25,8 @@ const AcaFormCreate = ({
 
   const handleUpdateUser = async (values, status = editData?.status) => {
     var data = JSON.stringify({
-      id: Number(editData?.id),
+      ...(editData && { id: Number(editData?.id) }),
+      clientId: values?.clientId,
       attendance: values?.attendance,
       balanceSheetColumns: values?.balanceSheetColumns,
       bankStatement: values?.bankStatement,

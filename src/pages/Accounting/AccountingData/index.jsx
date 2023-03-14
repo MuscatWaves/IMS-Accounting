@@ -49,7 +49,7 @@ const AccountingData = () => {
   const { data: clientsList, isFetching } = useQuery(
     ["clients"],
     () =>
-      axios.get(`/api/clientaccess/${param.id}`, {
+      axios.get(`/api/clientaccess?clientId=${param.id}`, {
         headers: {
           Authorization: token,
         },
@@ -57,7 +57,7 @@ const AccountingData = () => {
     {
       refetchOnWindowFocus: false,
       select: (data) => {
-        const editData = data.data.data;
+        const editData = data.data.data[0];
 
         const entries = [
           { id: 1, label: "grv", value: editData?.grv },

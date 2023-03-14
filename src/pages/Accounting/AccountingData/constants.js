@@ -8,11 +8,11 @@ export const cards = (params, access) => [
     title: "Entries",
     path: `/accounting/entries/${params.id}/${params.name}`,
     description: "Manage client daily entries data",
-    // disabled: !(
-    //   access?.purchase.filter((entry) => entry.value).length > 0 ||
-    //   access?.sales.filter((entry) => entry.value).length > 0 ||
-    //   access?.entries.filter((entry) => entry.value).length > 0
-    // ),
+    disabled: !(
+      access?.purchase.filter((entry) => entry.value).length > 0 ||
+      access?.sales.filter((entry) => entry.value).length > 0 ||
+      access?.entries.filter((entry) => entry.value).length > 0
+    ),
   },
   {
     id: 2,
@@ -20,8 +20,8 @@ export const cards = (params, access) => [
     title: "Financial Statements",
     path: `/accounting/fs/${params.id}/${params.name}`,
     description: "Manage financial statements for clients",
-    // disabled:
-    //   !access?.financialStatements.filter((entry) => entry.value).length > 0,
+    disabled:
+      !access?.financialStatements.filter((entry) => entry.value).length > 0,
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ export const cards = (params, access) => [
     title: "Manage Invoices",
     path: `/accounting/invoice/${params.id}/${params.name}`,
     description: "Manage invoice details for client",
-    // disabled: !access.invoice,
+    disabled: !access.invoice,
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ export const cards = (params, access) => [
     title: "Manage PR Invoices",
     path: `/accounting/prinvoice/${params.id}/${params.name}`,
     description: "Manage PR Invoices for client",
-    // disabled: !access.prInvoice,
+    disabled: !access.prInvoice,
   },
   {
     id: 5,

@@ -179,6 +179,7 @@ const AccountantAccess = () => {
       render: (record) => (
         <div className="flex-small-gap">
           <Button
+            className="hidden"
             type="primary"
             shape="round"
             icon={<EditOutlined />}

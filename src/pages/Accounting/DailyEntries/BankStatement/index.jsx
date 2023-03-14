@@ -12,7 +12,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import BankStatementFormCreate from "./bscreate";
 import BankStatementFilter from "./bsFilter";
 import dayjs from "dayjs";
-import { removeUnderScore } from "../../../../utilities";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import { useParams } from "react-router-dom";
 import "./bs.css";
 
@@ -34,9 +34,7 @@ const BankStatement = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -68,7 +66,7 @@ const BankStatement = () => {
       url: `/accounting/entries/${params.id}/${params.name}`,
     },
     {
-      id: 2,
+      id: 4,
       name: "Bank Statement",
       active: true,
     },
@@ -89,7 +87,7 @@ const BankStatement = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/bsm?search=${values.search}&page=${page}`,
+        `/api/bsm?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -295,8 +293,7 @@ const BankStatement = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -320,6 +317,7 @@ const BankStatement = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>

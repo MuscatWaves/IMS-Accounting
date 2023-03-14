@@ -13,7 +13,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import GrvReportFormCreate from "./grvreportcreate";
 import GrvReportFilter from "./grvReportFilter";
 import { useParams } from "react-router-dom";
-import { removeUnderScore } from "../../../../utilities";
+import { removeUnderScore, checkFilterActive } from "../../../../utilities";
 import dayjs from "dayjs";
 import "./grvreport.css";
 
@@ -35,9 +35,7 @@ const GRVReport = () => {
   dayjs.extend(localizedFormat);
   const [filter, setFilter] = useState({
     search: "",
-    clientName: "",
-    crNumber: "",
-    clientEmail: "",
+    entryDate: "",
   });
   const [isFilterModal, toggleFilterModal] = useState(false);
 
@@ -110,7 +108,7 @@ const GRVReport = () => {
     };
     try {
       const Data = await axios.get(
-        `/api/grv?search=${values.search}&page=${page}`,
+        `/api/grv?search=${values.search}&page=${page}&clientId=${params.id}&entryDate=${values.entryDate}`,
         config
       );
       if (Data.status === 200) {
@@ -304,8 +302,7 @@ const GRVReport = () => {
               onClick={() => {
                 toggleFilterModal(true);
               }}
-              className="hidden"
-              // className={checkFilterActive(filter) && "filter-button--active"}
+              className={checkFilterActive(filter) && "filter-button--active"}
             >
               <FaFilter className="small-text" />
             </Button>
@@ -329,6 +326,7 @@ const GRVReport = () => {
               setFilterData={setFilter}
               getData={refetch}
               loading={isLoading}
+              params={params}
             />
           )}
         </AnimatePresence>
