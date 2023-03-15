@@ -46,7 +46,7 @@ const PreAccountData = () => {
           name: item.name,
           email: item.email,
           isActive: item.access,
-          id: item.id,
+          id: item.clientId,
         }));
         return newData;
       },
